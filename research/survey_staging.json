@@ -1,0 +1,547 @@
+{
+  "metadata": {
+    "phase": "3A",
+    "generated_by": "Agent 3 (Information Gatherer and Synthesizer)",
+    "purpose": "Staged structured extraction of the 14 full-text survey PDFs saved by Agent 1 ahead of canonical ID assignment in research/sources.csv",
+    "source_pdf_directory": "C:\\Users\\umari\\.gemini\\antigravity\\brain\\7b6a8a86-a347-4cbc-892c-c4106cc38f16\\scratch\\pdfs",
+    "total_surveys": 14,
+    "all_access_level": "full_text_pdf",
+    "note_on_counts": "Agent 1 saved 14 survey PDFs (8 core + 5 supplementary listed in topic_decision.md plus barbierato_2024_green_ai.pdf). Body-text keyword counts exclude reference sections starting at ref_start."
+  },
+  "surveys": [
+    {
+      "staging_id": "agarwal_2026_serverless_cfg",
+      "pdf_filename": "agarwal_2026_serverless_cfg.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Agarwal, S., Rodriguez, M. A., & Buyya, R.",
+        "year": 2026,
+        "title": "Dynamic Configuration of Serverless Computing Functions: A Systematic Literature Review",
+        "venue": "ACM Computing Surveys",
+        "volume_issue_pages": "58(14):1-35",
+        "doi": "10.1145/3821534",
+        "arxiv_id": "arXiv:2510.02404v2",
+        "total_pdf_pages": 36,
+        "references_start_page": 31
+      },
+      "problem": "Examines how Function-as-a-Service (FaaS) platforms dynamically tune runtime configurations—primarily memory allocation, concurrency limits, timeouts, and placement—after deployment to avoid over-provisioning cost and SLA violations under fluctuating workloads.",
+      "taxonomy_dimensions": [
+        "Optimization objectives (cost, latency/SLA, resource utilization, sustainability)",
+        "Sustainability-oriented dynamic FaaS configuration strategies (Section 3.4.3)",
+        "Decision-making paradigm across 40 surveyed dynamic FaaS configuration techniques (Table 2, p. 28)",
+        "Cloud vs. edge FaaS deployment scope and provider characteristics (e.g., AWS Lambda market context)"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "Commercial serverless FaaS platforms including AWS Lambda",
+        "CPU-centric FaaS function benchmarks and dynamic configuration traces evaluated in the 40 surveyed studies (Table 2, p. 28)"
+      ],
+      "key_quantitative_results": [
+        "Catalogs 40 dynamic FaaS configuration techniques in Table 2 (p. 28), of which only 4 target sustainability-oriented objectives (Section 3.4.3).",
+        "Notes AWS Lambda holds over 50% serverless market share (p. 7).",
+        "Full-text body keyword audit (excluding refs p. 31+): serverless=149, carbon=18, slo=14, cold start=13, gpu=1, llm=1, prefill=0, decode=0, disaggregat=0, kv cache=0, embodied=0."
+      ],
+      "limitations": [
+        "Focuses overwhelmingly on stateless CPU FaaS memory/concurrency tuning (gpu=1, llm=1) rather than multi-GB GPU model checkpoints.",
+        "Zero coverage of phase disaggregation (prefill=0, decode=0, disaggregat=0), KV-cache migration (kv cache=0), or hardware embodied carbon (embodied=0)."
+      ],
+      "relevance_to_rqs": [
+        "RQ1: Demonstrates how sparsely sustainability appears in serverless configuration literature (only 4/40 techniques) and proves zero intersection with LLM phase disaggregation.",
+        "RQ3: Motivates extending dynamic configuration beyond CPU memory sizing toward carbon-aware keep-alive window control for GPU LLM serverless endpoints."
+      ]
+    },
+    {
+      "staging_id": "alam_2026_computing_ai_cloud",
+      "pdf_filename": "alam_2026_computing_ai_cloud.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Alam, S., Ramzan, M. A., Zubair, M., Ullah, U., Ziaullah, Nawaz, R., & Ullah, R.",
+        "year": 2026,
+        "title": "AI-driven resource management in cloud and serverless computing: a systematic review",
+        "venue": "Computing",
+        "volume_issue_pages": "108:67",
+        "doi": "10.1007/s00607-026-01655-8",
+        "arxiv_id": null,
+        "total_pdf_pages": 25,
+        "references_start_page": 22
+      },
+      "problem": "Synthesizes artificial intelligence and machine learning techniques applied to resource provisioning, autoscaling, scheduling, and energy optimization across cloud and serverless environments.",
+      "taxonomy_dimensions": [
+        "PRISMA-2020 systematic literature review screening process",
+        "Learning paradigm (e.g., reinforcement learning vs. supervised/metaheuristic schedulers)",
+        "Evaluation methodology (simulation vs. testbed, Table 1, p. 9)",
+        "Target optimization metric (latency, cost, energy efficiency, carbon awareness)"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "Simulation frameworks—predominantly CloudSim—used across 70% (44 of 63) of retained primary studies (Table 1, p. 9)"
+      ],
+      "key_quantitative_results": [
+        "Screens 485 candidate papers down to 63 retained primary studies via PRISMA-2020.",
+        "Reinforcement learning represents 40% of AI-driven scheduling approaches.",
+        "Reported mean improvements across subsets: ~45% latency reduction (10 studies), 32% cost reduction (6 studies), and 35% energy reduction (16 studies).",
+        "Table 1 (p. 9) shows 70% (44/63) rely on simulation (e.g., CloudSim), while only 4/63 (6.3%) incorporate carbon awareness.",
+        "Full-text body keyword audit (excluding refs p. 22+): energy=54, serverless=42, carbon=37, cold start=9, gpu=0, llm=0, embodied=0, prefill=0, decode=0."
+      ],
+      "limitations": [
+        "Contains zero coverage of GPU workloads or LLM inference semantics (gpu=0, llm=0, prefill=0, decode=0) and zero embodied carbon modeling (embodied=0).",
+        "Confirms simulation dominance (70% CloudSim) for macro-scheduling without LLM KV-cache or phase-level modeling."
+      ],
+      "relevance_to_rqs": [
+        "RQ1: Quantifies the scarcity of carbon-aware schedulers (4/63 = 6.3%) in broader AI cloud/serverless management and establishes precedent for discrete-event simulation validation."
+      ]
+    },
+    {
+      "staging_id": "bai_2026_csur_preprint",
+      "pdf_filename": "bai_2026_csur_preprint.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Bai, G., Chai, Z., Ling, C., Wang, S., Lu, J., Zhang, N., Shi, T., Yu, Z., Zhu, M., Zhang, Y., Yang, C., Cheng, Y., & Zhao, L. (14 authors)",
+        "year": 2026,
+        "title": "Beyond Efficiency: A Systematic Survey of Resource-Efficient Large Language Models",
+        "venue": "ACM Computing Surveys",
+        "volume_issue_pages": "58(16):1-45",
+        "doi": "10.1145/3845797",
+        "arxiv_id": "arXiv:2401.00625v4",
+        "total_pdf_pages": 70,
+        "references_start_page": 44
+      },
+      "problem": "Provides a comprehensive lifecycle review of methods reducing compute, memory, network, storage, and energy bottlenecks across LLM pretraining, fine-tuning, and inference.",
+      "taxonomy_dimensions": [
+        "Five-resource lifecycle taxonomy (compute, memory, energy, network, storage; Section 2.2, p. 9)",
+        "Model-level compression (pruning, quantization such as AWQ, distillation)",
+        "System-level serving optimizations and energy/carbon accounting formulas including SCI (Sections 7-9, pp. 31-41)"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "LLMServingSim discrete-event LLM serving simulator",
+        "8 standardized LLM evaluation benchmarks surveyed across efficiency comparisons"
+      ],
+      "key_quantitative_results": [
+        "Details energy-to-carbon conversion via PUE x kWh x gCO2eq/kWh and the Software Carbon Intensity (SCI) metric (Sections 7-9, pp. 31-41).",
+        "Reports up to 60% structural pruning (p. 23) and AWQ quantization protecting 1% salient weights (p. 24).",
+        "Full-text body keyword audit (excluding refs p. 44+): energy=36, carbon=10, kv=4, ttft=2, prefill=0, disaggregat=0, serverless=0, cold start=0, embodied=0."
+      ],
+      "limitations": [
+        "Emphasizes model compression and intra-node algorithmic efficiency rather than cluster-wide P/D phase disaggregation (prefill=0, disaggregat=0) or serverless cold-start management (serverless=0, cold start=0).",
+        "Omits GPU embodied carbon amortization across heterogeneous node lifetimes (embodied=0)."
+      ],
+      "relevance_to_rqs": [
+        "RQ1: Establishes LLM energy/carbon/SCI accounting taxonomy while revealing absent coverage of phase-disaggregated and serverless carbon scheduling.",
+        "RQ2, RQ4: Supports SCI-aligned operational carbon accounting equations and LLM simulator benchmarking."
+      ]
+    },
+    {
+      "staging_id": "barbierato_2024_green_ai",
+      "pdf_filename": "barbierato_2024_green_ai.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Barbierato, E., & Gatti, A.",
+        "year": 2024,
+        "title": "Toward Green AI: A Methodological Survey of the Scientific Literature",
+        "venue": "IEEE Access",
+        "volume_issue_pages": "12:23989-24013",
+        "doi": "10.1109/access.2024.3360705",
+        "arxiv_id": null,
+        "total_pdf_pages": 26,
+        "references_start_page": 23
+      },
+      "problem": "Contrasts compute-maximizing 'Red AI' practices against sustainable 'Green AI' methodologies, synthesizing tools, carbon estimators, and architectural strategies across the ML literature.",
+      "taxonomy_dimensions": [
+        "Red AI vs. Green AI methodological dichotomy (Table 1, p. 3)",
+        "Carbon measurement and estimation methodologies for neural architectures",
+        "Case-study carbon footprints across foundation/transformer models (Tables 5-8, pp. 16-18)"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "Case studies and published footprint measurements for BERT, GPT, and PaLM foundation models (Tables 5-8, pp. 16-18)"
+      ],
+      "key_quantitative_results": [
+        "Summarizes BERT, GPT, and PaLM energy/carbon case studies in Tables 5-8 (pp. 16-18).",
+        "Synthesizes reported 25-50% carbon savings achievable through renewable-powered regions and more efficient model architectures.",
+        "Full-text body keyword audit (excluding refs p. 23+): energy=125, carbon=49, gpu=33, slo=9, llm=4, decode=2, embodied=0, serverless=0, cold start=0, prefill=0, disaggregat=0, kv cache=0."
+      ],
+      "limitations": [
+        "Focuses heavily on training footprints and static model-level Green AI guidelines rather than SLO-constrained online inference phase scheduling (prefill=0, disaggregat=0, kv cache=0).",
+        "Lacks serverless cold-start dynamics (serverless=0, cold start=0) and embodied hardware amortization (embodied=0)."
+      ],
+      "relevance_to_rqs": [
+        "RQ1: Anchors the foundational Red-vs-Green AI taxonomy and documents early training-centric bias in cloud AI sustainability literature."
+      ]
+    },
+    {
+      "staging_id": "besozzi_2025_serverless",
+      "pdf_filename": "besozzi_2025_serverless.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Besozzi, V., Della Bartola, M., Dazzi, P., & Danelutto, M.",
+        "year": 2025,
+        "title": "A Systematic Literature Review on Serverless Computing: Trends, Platforms, and Future Directions",
+        "venue": "IEEE Access",
+        "volume_issue_pages": "13:195611-195656",
+        "doi": "10.1109/access.2025.3633989",
+        "arxiv_id": "arXiv:2601.09334v1",
+        "total_pdf_pages": 46,
+        "references_start_page": 39
+      },
+      "problem": "Maps the evolution of serverless computing platforms, architectural disaggregation trends, hardware accelerator integration, and operational challenges via a large-scale systematic literature review.",
+      "taxonomy_dimensions": [
+        "SLR plus backward/forward snowballing methodology (p. 8)",
+        "Serverless platform architectures and open-source/commercial stacks (Tables 1-8, pp. 4-19)",
+        "Hardware accelerator support and hardware-level resource disaggregation"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "Production and open-source serverless platforms surveyed in Tables 1-8 (pp. 4-19): Apache OpenWhisk, Knative, AWS Lambda, Huawei Cloud"
+      ],
+      "key_quantitative_results": [
+        "Retains 122 primary papers out of 579 candidates via systematic screening and snowballing (p. 8).",
+        "Reports 29.5% of surveyed serverless work addresses hardware accelerators and 28.6% examines hardware disaggregation (p. 9).",
+        "Explicitly identifies geo-distributed carbon-aware serverless AI execution as an open future direction.",
+        "Full-text body keyword audit (excluding refs p. 39+): serverless=596, gpu=88, cold start=46, disaggregat=44, energy=25, slo=6, carbon=2, embodied=0, llm=0, kv=0, prefill=0."
+      ],
+      "limitations": [
+        "Hardware disaggregation denotes CPU/memory/GPU pool disaggregation rather than LLM prefill/decode phase disaggregation (llm=0, kv=0, prefill=0).",
+        "Minimal carbon coverage (carbon=2) and zero embodied carbon modeling (embodied=0)."
+      ],
+      "relevance_to_rqs": [
+        "RQ1: Demonstrates strong interest in serverless GPUs (gpu=88) and hardware disaggregation (disaggregat=44) alongside virtually absent carbon routing (carbon=2).",
+        "RQ3: Explicitly motivates our geo-distributed, carbon-aware serverless GPU LLM keep-alive investigation."
+      ]
+    },
+    {
+      "staging_id": "chen_2026_agentic_energy",
+      "pdf_filename": "chen_2026_agentic_energy.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Chen, X., Yu, H., Ni, W., Niyato, D., Zhang, R., Wang, X., Zhang, S., & Xu, S.",
+        "year": 2026,
+        "title": "Energy-Efficient Agentic AI: A Survey of Methods, Architectures, and Future Directions",
+        "venue": "arXiv preprint",
+        "volume_issue_pages": "arXiv:2604.07857v1",
+        "doi": null,
+        "arxiv_id": "arXiv:2604.07857v1",
+        "total_pdf_pages": 35,
+        "references_start_page": 28
+      },
+      "problem": "Surveys energy consumption drivers and optimization mechanisms across perception-reasoning-action cycles in edge, 6G, and cloud-assisted agentic AI systems powered by LLMs.",
+      "taxonomy_dimensions": [
+        "Three-stage Perception-Reasoning-Action energy breakdown",
+        "KV-cache compression, prompt pruning, and token-level hardware/power scheduling techniques (Tables 4-7, pp. 13-22)",
+        "Edge/6G offload and future grid-aware carbon routing directions"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "Systems and methods surveyed in Tables 4-7 (pp. 13-22): KIVI (KV quantization), LLMLingua (prompt compression), TAPAS, POLCA"
+      ],
+      "key_quantitative_results": [
+        "Highlights 640 pJ off-chip DRAM access cost driving KV-cache memory-wall energy and 50-60% sparsity bounds for OPT-175B (p. 10).",
+        "Catalogs KV/prompt/power-control mechanisms (KIVI, LLMLingua, TAPAS, POLCA) across Tables 4-7 (pp. 13-22).",
+        "Explicitly flags geographic carbon routing and real-time carbon-intensity APIs as open future work.",
+        "Full-text body keyword audit (excluding refs p. 28+): energy=331, llm=108, gpu=38, kv=24, carbon=13, prefill=9, decode=6, disaggregat=0, serverless=0, slo=0, embodied=0."
+      ],
+      "limitations": [
+        "Focused on edge/6G agentic loops rather than multi-region cloud data-center P/D disaggregation (disaggregat=0), strict cloud serving SLOs (slo=0), or serverless FaaS cold starts (serverless=0).",
+        "Zero treatment of hardware embodied carbon (embodied=0)."
+      ],
+      "relevance_to_rqs": [
+        "RQ1, RQ2: Reinforces the memory-vs-compute energy asymmetry between prefill and decode and directly names geographic carbon-intensity API routing as an unresolved research gap."
+      ]
+    },
+    {
+      "staging_id": "golec_2024_csur_coldstart",
+      "pdf_filename": "golec_2024_csur_coldstart.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Golec, M., Walia, G. K., Kumar, M., Cuadrado, F., Gill, S. S., & Uhlig, S.",
+        "year": 2024,
+        "title": "Cold Start Latency in Serverless Computing: A Systematic Review, Taxonomy, and Future Directions",
+        "venue": "ACM Computing Surveys",
+        "volume_issue_pages": "57",
+        "doi": "10.1145/3700875",
+        "arxiv_id": null,
+        "total_pdf_pages": 44,
+        "references_start_page": 37
+      },
+      "problem": "Conducts a systematic review of serverless cold-start latency causes, mitigation mechanisms (pre-warming, snapshotting, lightweight isolation), and evaluation platforms.",
+      "taxonomy_dimensions": [
+        "Cold-start mitigation category (keep-alive/pre-warming, checkpoint/snapshot restore, runtime/sandbox optimization)",
+        "Evaluated FaaS platforms and experiment counts (Tables 4-5, pp. 24-27)",
+        "Energy side effects of warm container retention (Section 6.1)"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "Apache OpenWhisk (34.37% of core studies) and AWS Lambda (29.03% of core studies) across Tables 4-5 (pp. 24-27)"
+      ],
+      "key_quantitative_results": [
+        "Reviews >100 candidate papers and synthesizes 32 core studies in Tables 4-5 (pp. 24-27).",
+        "OpenWhisk (34.37%) and AWS Lambda (29.03%) dominate evaluation platforms.",
+        "Section 6.1 explicitly highlights idle energy waste incurred by static warm keep-alive pools.",
+        "Full-text body keyword audit (excluding refs p. 37+): cold start=292, serverless=256, energy=10, slo=3, gpu=1, carbon=0, embodied=0, llm=0, kv=0."
+      ],
+      "limitations": [
+        "Zero coverage of carbon intensity (carbon=0), embodied carbon (embodied=0), LLM inference (llm=0), or KV-cache state (kv=0), with only 1 GPU mention.",
+        "Does not quantify the idle-vs-reload carbon crossover on high-TDP accelerators hosting multi-GB LLM checkpoints."
+      ],
+      "relevance_to_rqs": [
+        "RQ1, RQ3: Establishes the keep-alive latency-vs-idle-energy trade-off conceptually while leaving multi-GB GPU LLM checkpoints and grid carbon intensity unaddressed."
+      ]
+    },
+    {
+      "staging_id": "hewage_2026_carbon_latency",
+      "pdf_filename": "hewage_2026_carbon_latency.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Hewage, T. B., Ilager, S., Read, M. R., Arroba, P., & Buyya, R.",
+        "year": 2026,
+        "title": "Carbon-Aware Computing for Latency-Sensitive Cloud Applications: A Comprehensive Survey",
+        "venue": "arXiv preprint",
+        "volume_issue_pages": "arXiv:2609.03270v2",
+        "doi": null,
+        "arxiv_id": "arXiv:2609.03270v2",
+        "total_pdf_pages": 28,
+        "references_start_page": 26
+      },
+      "problem": "Investigates how latency-sensitive interactive cloud and serverless services—which cannot rely on coarse temporal batch shifting—reduce both operational and embodied carbon under strict tail-latency constraints.",
+      "taxonomy_dimensions": [
+        "Operational vs. embodied carbon accounting for interactive workloads (Table 1, p. 8)",
+        "Spatial/geographical routing vs. resource right-sizing and hardware lifecycle extension",
+        "Latency-constrained cloud, CDN, and serverless carbon-aware frameworks (Tables 2-3, p. 21)"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "Latency-sensitive carbon-aware systems cataloged on pp. 10-21: LACE-RL (p. 21), Caribou (Gsteiger et al. [17], pp. 13-16), Chien et al. [11] geo-distributed GenAI, Murillo et al. [30] CDN routing (p. 10)"
+      ],
+      "key_quantitative_results": [
+        "Reviews LACE-RL for serverless scheduling (p. 21) and Caribou [17] for geo-distributed serverless DAGs (pp. 13-16).",
+        "Cites Murillo et al. [30] showing 60 ms CDN routing slack enables >60% operational carbon reduction (p. 10).",
+        "Synthesizes operational and embodied carbon optimization axes across Table 1 (p. 8) and Tables 2-3 (p. 21).",
+        "Full-text body keyword audit (excluding refs p. 26+): carbon=281, energy=171, embodied=61, slo=40, serverless=21, operational carbon=11, cold start=7, gpu=2, llm=0, prefill=0, decode=0, kv=0, disaggregat=0."
+      ],
+      "limitations": [
+        "Does not address LLM inference phase internals, KV-cache migration overhead, or prefill/decode hardware heterogeneity (llm=0, prefill=0, decode=0, kv=0, disaggregat=0).",
+        "Minimal GPU focus (gpu=2) despite rich operational+embodied carbon taxonomy."
+      ],
+      "relevance_to_rqs": [
+        "RQ1: Strongest holistic operational+embodied carbon survey in the corpus, showing zero intersection with LLM phase disaggregation.",
+        "RQ3, RQ4: Directly informs our spatial carbon routing under TTFT/TPOT slack, serverless LACE-RL/Caribou comparison, and amortized embodied carbon formulation."
+      ]
+    },
+    {
+      "staging_id": "jiang_2026_acl_kvcache",
+      "pdf_filename": "jiang_2026_acl_kvcache.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Jiang, J., Yang, P., Zhang, R., & Liu, F.",
+        "year": 2026,
+        "title": "A Survey on KV Cache Optimization for Large Language Model Serving",
+        "venue": "Findings of the Association for Computational Linguistics (ACL 2026)",
+        "volume_issue_pages": "pp. 38450-38476",
+        "doi": "10.18653/v1/2026.findings-acl.1916",
+        "arxiv_id": null,
+        "total_pdf_pages": 27,
+        "references_start_page": 10
+      },
+      "problem": "Organizes algorithms and distributed system mechanisms addressing the KV-cache memory capacity, bandwidth, and cross-node transfer bottlenecks in large-scale LLM inference.",
+      "taxonomy_dimensions": [
+        "3D 'sKis' KV-cache taxonomy (Tables 2-7, pp. 4-8): Execution/Scheduling (OVLP overlapping, HAE hardware-aware execution), Placement/Migration (MHO memory hierarchy offloading, CDO cross-node/distributed offloading), Representation (KVCC compression/clustering, KVRM reuse/management)",
+        "Appendix G Tanimoto affinity matrix across mechanism pairs (Tables 11-12, pp. 25-27)"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "LLM serving engines, disaggregated KV engines, and prefix-caching frameworks benchmarked using TTFT, ITL/TPOT, goodput, and energy (Joules/token)"
+      ],
+      "key_quantitative_results": [
+        "Identifies >=70% high-prevalence technique combinations across the 3D sKis space (p. 8) and reports Tanimoto co-occurrence scores in Appendix G (Tables 11-12, pp. 25-27).",
+        "Explicitly recommends reporting Joules/token alongside TTFT, ITL, and SLO goodput in future KV-cache evaluations.",
+        "Full-text body keyword audit (excluding refs p. 10+): kv=40, llm=40, gpu=32, decode=12, energy=12, prefill=9, disaggregat=9, slo=6, carbon=0, embodied=0, serverless=0, cold start=0."
+      ],
+      "limitations": [
+        "Zero treatment of grid carbon intensity, operational carbon, embodied hardware emissions, or serverless cold-start retention (carbon=0, embodied=0, serverless=0, cold start=0).",
+        "Short main body (9 pages before references) focused purely on intra-cluster performance and raw energy."
+      ],
+      "relevance_to_rqs": [
+        "RQ1, RQ2: Establishes exact KV-cache transfer, compression, and prefix-reuse mechanisms plus the recommendation to measure Joules/token alongside TTFT/ITL/SLO goodput."
+      ]
+    },
+    {
+      "staging_id": "li_2024_hpec_llm_serving",
+      "pdf_filename": "li_2024_hpec_llm_serving.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Li, B., Jiang, Y., Gadepally, V., & Tiwari, D.",
+        "year": 2024,
+        "title": "LLM Inference Serving: Survey of Recent Advances and Opportunities",
+        "venue": "IEEE High Performance Extreme Computing Conference (HPEC 2024)",
+        "volume_issue_pages": "pp. 1-8",
+        "doi": "10.1109/hpec62836.2024.10938426",
+        "arxiv_id": null,
+        "total_pdf_pages": 8,
+        "references_start_page": 7
+      },
+      "problem": "Provides an early concise synthesis of LLM inference serving bottlenecks—batching, KV fragmentation, P/D interference, spot/serverless elasticity, and sustainability.",
+      "taxonomy_dimensions": [
+        "Continuous batching and memory management (Orca, vLLM, Sarathi)",
+        "Prefill/decode disaggregation and KV sharing (Splitwise, DistServe, MemServe, LoongServe)",
+        "Elastic/serverless and early carbon-aware inference (SpotServe, ServerlessLLM, Sprout)"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "Catalogs 10 canonical serving systems (Orca, vLLM, Sarathi, Splitwise, DistServe, MemServe, LoongServe, SpotServe, ServerlessLLM, Sprout) within 8 pages"
+      ],
+      "key_quantitative_results": [
+        "Maps early prefill-decode disaggregation systems (Splitwise, DistServe) alongside serverless serving (ServerlessLLM) and token-generation carbon control (Sprout).",
+        "Full-text body keyword audit (excluding refs p. 7+): llm=110, kv=39, gpu=38, prefill=17, decode=7, serverless=4, energy=3, disaggregat=2, cold start=2, carbon=1, embodied=0."
+      ],
+      "limitations": [
+        "Brief 6-page main body with only a single passing mention of carbon (carbon=1 via Sprout) and zero embodied carbon analysis (embodied=0).",
+        "Predates 2025-2026 carbon-aware disaggregated systems (EcoServe, DynamoLLM, LACE-RL, Mooncake) and conducts no quantitative cross-policy synthesis."
+      ],
+      "relevance_to_rqs": [
+        "RQ1, RQ2: Serves as an early structural baseline proving how nascent carbon considerations were in 2024 LLM serving reviews."
+      ]
+    },
+    {
+      "staging_id": "miao_2025_csur_preprint",
+      "pdf_filename": "miao_2025_csur_preprint.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Miao, X., Oliaro, G., Zhang, Z., Cheng, X., Jin, H., Chen, T., & Jia, Z.",
+        "year": 2025,
+        "title": "Towards Efficient Generative Large Language Model Serving: A Survey from Algorithms to Systems",
+        "venue": "ACM Computing Surveys",
+        "volume_issue_pages": "58(1):1-37",
+        "doi": "10.1145/3754448",
+        "arxiv_id": "arXiv:2312.15234",
+        "total_pdf_pages": 35,
+        "references_start_page": 21
+      },
+      "problem": "Bridges algorithmic inference optimizations (speculative decoding, quantization, sparsity) and system-level LLM serving stacks (scheduling, KV management, P/D disaggregation, serverless scaling).",
+      "taxonomy_dimensions": [
+        "End-to-end algorithms-to-systems LLM serving taxonomy (Figure 1, p. 5)",
+        "Runtime architecture matrix spanning colocation, P/D disaggregation, and serverless loading (Table 2)",
+        "Production workload characteristics and trace evaluation (BurstGPT and Azure LLM traces, pp. 11-18)"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "LLM serving engines in Table 2: vLLM, Sarathi, Splitwise, DistServe, Mooncake, ServerlessLLM",
+        "Production traces discussed on pp. 11-18: BurstGPT and Azure LLM inference traces"
+      ],
+      "key_quantitative_results": [
+        "Compares colocation, disaggregated P/D, and serverless checkpoint-loading systems in Table 2 and characterizes BurstGPT and Azure traces (pp. 11-18).",
+        "Explicitly states that the survey's primary scope is latency/throughput performance rather than energy or carbon optimization.",
+        "Full-text body keyword audit (excluding refs p. 21+): carbon=2, energy=2, embodied=0."
+      ],
+      "limitations": [
+        "Explicitly excludes carbon-aware scheduling, renewable grid tracking, and embodied hardware carbon from its analytical framework (carbon=2, energy=2, embodied=0)."
+      ],
+      "relevance_to_rqs": [
+        "RQ1: Authoritative ACM CSUR system taxonomy whose explicit exclusion of carbon confirms our central research gap.",
+        "RQ2, RQ3: Guides baseline engine comparisons (vLLM/Sarathi colocated, Splitwise/DistServe/Mooncake disaggregated, ServerlessLLM) and Azure trace justification."
+      ]
+    },
+    {
+      "staging_id": "pan_2025_llm_inf_systems",
+      "pdf_filename": "pan_2025_llm_inf_systems.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Pan, J., & Li, G.",
+        "year": 2025,
+        "title": "A Survey of LLM Inference Systems from a Data Management Perspective",
+        "venue": "arXiv preprint",
+        "volume_issue_pages": "arXiv:2506.21901v1",
+        "doi": null,
+        "arxiv_id": "arXiv:2506.21901v1",
+        "total_pdf_pages": 25,
+        "references_start_page": 22
+      },
+      "problem": "Reframes LLM inference serving through data-management abstractions: KV-cache storage hierarchies, prefix indexing, disaggregated prefill-decode dataflows, and serverless elasticity.",
+      "taxonomy_dimensions": [
+        "Serving runtime and dataflow comparison across colocation, sync/async P/D disaggregation, and serverless (Tables 3-4, pp. 18-21)",
+        "Synchronous vs. asynchronous prefill-decode KV transfer pipelines (Figure 20)",
+        "Serverless GPU model state transfer and cold-start mitigation (e.g., DeepFlow)"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "Catalogs disaggregated and serverless LLM serving runtimes including DeepFlow across Tables 3-4 (pp. 18-21)"
+      ],
+      "key_quantitative_results": [
+        "Distinguishes synchronous vs. asynchronous P/D KV-cache disaggregation architectures (Figure 20) and compares runtimes in Tables 3-4 (pp. 18-21).",
+        "Full-text body keyword audit (excluding refs p. 22+): prefill=29, decode=28, kv=24, disaggregat=12, serverless=6, cold start=3, carbon=0, energy=0, embodied=0."
+      ],
+      "limitations": [
+        "Zero coverage of energy consumption, operational grid carbon, or embodied carbon in body text (carbon=0, energy=0, embodied=0)."
+      ],
+      "relevance_to_rqs": [
+        "RQ1: Confirms complete absence of energy/carbon optimization even in recent 2025 disaggregated-serving reviews.",
+        "RQ2, RQ3: Clarifies sync vs. async KV transfer semantics in disaggregated routers and serverless GPU checkpoint movement."
+      ]
+    },
+    {
+      "staging_id": "sisodia_2026_control_plane",
+      "pdf_filename": "sisodia_2026_control_plane.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Sisodia, T.",
+        "year": 2026,
+        "title": "From Engines to Control Planes: Evidence-Weighted Taxonomy of Distributed LLM Serving",
+        "venue": "arXiv preprint",
+        "volume_issue_pages": "arXiv:2609.23130v1",
+        "doi": null,
+        "arxiv_id": "arXiv:2609.23130v1",
+        "total_pdf_pages": 17,
+        "references_start_page": 15
+      },
+      "problem": "Critiques single-engine optimizations and proposes a five-stage architectural taxonomy with evidence weighting to evaluate Kubernetes-native distributed LLM control planes (e.g., llm-d).",
+      "taxonomy_dimensions": [
+        "Evidence-tier classification Tiers A-D separating production measurements from simulation/prototype claims (Table 1, p. 3)",
+        "Five-stage serving expansion from engine batching to control-plane P/D and KV routing (Figure 1, p. 4)",
+        "Analytical KV-cache transfer vs. prefill recomputation crossover threshold (Equation 1, p. 4)"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "Distributed LLM control planes and benchmarks: vLLM engine, llm-d v0.8-v0.9, Splitwise, DistServe, Mooncake, Llumnix"
+      ],
+      "key_quantitative_results": [
+        "Formulates Equation (1) (p. 4): T_transfer(S,i,j) + T_queue(j) < min{T_queue(i), T_recompute(S,j)} governing when KV migration outperforms local/remote recomputation.",
+        "Synthesizes landmark disaggregation speedups under evidence Tiers A-D (Table 1, p. 3): Splitwise (1.4x throughput at iso-cost, 2.35x at iso-power), DistServe (7.4x rate / 12.6x tighter SLO), Mooncake (525% throughput in simulation / 75% in real testbed), and Llumnix (36% cost reduction).",
+        "Includes only 1 carbon reference in the entire review, with embodied=0 and serverless=0."
+      ],
+      "limitations": [
+        "Virtually omits carbon intensity (1 reference), serverless GPU cold-start lifecycles (serverless=0), and embodied hardware amortization (embodied=0).",
+        "Transfer-vs-recompute inequality (Eq. 1) optimizes latency alone without weighting operational energy or regional carbon intensity."
+      ],
+      "relevance_to_rqs": [
+        "RQ1: Demonstrates the state of the art in control-plane disaggregation taxonomies and exposes its blind spot on operational/embodied carbon and serverless cold starts.",
+        "RQ2: Provides Equation (1) directly as the structural foundation for our Carbon+KV-Aware Hybrid Router decision rule (extended with regional energy and carbon weights)."
+      ]
+    },
+    {
+      "staging_id": "yang_2025_carbon_container",
+      "pdf_filename": "yang_2025_carbon_container.pdf",
+      "access_level": "full_text_pdf",
+      "bibliographic": {
+        "authors": "Yang, J., Saad, Z., Wu, J., Niu, X., Leung, H., & Drew, S.",
+        "year": 2025,
+        "title": "Carbon-Aware Container Scheduling in Cloud Computing: A Systematic Review",
+        "venue": "arXiv preprint",
+        "volume_issue_pages": "arXiv:2508.05949v1",
+        "doi": null,
+        "arxiv_id": "arXiv:2508.05949v1",
+        "total_pdf_pages": 35,
+        "references_start_page": 30
+      },
+      "problem": "Conducts a PRISMA systematic review of carbon-aware scheduling, telemetry, and autoscaling techniques for containerized Kubernetes and serverless microservices in multi-region clouds.",
+      "taxonomy_dimensions": [
+        "PRISMA dual-layer taxonomy distinguishing carbon-awareness mechanisms and scheduling granularity (Table 1, p. 3)",
+        "Temporal shifting vs. spatial migration vs. resource scaling frameworks (Tables 2-5, pp. 10-13)",
+        "Carbon telemetry stacks and Software Carbon Intensity (SCI) normalization (Section 6.2)"
+      ],
+      "datasets_and_simulators_surveyed": [
+        "Carbon schedulers and energy monitors (Tables 2-5, pp. 10-13): CarbonScaler (-51% carbon), Caspian (-33% carbon), GreenCourier, CASA, Kepler, KubeWatt",
+        "Simulators: CloudSim and CloudSim Plus"
+      ],
+      "key_quantitative_results": [
+        "Cites US data-center electricity demand projections growing from 176 TWh to 580 TWh by 2028 (p. 5).",
+        "Reports container carbon-scheduler reductions including CarbonScaler (-51%) and Caspian (-33%) (Tables 2-5, pp. 10-13).",
+        "Adopts Software Carbon Intensity (SCI) accounting (Section 6.2).",
+        "Full-text body keyword audit (excluding refs p. 30+): carbon=319, energy=255, serverless=25, gpu=20, slo=9, llm=3, cold start=2, operational carbon=1, embodied=0, prefill=0, decode=0, disaggregat=0, kv=0."
+      ],
+      "limitations": [
+        "Focuses on stateless CPU/microservice Kubernetes pods and serverless functions; zero coverage of LLM prefill/decode disaggregation or KV-cache state (prefill=0, decode=0, disaggregat=0, kv=0).",
+        "Zero modeling of embodied hardware amortization across asymmetric GPU lifetimes (embodied=0) and minimal LLM coverage (llm=3)."
+      ],
+      "relevance_to_rqs": [
+        "RQ1: Complements Hewage et al. (2026) and Sisodia (2026) by proving that container/Kubernetes carbon schedulers lack LLM phase semantics.",
+        "RQ2, RQ3: Motivates extending container-level spatial carbon scaling (e.g., GreenCourier, CarbonScaler) into phase-aware P/D and serverless GPU checkpoint routing."
+      ]
+    }
+  ]
+}

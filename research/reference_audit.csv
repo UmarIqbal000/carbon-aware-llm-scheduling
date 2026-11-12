@@ -1,0 +1,48 @@
+key,doi_or_url,checked_source,title_match,authors_match,year_match,venue_match,status,notes
+hewage2026carbon,https://arxiv.org/abs/2609.03270,arXiv+HTTP(200)+LocalPDF(p.1),EXACT,EXACT(5/5_in_PDF),EXACT,MATCH_ABBREV_OR_PREPRINT,VERIFIED,arXiv Atom API returned 4 authors while downloaded v2 PDF p.1 explicitly lists all 5 BibTeX authors including Patricia Arroba.
+yang2025container,https://arxiv.org/abs/2508.05949,arXiv+HTTP(200),EXACT,EXACT,EXACT,MATCH_ABBREV_OR_PREPRINT,VERIFIED,
+alam2026computing,10.1007/s00607-026-01655-8,Crossref+HTTP(200),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+agarwal2026serverless,10.1145/3821534,Crossref+HTTP(403),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+besozzi2025serverless,10.1109/access.2025.3633989,Crossref+HTTP(202),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+miao2025serving,10.1145/3754448,Crossref+HTTP(403),EXACT,EXACT,EXACT(online_2025;print_2026),EXACT,VERIFIED,"Crossref published-online=[[2025, 9, 4]], published-print=[[2026, 1, 31]]; PDF p.1 states Jan 2025"
+bai2026efficiency,10.1145/3845797,Crossref+HTTP(403),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+jiang2026kvcache,10.18653/v1/2026.findings-acl.1916,Crossref+HTTP(200),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+pan2025inference,https://arxiv.org/abs/2506.21901,arXiv+HTTP(200),EXACT,EXACT,EXACT,MATCH_ABBREV_OR_PREPRINT,VERIFIED,
+wiesner2021letswait,10.1145/3464298.3493399,Crossref+HTTP(403),EXACT(title+subtitle),EXACT,EXACT,EXACT,VERIFIED,Crossref full title='Let's wait awhile: how temporal workload shifting can reduce carbon emissions in the cloud'
+hanafy2023carbonscaler,10.1145/3626788,Crossref+HTTP(403),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+souza2023ecovisor,10.1145/3575693.3575709,Crossref+HTTP(403),EXACT,EXACT,EXACT,MATCH_ABBREV_OR_PREPRINT,VERIFIED,
+chadha2023greencourier,10.1145/3631295.3631396,Crossref+HTTP(403),EXACT(title+subtitle),EXACT,EXACT,EXACT,VERIFIED,Crossref full title='GreenCourier: Carbon-Aware Scheduling for Serverless Functions'
+sukprasert2024limitations,10.1145/3627703.3650079,Crossref+HTTP(403),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+gsteiger2024caribou,10.1145/3694715.3695954,Crossref+HTTP(403),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+qi2024casa,10.1109/igsc64514.2024.00010,Crossref+HTTP(202),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+jiang2024ecolife,10.1109/sc41406.2024.00018,Crossref+HTTP(202),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+roy2026lowcarb,10.1109/hpca68181.2026.11408586,Crossref+HTTP(202),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+calavaro2026offloading,10.1016/j.future.2026.108670,Crossref+HTTP(200),EXACT,EXACT,EXACT,EXACT,FIXED,"FIXED title capitalization/terminology (""Edge-Cloud Continuum"" -> ""cloud-to-edge continuum"") to match Crossref/OpenAlex."
+sun2026lacere,https://arxiv.org/abs/2602.23935,arXiv+HTTP(200),EXACT,EXACT,EXACT,MATCH_ABBREV_OR_PREPRINT,VERIFIED,
+kwon2023vllm,10.1145/3600006.3613165,Crossref+HTTP(403),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+li2023clover,10.1145/3581784.3607034,Crossref+HTTP(403),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+patel2024splitwise,10.1109/ISCA59077.2024.00019,Crossref+HTTP(202),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+zhong2024distserve,https://www.usenix.org/conference/osdi24/presentation/zhong-yinmin,OpenAlex(search)+HTTP(200)+LocalPDF,EXACT,EXACT,EXACT,EXACT(USENIX/arXiv),VERIFIED,FoundDOI=https://doi.org/10.48550/arxiv.2401.09670; USENIX proceedings HTML HTTP 200 + OpenAlex/arXiv + downloaded PDF match.
+agrawal2024sarathi,https://www.usenix.org/conference/osdi24/presentation/agrawal,OpenAlex(search)+HTTP(200)+LocalPDF,EXACT,EXACT,EXACT,EXACT(USENIX/arXiv),VERIFIED,FoundDOI=https://doi.org/10.48550/arxiv.2403.02310; USENIX proceedings HTML HTTP 200 + OpenAlex/arXiv + downloaded PDF match.
+fu2024serverlessllm,https://www.usenix.org/conference/osdi24/presentation/fu,OpenAlex(search)+HTTP(200)+LocalPDF,EXACT,EXACT,EXACT,EXACT(USENIX/arXiv),VERIFIED,FoundDOI=https://doi.org/10.48550/arxiv.2401.14351; USENIX proceedings HTML HTTP 200 + OpenAlex/arXiv + downloaded PDF match.
+wilkins2024offline,10.1145/3727200.3727217,Crossref+HTTP(403),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+qin2025mooncake,https://www.usenix.org/conference/fast25/presentation/qin,HTTP(200)+LocalPDF(USENIX),EXACT(HTML+PDF),EXACT(PDF),EXACT(FAST_2025),EXACT,VERIFIED,USENIX FAST 2025 official page HTTP 200 title verified + local FAST 2025 PDF verified.
+stojkovic2025dynamollm,10.1109/HPCA61900.2025.00102,Crossref+HTTP(202),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+stojkovic2025tapas,10.1145/3676641.3716025,Crossref+HTTP(403),EXACT,EXACT,EXACT,MATCH_ABBREV_OR_PREPRINT,VERIFIED,
+kakolyris2025throttllem,10.1109/hpca61900.2025.00103,Crossref+HTTP(202),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+fernandez2025acl,10.18653/v1/2025.acl-long.1563,Crossref+HTTP(200),EXACT,EXACT,EXACT,MATCH_ABBREV_OR_PREPRINT,VERIFIED,
+li2025ecoserve,https://arxiv.org/abs/2502.05043,arXiv+HTTP(200),EXACT,EXACT,EXACT,MATCH_ABBREV_OR_PREPRINT,VERIFIED,
+basit2026dualscale,https://arxiv.org/abs/2602.18755,arXiv+HTTP(200),EXACT,EXACT,EXACT,MATCH_ABBREV_OR_PREPRINT,VERIFIED,
+li2026revisiting,https://arxiv.org/abs/2601.08833,arXiv+HTTP(200),EXACT,EXACT,EXACT(arXiv_2601),MATCH_ABBREV_OR_PREPRINT,VERIFIED,arXiv ID 2601.08833 (Jan 2026) uploaded 2025-12-31 UTC.
+wang2026festina,https://arxiv.org/abs/2606.30391,arXiv+HTTP(200),EXACT,EXACT,EXACT,EXACT(conf_plus_arXiv),VERIFIED,"Title includes ""(Extended)"" verbatim on downloaded PDF p.1 (arXiv:2606.30391v2, SIGOPS ATC 2026 accepted preprint)."
+shahrad2020serverless,https://www.usenix.org/conference/atc20/presentation/shahrad,OpenAlex(search)+HTTP(200)+LocalPDF,EXACT,EXACT,EXACT,EXACT(USENIX/arXiv),VERIFIED,FoundDOI=https://doi.org/10.48550/arxiv.2003.03423; USENIX proceedings HTML HTTP 200 + OpenAlex/arXiv + downloaded PDF match.
+gupta2021chasing,10.1109/HPCA51647.2021.00076,Crossref+HTTP(202),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+gupta2022act,10.1145/3470496.3527408,Crossref+HTTP(403),EXACT(title+subtitle),EXACT,EXACT,EXACT,VERIFIED,Crossref full title='ACT: designing sustainable computer systems with an architectural carbon modeling tool'
+acun2023carbonexplorer,10.1145/3575693.3575754,Crossref+HTTP(403),EXACT,EXACT,EXACT,MATCH_ABBREV_OR_PREPRINT,VERIFIED,
+faiz2024llmcarbon,https://arxiv.org/abs/2309.14393,arXiv+HTTP(200)+LocalPDF(p.1),EXACT,EXACT,EXACT(ICLR_2024),EXACT(conf_plus_arXiv),VERIFIED,arXiv preprint Sep 2023; downloaded PDF p.1 states Published as a conference paper at ICLR 2024.
+azure2024trace,https://github.com/Azure/AzurePublicDataset/blob/master/AzureLLMInferenceDataset2024.md,HTTP(200)+LocalDoc,EXACT(Repo+Doc),EXACT(HPCA_2025_TraceAuthors),EXACT(2024_Release),EXACT,VERIFIED,Official Microsoft AzurePublicDataset GitHub HTTP 200 + local doc & companion HPCA 2025 trace metadata verified.
+iso2024sci,https://sci.greensoftware.foundation/,HTTP(200)+LocalDoc,EXACT(GSF_Site+Doc),EXACT(GSF_WG),EXACT(ISO_2024),EXACT,VERIFIED,Green Software Foundation SCI specification site HTTP 200 + local ISO/IEC 21031:2024 doc verified.
+sinha2025utilization,10.1145/3757892.3757903,Crossref+HTTP(403),EXACT,EXACT,EXACT,EXACT,FIXED,"FIXED title (""{LLM} Inference"" -> ""Inference Serving"") to match Crossref/OpenAlex."
+hewage2025aging,10.1145/3679240.3734608,Crossref+HTTP(403),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+mell2011nist,10.6028/NIST.SP.800-145,Crossref+HTTP(200),EXACT,EXACT,EXACT,EXACT,VERIFIED,
+calheiros2011cloudsim,10.1002/spe.995,Crossref+HTTP(403),EXACT,EXACT,EXACT,EXACT,VERIFIED,

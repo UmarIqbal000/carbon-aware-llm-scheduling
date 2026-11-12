@@ -1,0 +1,29 @@
+\section{PRISMA-2020 Review Methodology}\label{sec:methodology}
+
+To ground \texttt{RQ1} and parameterize the simulation environment from primary sources, I conducted a systematic literature review following PRISMA-2020 reporting principles across academic indices (Crossref, Semantic Scholar, OpenAlex, arXiv, ACM Digital Library, IEEE Xplore, USENIX, and official standards repositories).
+
+\subsection{Search Queries, Inclusion Criteria, and Screening}\label{subsec:prisma_search}
+Candidate studies published between 2011 and 2026 were retrieved through three structured search tracks targeting the intersection of sustainable cloud computing, LLM inference disaggregation, and serverless GPU control:
+\begin{itemize}
+    \item \textbf{Query A (Carbon-Aware Cloud \& Serverless Scheduling):} Paired carbon-intensity, grid emissions, SCI, and embodied terms with spatial/temporal shifting, serverless keep-alive, and cold-start mitigation (16 primary records).
+    \item \textbf{Query B (Phase-Disaggregated \& Energy-Aware LLM Serving):} Combined LLM inference, KV caching, prefill/decode disaggregation, and GPU serving with energy, DVFS, power capping, and carbon accounting (30 primary records).
+    \item \textbf{Query C (Surveys, Traces, Embodied Models \& Snowballing):} Aggregated recent PRISMA surveys, lifecycle standards, hardware embodied datasets, and backward/forward citation chasing (29 records).
+\end{itemize}
+
+As traced in Fig.~\ref{fig:prisma}, removing 1 exact duplicate reduced the 75 identified records to 74 unique candidates for title and abstract screening. In total, 11 records were excluded during screening for lacking cloud computing, datacenter energy, or LLM execution scope. Full-text and structured metadata eligibility assessment covered 63 records; 16 additional items were excluded because they addressed purely offline model training without serving SLOs or contained neither carbon nor LLM systems evidence.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/fig2_prisma_flow.pdf}
+    \caption{PRISMA-2020 systematic search, screening, and eligibility pipeline yielding the 47-work corpus (42 full-text, 5 abstract-only).}
+    \label{fig:prisma}
+\end{figure}
+
+\subsection{Corpus Provenance, Full-Text Auditing, and Preprint Disclosure}\label{subsec:corpus_audit}
+The final synthesis corpus comprises 47 works: 35 empirical or modeling systems, 9 surveys or taxonomies, 2 standards/specifications (ISO/IEC 21031:2024~\cite{iso2024sci} and NIST SP 800-145~\cite{mell2011nist}), and 1 production trace release~\cite{azure2024trace}. By publication year, 42 of 47 items (89.4\%) appeared between 2022 and 2026, and 23 (48.9\%) appeared in 2025--2026.
+
+To enforce strict claim verification, every retained work is tagged by verified retrieval depth and peer-review status:
+\begin{enumerate}
+    \item \textbf{Full-Text Audited (42/47, 89.4\%):} Complete PDFs or official texts underwent page, table, and equation verification: 34 archival items (31 papers, 2 standards, and 1 trace release), plus 8 preprints: six arXiv preprints (Hewage et al.~\cite{hewage2026carbon}, Yang et al.~\cite{yang2025container}, Pan et al.~\cite{pan2025inference}, EcoServe~\cite{li2025ecoserve}, DualScale~\cite{basit2026dualscale}, and Li et al.~\cite{li2026revisiting}) and two accepted conference preprints (LACE-RL~\cite{sun2026lacere} for CCGrid 2026 and Festina~\cite{wang2026festina} for ACM SIGOPS ATC 2026).
+    \item \textbf{Abstract-Only Verified (5/47, 10.6\%):} Paywalled works limited to publisher abstracts and metadata (LowCarb~\cite{roy2026lowcarb}, Calavaro et al.~\cite{calavaro2026offloading}, ACT~\cite{gupta2022act}, Sinha et al.~\cite{sinha2025utilization}, and CloudSim~\cite{calheiros2011cloudsim}). Claims citing these five records are bounded strictly to verified abstract statements, with zero unverified table constants drawn into the simulator.
+\end{enumerate}

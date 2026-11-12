@@ -1,0 +1,30 @@
+# Python virtual environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Cloned third-party humanizer/helper tools
+tools/
+
+# Third-party downloaded literature PDFs/HTMLs (avoid redistributing copyrighted publisher files)
+research/pdfs/
+research/docs/
+research/scout_surveys_raw.json
+
+# LaTeX build intermediates (keep main.pdf, main.tex, references.bib, sections/, figures/)
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+
+# Temporary OS / editor files
+.DS_Store
+Thumbs.db

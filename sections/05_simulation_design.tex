@@ -1,0 +1,118 @@
+\section{Simulation Architecture and Experimental Design}\label{sec:sim_design}
+
+\subsection{Parameterized Simulation Scope Statement}\label{subsec:scope_statement}
+All empirical results in this study derive from a parameterized discrete-event simulation built in Python using SimPy 4.1.2; no telemetry was collected from physical multi-continent multi-GPU clusters. Consistent with the precedent noted by Alam et al.~\cite{alam2026computing} (where 70\% of cloud carbon-scheduling studies evaluate wide-area policies through simulation), discrete-event modeling supports reproducible, multi-seed ablations across heterogeneous electricity grids that an independent researcher cannot instrument simultaneously. Model constants are separated into published hardware and serving baselines (Table~\ref{tab:params}) and explicit calibration assumptions (Table~\ref{tab:calibrations}), driven by public CC-BY-4.0 traces.
+
+\subsection{Phase Execution, Power, and Dispatch Formulation}\label{subsec:sim_equations}
+
+For request $i$ arriving at time $t_i$ with prompt length $L_{\text{in}}(i)$ and output length $L_{\text{out}}(i)$, prefill duration on GPU tier $g$ scales linearly above base kernel overhead $\tau_{P,0}(g)$:
+\begin{equation}\label{eq:prefill_lat}
+T_{\text{exec},P}(i,g) = \tau_{P,0}(g) + \tau_{P,\text{tok}}(g)\cdot L_{\text{in}}(i),
+\end{equation}
+calibrated to Splitwise Table IV uncontended Llama-70B anchors (\SI{84}{\milli\second} conv and \SI{95}{\milli\second} code on H100; \SI{155}{\milli\second} and \SI{185}{\milli\second} on A100)~\cite{patel2024splitwise}. During continuous-batching decode over active resident KV size $K_{\text{res}}$ (GB) on $G_r$ tensor-parallel GPUs, step time increases with HBM bandwidth contention:
+\begin{equation}\label{eq:decode_step}
+t_{\text{step}}(g, K_{\text{res}}) = \tau_{D,0}(g) \left(1 + \alpha_{\text{mem}}(g)\frac{K_{\text{res}}}{G_r\,\text{BW}_{\text{HBM}}(g)}\right),
+\end{equation}
+anchored to \SI{28}{\milli\second} on H100 and \SI{42}{\milli\second} on A100~\cite{patel2024splitwise,stojkovic2025dynamollm}, with mild step inflation only if decode TDP cap $c_{\text{cap}} < 0.50$. Under colocation (\texttt{B1}), concurrent prefill slows active decode progress to factor $r_{\text{coloc}}=0.20$~\cite{agrawal2024sarathi,patel2024splitwise}, whereas disaggregation isolates decode iterations. End-to-end metrics aggregate cold-start delay, queueing, execution, KV transfer, and RTT:
+\begin{equation}\label{eq:slo_metrics}
+\begin{aligned}
+\text{TTFT}_i &= T_{\text{cold},i} + T_{\text{q},P,i} + T_{\text{exec},P,i} + T_{\text{kv},i} + \text{RTT}_i, \\
+\text{TPOT}_i &= \frac{T_{D,\text{exit},i} - T_{D,\text{enter},i}}{L_{\text{out}}(i)}.
+\end{aligned}
+\end{equation}
+
+Instantaneous per-GPU power scales sublinearly with Model FLOPs Utilization ($\text{mfu}$) and active power cap ratio $c_{\text{cap}} \in (0, 1]$ ($c_{\text{cap}}=1.0$ on prefill; $c_{\text{cap}}=0.55$ on decode~\cite{patel2024splitwise}), plus GreenSKU Genoa host ancillary draw $P_{\text{host}}(\text{mfu})$:
+\begin{equation}\label{eq:power}
+\begin{aligned}
+P_{\text{gpu}}(\text{mfu}, c_{\text{cap}}) ={}& P_{\text{idle}} + \left(c_{\text{cap}} P_{\text{TDP}} - P_{\text{idle}}\right) \\
+&\times \left(\min\!\left(1.0, \frac{\text{mfu}}{\text{mfu}_{\text{sat}}}\right)\right)^{\gamma},
+\end{aligned}
+\end{equation}
+using saturation threshold $\text{mfu}_{\text{sat}}=0.45$ and calibrated sublinear exponent $\gamma=0.70$.
+
+For Llama-2-70B FP16 GQA-8 ($s_{\text{kv}}=0.3125$~MB/tok), total KV payload $S_{\text{kv}}(i) = s_{\text{kv}} L_{\text{in}}(i)$ transfers over intra-DC NVLink/IB ($\delta_{\text{layer}} \in \{5,8\}\text{ ms}$~\cite{patel2024splitwise}, $\text{BW}_{\text{local}}=400$~Gbps) or cross-region WAN:
+\begin{equation}\label{eq:kv_tx}
+\begin{aligned}
+T_{\text{kv}}(r_P, r_D) &= \text{RTT}(r_P, r_D) + \frac{8 S_{\text{kv}}}{B_{\text{wan}}}, \\
+E_{\text{kv}} &= P_{\text{net}}\frac{8 S_{\text{kv}}}{3.6\times 10^6 B_{\text{wan}}}\,\text{PUE}.
+\end{aligned}
+\end{equation}
+Cross-region pipelined disaggregation (Path C from $r_P$ to $r_D \neq r_P$) is admissible only if both a latency recomputation crossover condition and an operational carbon crossover condition hold:
+\begin{align}
+T_{\text{kv}}(r_P, r_D) + T_{\text{q},D}(r_D) &< \min\!\big(T_{\text{q},D}(r_P),\nonumber\\
+&\qquad T_{\text{recomp}}(L_{\text{in}}, r_D)\big), \label{eq:cross_lat}\\
+E_P I_{r_P}(t) + E_{\text{kv}}\frac{I_{r_P}(t)+I_{r_D}(t)}{2} &\nonumber\\
++\, E_D I_{r_D}(t) &< \hat{C}_{\text{local}}(i). \label{eq:cross_carb}
+\end{align}
+Across all feasible paths $p \in \{\text{A: Coloc.},\allowbreak\ \text{B: Intra P/D},\allowbreak\ \text{C: Cross P/D},\allowbreak\ \text{D: Remote Clean DC}\}$ meeting TTFT slack ($0.85\cdot\text{TTFT}_{\text{SLO}}$), hybrid router \texttt{P4} selects:
+\begin{equation}\label{eq:dispatch}
+\begin{aligned}
+p^* = \arg\min_{p \in \mathcal{F}(i,t)} \Big[ &w_c \hat{C}_{\text{op}}(p,t) \\
+&+ 40\,w_q \max\!\big(0,\, \text{occ}_D(p) - 0.60\big)^2 \Big],
+\end{aligned}
+\end{equation}
+with $w_c=1.0$, $w_q=0.15$, and decode pool occupancy $\text{occ}_D$; when bursts exceed slack, \texttt{P4} falls back locally to Path A or Path B.
+
+In Track B (serverless GPU serving), an online causal EWMA tracker (\texttt{OnlineGapHazardTracker}, \texttt{S3}) estimates discrete inter-arrival gap probabilities $\mathbf{p}$ across bins $[0\text{--}1, 1\text{--}5, 5\text{--}10, 10\text{--}30, 30\text{--}60, >60]\text{ s}$ and selects dynamic keep-alive timeout $k^* \in \{1, 5, 10, 30, 60\}\text{ s}$~\cite{sun2026lacere} at idle entry:
+\begin{equation}\label{eq:gaphazard}
+\begin{aligned}
+k^*(t) &= \arg\min_{k \in \mathcal{K}} \bigg[ \mathbb{E}[\tau_{\text{idle}}(k)]\, r_{\text{idle}}(t) \\
+&\quad + p_{\text{miss}}(k)\!\left(C_{\text{cold}}(t) + \frac{\beta_{\text{SLO}}\,\mathbb{I}_{\text{SLO}}}{\max(\widetilde{I}_r(t), 0.04)}\right) \bigg],
+\end{aligned}
+\end{equation}
+where $r_{\text{idle}}(t)$ is per-second warm-idle carbon rate ($\lambda_{\text{idle}}=0.20$ baseline~\cite{sun2026lacere} or hardware idle ratio), $C_{\text{cold}}(t)$ is reload carbon during $T_{\text{cold}}$, and $\widetilde{I}_r(t)$ is normalized regional intensity.
+
+Finally, operational emissions $C_{\text{op}}$ integrate node and WAN power multiplied by $\text{PUE}=1.12$ and regional grid CI $I_r(t)$, while amortized embodied emissions $C_{\text{emb}}$ sum host and GPU footprints over lifetimes $\text{LT}_{\text{host}}, \text{LT}_{\text{gpu}}$ (4~yr uniform; sensitivity 9~yr host / 3~yr GPU~\cite{li2025ecoserve}):
+\begin{equation}\label{eq:emb_sci}
+\begin{aligned}
+C_{\text{emb}} &= \sum_{m \in \mathcal{N}} \left(\frac{M_{\text{host},m}}{\text{LT}_{\text{host}}} + \frac{G_m M_{\text{gpu},m}}{\text{LT}_{\text{gpu}}}\right) T_{\text{sim}}, \\
+\text{SCI}_{\text{tot}} &= \frac{C_{\text{op}} + C_{\text{emb}}}{N_{\text{tok}}/1000}.
+\end{aligned}
+\end{equation}
+
+\subsection{Verified Baselines, Traces, and Calibrated Assumptions}\label{subsec:traces_params}
+Tables~\ref{tab:params} and~\ref{tab:calibrations} summarize verified profiles and calibrated assumptions. Multi-region cluster experiments (\texttt{E1}) span 3 zones (6 nodes, 24 H100s; 2 nodes/region): \texttt{South Scotland} (mean 9.75~gCO$_2$eq/kWh, 0--129), \texttt{London} (mean 163.32~gCO$_2$eq/kWh, 13--326), and \texttt{TEPCO} (mean 581.64~gCO$_2$eq/kWh, 302.3--671.5), from Oct.\ 2025 UK NESO 30-min traces ($1{,}344$ slots) and FY2024 Japan TSO traces ($17{,}520$ slots, converted from $\text{kgCO}_2\text{/kWh}$ via $\times 1{,}000$). Workloads use Azure LLM conversational (\texttt{conv}: $19{,}366$ reqs, 5.53~RPS, $\text{CV}=1.094$, mean $1{,}154.7$ in / $211.1$ out) and coding (\texttt{code}: $8{,}819$ reqs, 2.57~RPS, bursty $\text{CV}=13.152$, mean $2{,}047.8$ in / $27.9$ out) traces~\cite{azure2024trace} under DynamoLLM bucket SLOs (Short: 250/100; Medium: 400/100; Long: 2,000/100~ms TTFT/TPOT)~\cite{stojkovic2025dynamollm}.
+
+Cluster runs compare five routing policies: \texttt{B1} (carbon-agnostic colocated round-robin), \texttt{B2} (intra-region P/D, 55\% decode cap), \texttt{P3} (unconditional cross-region P/D when $\text{RTT} \le \text{TTFT slack}$), \texttt{P4} (hybrid Eqs.~\eqref{eq:cross_lat} through~\eqref{eq:dispatch}), and \texttt{P5} (oracle 30-min grid lookahead).
+
+Serverless runs (\texttt{E2}) compare \texttt{S1} ($0\text{ s}$), \texttt{S2} ($30\text{ s}$), \texttt{S2b} ($60\text{ s}$), and \texttt{S3} (GapHazard Eq.~\eqref{eq:gaphazard}) across \texttt{TEPCO}, \texttt{North Scotland} (mean 35.65~gCO$_2$eq/kWh, std 82.50, 0--355), and \texttt{South Scotland} using ServerlessLLM's \SI{10.3}{\second} 70B loader. All suites run across 10 seeds (100--109) and report Student-$t$ 95\% CIs ($t_{0.975,9}=2.262$) and two-sided paired Wilcoxon $p$-values ($\alpha=0.05$).
+
+\begin{table}[t]
+\centering
+\caption{Verified Hardware, Embodied, and Loader Parameters}
+\label{tab:params}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.15cm}>{\raggedright\arraybackslash}p{4.35cm}l@{}}
+\toprule
+\textbf{Component} & \textbf{Verified Value(s)} & \textbf{Source} \\
+\midrule
+H100 SXM5 (4/node) & TDP \SI{700}{\watt}, Idle \SI{60}{\watt}, HBM 3352~GB/s, 124.9~kgCO$_2$e & \cite{patel2024splitwise,li2025ecoserve} \\
+A100 SXM4 (4/node) & TDP \SI{400}{\watt}, Idle \SI{100}{\watt}, HBM 2039~GB/s, 121.5~kgCO$_2$e & \cite{patel2024splitwise,li2025ecoserve} \\
+L4 Decode (8/node) & TDP \SI{72}{\watt}, Idle \SI{14.4}{\watt}, 300~GB/s, 41.2~kgCO$_2$e & \cite{li2025ecoserve} \\
+GreenSKU Genoa & Peak \SI{562.4}{\watt}, Idle \SI{164.6}{\watt}, 921.6~kgCO$_2$e & \cite{azure2024trace,li2025ecoserve} \\
+Decode Cap \& KV & $c_{\text{cap}}=0.55$; $\delta_{\text{layer}}=5/8\text{ ms}$; PUE $1.12$ & \cite{patel2024splitwise} \\
+70B / 13B Loaders & SLLM 10.3 / 2.0~s; Safe 48.0 / 8.2~s; PyT 84.0 / 14.0~s & \cite{fu2024serverlessllm} \\
+Amortization Life & Uniform 4~yr; Asymmetric 9~yr host / 3~yr GPU & \cite{li2025ecoserve,gupta2021chasing} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Explicit Simulator Calibration Assumptions (Non-Measured)}
+\label{tab:calibrations}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.05cm}>{\raggedright\arraybackslash}p{2.25cm}>{\raggedright\arraybackslash}p{3.75cm}@{}}
+\toprule
+\textbf{Parameter} & \textbf{Default / Range} & \textbf{Justification \& Caveat} \\
+\midrule
+Synthetic WAN RTT & 0.5 / 20 / 30 / 200~ms & Intra-DC / Intra-UK / Intra-JP / UK--JP delay \\
+WAN KV BW & 10~Gbps (\{10, 25, 100\}) & Commodity Ethernet to DC WAN sweep \\
+Sublinear MFU $\gamma$ & $0.70$ ($\text{mfu}_{\text{sat}}=0.45$) & Sublinear GPU load-power curve \\
+Cold Power Frac. & $0.65\,P_{\text{TDP}}$ ([0.45, 0.85]) & Deserialization + PCIe DMA warm-up \\
+24h Extension & Empirical block tiling & Scales 58-min Azure blocks to 24h CI \\
+\bottomrule
+\end{tabular}
+\end{table}

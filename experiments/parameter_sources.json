@@ -1,0 +1,384 @@
+{
+  "metadata": {
+    "generated_at": "2026-11-12T02:22:00Z",
+    "purpose": "Verified hardware, serving latency, KV-cache, serverless cold-start, operational power, and embodied carbon parameter provenance for the SimPy discrete-event simulation (DESIGN.md).",
+    "verification_policy": "All quantitative values are extracted directly from downloaded open-access primary PDFs or official CC-BY-4.0 benchmark repositories; any heuristic design-calibrated simulation assumptions (e.g., cross-region WAN RTT) are explicitly separated and flagged."
+  },
+  "gpu_hardware_specs": {
+    "a100_sxm4_80gb": {
+      "tdp_w": 400,
+      "idle_power_w": 100,
+      "idle_to_tdp_ratio": 0.25,
+      "hbm_capacity_gb": 80,
+      "hbm_bandwidth_gbps": 2039,
+      "nvlink_bandwidth_gbps": 50,
+      "infiniband_bandwidth_gbps": 200,
+      "dgx_8gpu_hourly_cost_usd": 17.6,
+      "embodied_gpu_kgco2e": 121.5,
+      "sources": [
+        {
+          "citation": "Patel et al. (2024), Splitwise",
+          "identifier": "arXiv:2311.18677v2",
+          "url": "https://arxiv.org/pdf/2311.18677",
+          "ref": "Table I, p. 1 (HBM 80 GB, HBM BW 2039 GB/s, TDP 400 W, NVLink 50 Gbps, InfiniBand 200 Gbps, DGX-A100 $17.6/hr)"
+        },
+        {
+          "citation": "Ozcan et al. (2025), Sim Energy & Carbon LLM",
+          "identifier": "arXiv:2507.11417v1",
+          "url": "https://arxiv.org/pdf/2507.11417",
+          "ref": "Section 3.1, p. 3 & Section 4.1, p. 5 (A100 SXM4 80 GB idle 100 W, peak 400 W)"
+        },
+        {
+          "citation": "Li et al. (2025), EcoServe",
+          "identifier": "arXiv:2502.05043v2",
+          "url": "https://arxiv.org/pdf/2502.05043",
+          "ref": "Figure 4, p. 3 (A100 SXM 80G embodied carbon 121.5 kgCO2e, TDP 400 W, scaled 100-hr price $119.0)"
+        }
+      ]
+    },
+    "h100_sxm5_80gb": {
+      "tdp_w": 700,
+      "idle_power_w": 60,
+      "idle_to_tdp_ratio": 0.0857,
+      "hbm_capacity_gb": 80,
+      "hbm_bandwidth_gbps": 3352,
+      "nvlink_bandwidth_gbps": 100,
+      "infiniband_bandwidth_gbps": 400,
+      "dgx_8gpu_hourly_cost_usd": 38.0,
+      "h100_pcie_tdp_w": 350,
+      "h100_pcie_embodied_kgco2e": 124.9,
+      "die_area_mm2": 814,
+      "cpa_kgco2_per_cm2": 1.8,
+      "sources": [
+        {
+          "citation": "Patel et al. (2024), Splitwise",
+          "identifier": "arXiv:2311.18677v2",
+          "url": "https://arxiv.org/pdf/2311.18677",
+          "ref": "Table I, p. 1 & Section V-A, p. 8 (HBM 80 GB, HBM BW 3352 GB/s, TDP 700 W, InfiniBand 400 Gbps, DGX-H100 $38/hr)"
+        },
+        {
+          "citation": "Ozcan et al. (2025), Sim Energy & Carbon LLM",
+          "identifier": "arXiv:2507.11417v1",
+          "url": "https://arxiv.org/pdf/2507.11417",
+          "ref": "Section 3.1, p. 3 (H100 SXM5 idle 60 W, peak 700 W)"
+        },
+        {
+          "citation": "Li et al. (2025), EcoServe",
+          "identifier": "arXiv:2502.05043v2",
+          "url": "https://arxiv.org/pdf/2502.05043",
+          "ref": "Figure 4, p. 3 (H100 PCIe embodied carbon 124.9 kgCO2e, TDP 350 W, scaled 100-hr price $190.0)"
+        },
+        {
+          "citation": "Faiz et al. (2024), LLMCarbon",
+          "identifier": "arXiv:2309.14393 (ICLR 2024)",
+          "url": "https://arxiv.org/pdf/2309.14393",
+          "ref": "Table 3, p. 6 (H100 TSMC 4nm die area 814 mm^2, CPA 1.8 kgCO2/cm^2)"
+        }
+      ]
+    },
+    "secondary_decode_tiers": {
+      "a40_pcie_idle_w": 30,
+      "a40_pcie_peak_w": 300,
+      "l4_tdp_w": 72,
+      "l4_embodied_kgco2e": 41.2,
+      "t4_tdp_w": 70,
+      "t4_embodied_kgco2e": 37.7,
+      "a6000_tdp_w": 300,
+      "a6000_embodied_kgco2e": 100.1,
+      "a100_pcie_40g_tdp_w": 250,
+      "a100_pcie_40g_embodied_kgco2e": 93.6,
+      "sources": [
+        {
+          "citation": "Ozcan et al. (2025), Sim Energy & Carbon LLM",
+          "identifier": "arXiv:2507.11417v1",
+          "url": "https://arxiv.org/pdf/2507.11417",
+          "ref": "Section 3.1, p. 3 (A40 PCIe idle 30 W, peak 300 W)"
+        },
+        {
+          "citation": "Li et al. (2025), EcoServe",
+          "identifier": "arXiv:2502.05043v2",
+          "url": "https://arxiv.org/pdf/2502.05043",
+          "ref": "Figure 4, p. 3 (T4 37.7, L4 41.2, A100 PCIe 40G 93.6, A6000 100.1 kgCO2e)"
+        }
+      ]
+    }
+  },
+  "host_embodied_and_pue": {
+    "pue_default": 1.12,
+    "pue_range_cited": [1.10, 1.12, 1.20],
+    "hardware_lifetime_years_default": 4.0,
+    "hardware_lifetime_years_range": [3.0, 4.0, 5.0, 6.0],
+    "asymmetric_lifetime_recycle_years": {
+      "host": 9.0,
+      "gpu": 3.0
+    },
+    "full_system_embodied_kgco2e": {
+      "a100x1_server": 314.9,
+      "a100x2_server": 629.7,
+      "a100x4_server": 1259.4,
+      "gh200x1_server": 791.7,
+      "ecoserve_fig21_host_baseline": 800.0,
+      "ecoserve_fig21_gpu_baseline": 120.0
+    },
+    "component_embodied_factors": {
+      "ddr4_lpddr5_kg_per_gb": 0.29,
+      "gddr6_kg_per_gb": 0.36,
+      "hbm2_kg_per_gb": 0.28,
+      "hbm3e_kg_per_gb": 0.24,
+      "ssd_ecoserve_kg_per_gb": 0.110,
+      "ssd_llmcarbon_kg_per_gb": 0.018,
+      "dram_llmcarbon_kg_per_gb": 0.40,
+      "cooling_kg_per_100w": 7.877,
+      "pdn_psu_kg_per_100w": 3.27,
+      "pcb_kg_per_cm2": 0.048,
+      "greensku_cpu_genoa_w": 290,
+      "greensku_cpu_genoa_embodied_kg": 30.7,
+      "greensku_cpu_bergamo_w": 400,
+      "greensku_cpu_bergamo_embodied_kg": 28.3,
+      "greensku_ddr5_64gb_w": 23.68,
+      "greensku_ddr5_64gb_embodied_kg": 105.4,
+      "greensku_ssd_2tb_w": 11.2,
+      "greensku_ssd_2tb_embodied_kg": 34.65,
+      "greensku_server_2u_chassis_embodied_kg": 375.0,
+      "greensku_nic_100g_w": 19.0,
+      "greensku_nic_100g_embodied_kg": 58.09
+    },
+    "sources": [
+      {
+        "citation": "Li et al. (2025), EcoServe",
+        "identifier": "arXiv:2502.05043v2",
+        "url": "https://arxiv.org/pdf/2502.05043",
+        "ref": "Table 1 p. 2, Figure 5 p. 4 (A100x1..4 total embodied), Figure 6 p. 4 (4-year baseline lifetime), Figure 21 p. 9 (host 800 kgCO2e, GPU 120 kgCO2e, 4-yr baseline vs 9-yr host / 3-yr GPU)"
+      },
+      {
+        "citation": "Faiz et al. (2024), LLMCarbon",
+        "identifier": "arXiv:2309.14393 (ICLR 2024)",
+        "url": "https://arxiv.org/pdf/2309.14393",
+        "ref": "Table 2 p. 6 (PUE 1.09-1.12), Table 3 p. 6 (DRAM 0.4 kg/GB, SSD 0.018 kg/GB), Section 4.7 p. 6 (5-year lifetime)"
+      },
+      {
+        "citation": "Azure GreenSKU-Framework (ISCA 2024 / GitHub)",
+        "identifier": "DOI:10.5281/zenodo.10896254",
+        "url": "https://github.com/Azure/AzurePublicDataset/tree/master/analysis/GreenSKU-Framework",
+        "ref": "params.yaml (PUE 1.12, lifetime 72 mo), CPU.yaml, DRAM.yaml, SSD.yaml, Server.yaml, NIC.yaml (CC-BY-4.0)"
+      },
+      {
+        "citation": "Ozcan et al. (2025), Sim Energy & Carbon LLM",
+        "identifier": "arXiv:2507.11417v1",
+        "url": "https://arxiv.org/pdf/2507.11417",
+        "ref": "Section 3.1 Eq. (3)-(4) p. 4, Table 1 (PUE 1.2 default CA)"
+      },
+      {
+        "citation": "Gupta et al. (2021), Chasing Carbon",
+        "identifier": "arXiv:2011.02839",
+        "url": "https://arxiv.org/pdf/2011.02839",
+        "ref": "p. 5 (3-4 year datacenter hardware lifetime)"
+      }
+    ]
+  },
+  "phase_power_and_execution_model": {
+    "sublinear_mfu_power_law": {
+      "formula": "P(mfu) = P_idle + (P_max_inst - P_idle) * (mfu / mfu_sat)^gamma",
+      "mfu_sat": 0.45,
+      "gamma": 0.7,
+      "calibration_note": "Ozcan et al. (2025) footnote 3 explicitly discloses gamma=0.7 is heuristically chosen to reflect sublinear inference power scaling, while mfu_sat=0.45 reflects memory-bandwidth saturation (~35-45% MFU ceiling).",
+      "source": {
+        "citation": "Ozcan et al. (2025)",
+        "identifier": "arXiv:2507.11417v1",
+        "url": "https://arxiv.org/pdf/2507.11417",
+        "ref": "Section 3.1 Eq. (1) p. 3 & Section 4.1 p. 5 fn. 3"
+      }
+    },
+    "phase_power_cap_asymmetry": {
+      "decode_power_cap_tolerance_fraction": 0.50,
+      "splitwise_hhcap_token_node_power_multiplier": 0.70,
+      "splitwise_hhcap_normalized_token_power": 1.23,
+      "splitwise_hh_normalized_token_power": 1.75,
+      "dynamollm_dvfs_switch_overhead_ms": [50, 80],
+      "dynamollm_decode_step_ms": [20, 30],
+      "dynamollm_optimal_freq_ghz_low_med": 1.2,
+      "dynamollm_optimal_freq_ghz_high_long": 1.6,
+      "sources": [
+        {
+          "citation": "Patel et al. (2024), Splitwise",
+          "identifier": "arXiv:2311.18677v2",
+          "url": "https://arxiv.org/pdf/2311.18677",
+          "ref": "Section III-F p. 5 (Fig. 8-9: decode unaffected by >50% power cap 700W->350W), Section IV-D p. 7 & Table V p. 8 (Splitwise-HHcap caps token node power to 70%, 1.23x vs 1.75x A100)"
+        },
+        {
+          "citation": "Stojkovic et al. (2025), DynamoLLM",
+          "identifier": "arXiv:2408.00741",
+          "url": "https://arxiv.org/pdf/2408.00741",
+          "ref": "Section III-A Table I-III p. 3 & Section III-C p. 5 (1.2 GHz vs 1.6 GHz energy optima; 50-80 ms nvidia-smi switch overhead vs 20-30 ms decode step)"
+        }
+      ]
+    },
+    "uncontended_latency_and_energy_llama70b": {
+      "coding_a100_p50_ttft_ms": 185,
+      "coding_h100_p50_ttft_ms": 95,
+      "coding_a100_p50_tbt_ms": 52,
+      "coding_h100_p50_tbt_ms": 31,
+      "coding_a100_energy_wh": 1.37,
+      "coding_h100_energy_wh": 1.37,
+      "conv_a100_p50_ttft_ms": 155,
+      "conv_h100_p50_ttft_ms": 84,
+      "conv_a100_p50_tbt_ms": 40,
+      "conv_h100_p50_tbt_ms": 28,
+      "conv_a100_energy_wh": 7.9,
+      "conv_h100_energy_wh": 9.4,
+      "source": {
+        "citation": "Patel et al. (2024), Splitwise",
+        "identifier": "arXiv:2311.18677v2",
+        "url": "https://arxiv.org/pdf/2311.18677",
+        "ref": "Table IV p. 5 (P50 request metrics without batching on Llama-70B on DGX-A100 vs DGX-H100)"
+      }
+    }
+  },
+  "kv_cache_and_network_transfer": {
+    "kv_bytes_per_token_formula": "B_kv_per_tok = 2 * n_layers * n_kv_heads * d_head * bytes_per_elem",
+    "llama30b_mha_mb_per_token": 1.52,
+    "opt66b_mha_512tok_gb": 1.13,
+    "llama2_70b_layers": 80,
+    "llama2_70b_hidden_size": 8192,
+    "bloom_176b_layers": 70,
+    "bloom_176b_hidden_size": 14336,
+    "intra_node_nvlink_a100_gbps_bw": 600,
+    "cross_node_distserve_gbps": 25,
+    "cross_node_sarathi_gbps": 100,
+    "cross_node_splitwise_a100_ib_gbps": 200,
+    "cross_node_splitwise_h100_ib_gbps": 400,
+    "cross_node_mooncake_rdma_gbps": 800,
+    "per_layer_kv_transfer_non_overlapped_ms": {
+      "a100": 8,
+      "h100": 5,
+      "relative_ttft_overhead_max": 0.07
+    },
+    "intra_node_nvlink_opt175b_p95_transfer_ms": 30,
+    "pipelined_live_migration_downtime_ms": [20, 30],
+    "naive_8k_recompute_stall_s": 3.5,
+    "transfer_vs_recompute_condition": "T_transfer(S, i, j) + T_queue(j) < min(T_queue(i), T_recompute(S, j))",
+    "sources": [
+      {
+        "citation": "Du et al. (2025), EcoServe-Cost",
+        "identifier": "arXiv:2504.18154",
+        "url": "https://arxiv.org/pdf/2504.18154",
+        "ref": "Section 2.1 p. 3 (Llama-30B 1.52 MB/token) & Table 3 p. 5 (Llama-30B 38.96 GB/s @ 26189 tok/s vs CodeLlama-34B GQA 4.76 GB/s @ 25979 tok/s)"
+      },
+      {
+        "citation": "Zhong et al. (2024), DistServe",
+        "identifier": "arXiv:2401.09670",
+        "url": "https://arxiv.org/pdf/2401.09670",
+        "ref": "Section 3.3 p. 4 (OPT-66B 512-tok KV = 1.13 GB; NVLink 600 GB/s), Section 6.1 p. 9 (25 Gbps cross-node), Section 6.3 p. 11 (<30 ms P95 intra-node transfer, <0.1% latency)"
+      },
+      {
+        "citation": "Patel et al. (2024), Splitwise",
+        "identifier": "arXiv:2311.18677v2",
+        "url": "https://arxiv.org/pdf/2311.18677",
+        "ref": "Table III p. 3, Section VI-A p. 9 (8 ms A100 / 5 ms H100 non-overlapped per-layer transfer, <7% TTFT overhead)"
+      },
+      {
+        "citation": "Sun et al. (2024), Llumnix",
+        "identifier": "arXiv:2406.03243v1",
+        "url": "https://arxiv.org/pdf/2406.03243",
+        "ref": "Section 6.2 p. 10 (20-30 ms live migration downtime vs 3.5 s 8k recompute on LLaMA-30B)"
+      },
+      {
+        "citation": "Qin et al. (2024), Mooncake",
+        "identifier": "arXiv:2407.00079",
+        "url": "https://arxiv.org/pdf/2407.00079",
+        "ref": "Section 8.1 p. 15 (800 Gbps RDMA interconnect)"
+      },
+      {
+        "citation": "Sisodia (2026), Control Plane Synthesis",
+        "identifier": "arXiv:2609.23130v1",
+        "url": "https://arxiv.org/pdf/2609.23130",
+        "ref": "Section 4 Eq. (1) p. 4 (prefix KV transfer vs queue vs recomputation crossover)"
+      }
+    ]
+  },
+  "slo_specifications": {
+    "distserve_absolute_slos_p90": {
+      "chatbot_opt13b": {"ttft_s": 0.25, "tpot_s": 0.10},
+      "chatbot_opt66b": {"ttft_s": 2.5, "tpot_s": 0.15},
+      "chatbot_opt175b": {"ttft_s": 4.0, "tpot_s": 0.20},
+      "code_completion_opt66b": {"ttft_s": 0.125, "tpot_s": 0.20},
+      "summarization_opt66b": {"ttft_s": 15.0, "tpot_s": 0.15}
+    },
+    "dynamollm_bucket_slos": {
+      "short": {"prompt_lt": 256, "output_lt": 100, "ttft_ms": 250, "tbt_ms": 100},
+      "medium": {"prompt_lt": 1024, "output_lt": 350, "ttft_ms": 400, "tbt_ms": 100},
+      "long": {"prompt_le": 8192, "output_ge": 350, "ttft_ms": 2000, "tbt_ms": 100}
+    },
+    "splitwise_relative_slos_vs_uncontended_a100": {
+      "p50": {"ttft_mult": 2.0, "tbt_mult": 1.25, "e2e_mult": 1.25},
+      "p90": {"ttft_mult": 3.0, "tbt_mult": 1.5, "e2e_mult": 1.5},
+      "p99": {"ttft_mult": 6.0, "tbt_mult": 5.0, "e2e_mult": 5.0}
+    },
+    "sarathi_llama2_70b_p99_tbt_s": {"strict": 1.0, "relaxed": 5.0},
+    "sources": [
+      {"citation": "Zhong et al. (2024), DistServe", "identifier": "arXiv:2401.09670", "ref": "Table 1 p. 9"},
+      {"citation": "Stojkovic et al. (2025), DynamoLLM", "identifier": "arXiv:2408.00741", "ref": "Table IV p. 3"},
+      {"citation": "Patel et al. (2024), Splitwise", "identifier": "arXiv:2311.18677v2", "ref": "Table VI p. 9"},
+      {"citation": "Agrawal et al. (2024), Sarathi-Serve", "identifier": "arXiv:2403.02310", "ref": "Table 3 p. 10"}
+    ]
+  },
+  "serverless_cold_start_and_keepalive": {
+    "llama2_70b_fp16_checkpoint_gb": 130,
+    "remote_s3_download_min_s_at_5gbps": 26.0,
+    "local_nvme_raid0_12gbps_load_latency_s": {
+      "llama2_70b": {"pytorch": 84.0, "safetensors": 48.0, "serverlessllm": 10.3},
+      "opt_30b": {"pytorch": 34.0, "safetensors": 18.5, "serverlessllm": 4.5},
+      "opt_13b": {"pytorch": 14.0, "safetensors": 8.2, "serverlessllm": 2.0},
+      "opt_6_7b": {"pytorch": 7.4, "safetensors": 4.0, "serverlessllm": 1.0}
+    },
+    "full_vm_scaleout_overhead_8xh100_min": [6.0, 8.0],
+    "lace_rl_idle_power_factor": 0.2,
+    "lace_rl_keep_alive_action_grid_s": [1, 5, 10, 30, 60],
+    "knative_container_shutdown_s": 15.0,
+    "azure_trace_5min_cold_start_share": "Over 40% functions >25% cold-start rate; ~25% functions >60% cold-start rate",
+    "sources": [
+      {
+        "citation": "Fu et al. (2024), ServerlessLLM",
+        "identifier": "arXiv:2401.14351",
+        "url": "https://arxiv.org/pdf/2401.14351",
+        "ref": "Section 2.3 p. 3 (130 GB LLaMA-2-70B >=26s @ 5 GB/s; Azure Trace statistics) & Figure 6a / Section 7.2 p. 10 (checkpoint loading latencies)"
+      },
+      {
+        "citation": "Stojkovic et al. (2025), DynamoLLM",
+        "identifier": "arXiv:2408.00741",
+        "url": "https://arxiv.org/pdf/2408.00741",
+        "ref": "Table V p. 5 (6-8 min total 8xH100 VM + MPI/Ray + 3-min weight download + 18s engine + 15s load)"
+      },
+      {
+        "citation": "Sun et al. (2026), LACE-RL (Green or Fast)",
+        "identifier": "arXiv:2602.23935",
+        "url": "https://arxiv.org/pdf/2602.23935",
+        "ref": "Section II-B Eq. (2)-(4) p. 2-3 (lambda_idle = 0.2; C_exec + C_idle + C_cold) & Section IV-A.4 p. 7 ({1,5,10,30,60} s)"
+      },
+      {
+        "citation": "Qi et al. (2024), CASA",
+        "identifier": "arXiv:2409.00550 (DOI:10.1109/igsc64514.2024.00010)",
+        "url": "https://arxiv.org/pdf/2409.00550",
+        "ref": "Section VI-A p. 5 (15 s Knative container shutdown overhead)"
+      }
+    ]
+  },
+  "explicit_simulation_design_assumptions": {
+    "geo_wan_rtt_ms": {
+      "intra_region_same_dc": 0.5,
+      "intra_uk_regions_e_g_south_scotland_to_london": 20.0,
+      "intra_japan_regions_e_g_kyushu_to_tepco": 30.0,
+      "cross_continental_uk_to_japan": 200.0,
+      "provenance_note": "Design-calibrated synthetic WAN round-trip network latency representing geographic separation; not measured from a production multi-continent LLM cluster."
+    },
+    "geo_wan_kv_bandwidth_gbps": {
+      "default": 10.0,
+      "sweep": [10.0, 25.0, 100.0],
+      "provenance_note": "10 Gbps represents commodity inter-server Ethernet (ServerlessLLM Section 7.1 p. 9), swept up to 25-100 Gbps (DistServe Section 6.1 p. 9; Sarathi-Serve Section 5 p. 10) when comparing local NVLink/InfiniBand against cross-region WAN KV forwarding."
+    },
+    "serverless_cold_start_power_fraction": {
+      "fraction_of_tdp": 0.65,
+      "provenance_note": "Calibrated intermediate value between GPU idle (0.09-0.25x TDP) and peak prefill compute (~0.90-1.0x TDP) representing PCIe weight transfers, host-DRAM allocation, and CUDA context initialization (cf. LACE-RL Eq. (4) p. 3 noting P_cold is dominated by T_cold)."
+    }
+  }
+}
