@@ -327,6 +327,7 @@ class ClusterConfig:
     decode_power_cap: float = 0.55  # Splitwise 50-70% TDP decode cap
     rps_scale: float = 1.0
     wan_bw_gbps: float = 10.0  # Default 10 Gbps; swept in {10, 25, 100}
+    wan_rtt_override_ms: Optional[float] = None  # Optional synthetic cross-region RTT override
     intra_dc_kv_bw_gbps: float = 400.0  # H100 IB / NVLink effective intra-DC fabric
     kv_mb_per_tok: float = 0.3125  # Llama-2-70B FP16 GQA-8 (~0.31 MB/tok)
     slo_name: str = "mixed_dynamollm"

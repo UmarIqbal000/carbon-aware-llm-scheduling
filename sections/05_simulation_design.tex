@@ -1,7 +1,7 @@
 \section{Simulation Architecture and Experimental Design}\label{sec:sim_design}
 
 \subsection{Parameterized Simulation Scope Statement}\label{subsec:scope_statement}
-All empirical results in this study derive from a parameterized discrete-event simulation built in Python using SimPy 4.1.2; no telemetry was collected from physical multi-continent multi-GPU clusters. Consistent with the precedent noted by Alam et al.~\cite{alam2026computing} (where 70\% of cloud carbon-scheduling studies evaluate wide-area policies through simulation), discrete-event modeling supports reproducible, multi-seed ablations across heterogeneous electricity grids that an independent researcher cannot instrument simultaneously. Model constants are separated into published hardware and serving baselines (Table~\ref{tab:params}) and explicit calibration assumptions (Table~\ref{tab:calibrations}), driven by public CC-BY-4.0 traces.
+All empirical results derive from a parameterized SimPy 4.1.2 discrete-event simulator without physical multi-continent GPU cluster telemetry; consistent with Alam et al.~\cite{alam2026computing} (70\% simulation-based cloud carbon studies), this enables controlled multi-seed ablations across heterogeneous grids. Constants split into published baselines (Table~\ref{tab:params}) and explicit calibration assumptions (Supplement Table~S6), driven by CC-BY-4.0 traces.
 
 \subsection{Phase Execution, Power, and Dispatch Formulation}\label{subsec:sim_equations}
 
@@ -71,11 +71,11 @@ C_{\text{emb}} &= \sum_{m \in \mathcal{N}} \left(\frac{M_{\text{host},m}}{\text{
 \end{equation}
 
 \subsection{Verified Baselines, Traces, and Calibrated Assumptions}\label{subsec:traces_params}
-Tables~\ref{tab:params} and~\ref{tab:calibrations} summarize verified profiles and calibrated assumptions. Multi-region cluster experiments (\texttt{E1}) span 3 zones (6 nodes, 24 H100s; 2 nodes/region): \texttt{South Scotland} (mean 9.75~gCO$_2$eq/kWh, 0--129), \texttt{London} (mean 163.32~gCO$_2$eq/kWh, 13--326), and \texttt{TEPCO} (mean 581.64~gCO$_2$eq/kWh, 302.3--671.5), from Oct.\ 2025 UK NESO 30-min traces ($1{,}344$ slots) and FY2024 Japan TSO traces ($17{,}520$ slots, converted from $\text{kgCO}_2\text{/kWh}$ via $\times 1{,}000$). Workloads use Azure LLM conversational (\texttt{conv}: $19{,}366$ reqs, 5.53~RPS, $\text{CV}=1.094$, mean $1{,}154.7$ in / $211.1$ out) and coding (\texttt{code}: $8{,}819$ reqs, 2.57~RPS, bursty $\text{CV}=13.152$, mean $2{,}047.8$ in / $27.9$ out) traces~\cite{azure2024trace} under DynamoLLM bucket SLOs (Short: 250/100; Medium: 400/100; Long: 2,000/100~ms TTFT/TPOT)~\cite{stojkovic2025dynamollm}.
+Table~\ref{tab:params} lists verified hardware and loader parameters, while non-measured assumptions (RTTs 0.5--200~ms, 10--400~Gbps WAN, $\gamma=0.70$, $f_{\text{cold}}=0.65$, 24h tiling) appear in Supplement Table~S6 and sweeps \texttt{SW1--SW6}. Cluster experiments (\texttt{E1}) span 3 zones (6 nodes, 24 H100s; 2 nodes/region): \texttt{South Scotland} (mean 9.75~gCO$_2$eq/kWh, 0--129), \texttt{London} (163.32, 13--326), and \texttt{TEPCO} (581.64, 302.3--671.5), from Oct.\ 2025 UK NESO ($1{,}344$ 30-min slots) and FY2024 Japan TSO traces ($17{,}520$ slots, scaled $\times 1{,}000$). Azure LLM conversational (\texttt{conv}: $19{,}366$ reqs, 5.53~RPS, $\text{CV}=1.094$, $1{,}154.7$ in / $211.1$ out) and coding (\texttt{code}: $8{,}819$ reqs, 2.57~RPS, $\text{CV}=13.152$, $2{,}047.8$ in / $27.9$ out) traces~\cite{azure2024trace} use DynamoLLM SLOs (250/100, 400/100, 2,000/100~ms TTFT/TPOT)~\cite{stojkovic2025dynamollm}.
 
 Cluster runs compare five routing policies: \texttt{B1} (carbon-agnostic colocated round-robin), \texttt{B2} (intra-region P/D, 55\% decode cap), \texttt{P3} (unconditional cross-region P/D when $\text{RTT} \le \text{TTFT slack}$), \texttt{P4} (hybrid Eqs.~\eqref{eq:cross_lat} through~\eqref{eq:dispatch}), and \texttt{P5} (oracle 30-min grid lookahead).
 
-Serverless runs (\texttt{E2}) compare \texttt{S1} ($0\text{ s}$), \texttt{S2} ($30\text{ s}$), \texttt{S2b} ($60\text{ s}$), and \texttt{S3} (GapHazard Eq.~\eqref{eq:gaphazard}) across \texttt{TEPCO}, \texttt{North Scotland} (mean 35.65~gCO$_2$eq/kWh, std 82.50, 0--355), and \texttt{South Scotland} using ServerlessLLM's \SI{10.3}{\second} 70B loader. All suites run across 10 seeds (100--109) and report Student-$t$ 95\% CIs ($t_{0.975,9}=2.262$) and two-sided paired Wilcoxon $p$-values ($\alpha=0.05$).
+Serverless runs (\texttt{E2}) compare \texttt{S1} ($0\text{ s}$), \texttt{S2} ($30\text{ s}$), \texttt{S2b} ($60\text{ s}$), and \texttt{S3} (GapHazard Eq.~\eqref{eq:gaphazard}) across \texttt{TEPCO}, \texttt{North Scotland} (mean 35.65~gCO$_2$eq/kWh, std 82.50, 0--355), and \texttt{South Scotland} using ServerlessLLM's \SI{10.3}{\second} 70B loader. Additional robustness sweeps probe Path C activation across $10\text{--}400\text{ Gbps}$ WAN and $5\text{--}200\text{ ms}$ RTT (\texttt{SW5}, 690 runs) and clean scale-out break-even demand from $1.0\times$ to $3.0\times$ RPS (\texttt{SW6}, 560 runs). All suites run across 10 seeds (100--109) and report Student-$t$ 95\% CIs ($t_{0.975,9}=2.262$) and two-sided paired Wilcoxon $p$-values ($\alpha=0.05$, exact floor $p = 2/2^{10} \approx 0.00195$).
 
 \begin{table}[t]
 \centering
@@ -98,46 +98,8 @@ Amortization Life & Uniform 4~yr; Asymmetric 9~yr host / 3~yr GPU & \cite{li2025
 \end{tabular}
 \end{table}
 
-\begin{table}[t]
-\centering
-\caption{Explicit Simulator Calibration Assumptions (Non-Measured)}
-\label{tab:calibrations}
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.05cm}>{\raggedright\arraybackslash}p{2.25cm}>{\raggedright\arraybackslash}p{3.75cm}@{}}
-\toprule
-\textbf{Parameter} & \textbf{Default / Range} & \textbf{Justification \& Caveat} \\
-\midrule
-Synthetic WAN RTT & 0.5 / 20 / 30 / 200~ms & Intra-DC / Intra-UK / Intra-JP / UK--JP delay \\
-WAN KV BW & 10~Gbps (\{10, 25, 100\}) & Commodity Ethernet to DC WAN sweep \\
-Sublinear MFU $\gamma$ & $0.70$ ($\text{mfu}_{\text{sat}}=0.45$) & Sublinear GPU load-power curve \\
-Cold Power Frac. & $0.65\,P_{\text{TDP}}$ ([0.45, 0.85]) & Deserialization + PCIe DMA warm-up \\
-24h Extension & Empirical block tiling & Scales 58-min Azure blocks to 24h CI \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Simulator Validation Against Published Baselines}\label{subsec:validation}
-Prior to multi-region sweeps, 24 validation checks (\texttt{validate\_simulator.py}; Supplement Table~S2) anchor the simulator: (1)~\textbf{Splitwise Table~IV}: H100 disaggregated TTFT matches within 13.73\%--14.24\% (modeled 5--8~ms stall), A100 within 8.81\%--9.50\%, and H100 TPOT at 0.00\% (conv, 28.0~ms) and -9.68\% (code); (2)~\textbf{Splitwise Figs.~8--9}: batch-16 decode step holds flat at 29.25~ms from 100\% to 50\% TDP (1,563.5 to 1,015.0~W) before +6.0\% slowdown at 40\% TDP (31.01~ms); (3)~\textbf{ServerlessLLM Fig.~6a}: 0.00\% error across all six 70B (10.3, 48.0, 84.0~s) and 13B (2.0, 8.2, 14.0~s) loaders; and (4)~\textbf{Li et al.}~\cite{li2026revisiting}: \texttt{B2} vs.\ \texttt{B1} energy scales from -20.01\% (0.25x RPS) to -30.40\% (1.50x) as P95 TTFT rises +11.4\% to +44.3\% at 2.00x RPS.
+\subsection{Simulator Calibration and Held-Out Validation}\label{subsec:validation}
+Prior to multi-region sweeps, 24 checks (\texttt{validate\_simulator.py}; Supplement Table~S2) separate 19 \emph{calibration anchors} from 5 \emph{held-out validation checks}. Across the 19 anchors calibrated to Splitwise Table~IV and Figs.~8--9~\cite{patel2024splitwise} plus ServerlessLLM Fig.~6a~\cite{fu2024serverlessllm}, uncontended H100 TPOT (0.00\% \texttt{conv}, -9.68\% \texttt{code}), loader times (0.00\% across 2.0--84.0~s), and 50\%--100\% TDP step stability (4.47\% step delta; +6.0\% below 50\%) match by construction; as an explicit modeling limitation, modeled TTFT deviates by \textbf{13.73\%--14.24\%} on H100 (95.96/108.04 vs.\ 84.0/95.0~ms) and \textbf{8.81\%--9.50\%} on A100 (169.73/201.29 vs.\ 155.0/185.0~ms) due to fixed 5--8~ms transfer stalls. Across the 5 held-out \texttt{conv} checks (0.25x--2.00x RPS), unfitted runs reproduce Li et al.~\cite{li2026revisiting}: \texttt{B2} vs.\ \texttt{B1} energy drops from -20.01\% (0.25x) to -30.40\% (1.50x) as P95 TTFT rises +11.4\% to +44.3\% (2.00x) and P95 TPOT improves -7.8\% to -31.6\%.
 
 \subsection{24-Hour Trace-Tiling Sensitivity Ablation}\label{subsec:tiling_ablation}
-Because raw Azure traces span 58.36~min (\texttt{conv}) and 57.27~min (\texttt{code}), I tested 24h block-tiling sensitivity across four modes ($N=10$ \texttt{conv} seeds; \texttt{run\_tiling\_ablation.py}, Table~\ref{tab:tiling_ablation}, Supplement Table~S3). Relative \texttt{P4} $\text{SCI}_{\text{op}}$ savings stay invariant within 0.12~pp (60.70\%--60.82\% vs.\ \texttt{B1}; 44.07\%--44.33\% vs.\ \texttt{B2}) and SLO violations hold within 0.817\%--0.835\%.
-
-\begin{table}[t]
-\centering
-\caption{24h Trace-Tiling Sensitivity on \texttt{conv} ($N=10$ Seeds, Mean)}
-\label{tab:tiling_ablation}
-\scriptsize
-\renewcommand{\arraystretch}{0.86}
-\setlength{\tabcolsep}{2.4pt}
-\begin{tabular}{@{}lcccc@{}}
-\toprule
-\textbf{Tiling Regime} & $\textbf{P4 SCI}_{\text{op}}$ & \textbf{vs.\ \texttt{B1}} & \textbf{vs.\ \texttt{B2}} & \textbf{P4 SLO (\%)} \\
-\midrule
-\texttt{orig\_280s\_repl} (12 blks) & 0.03203 & -60.70\% & -44.07\% & 0.824\% \\
-\texttt{perm\_280s\_norepl} (12 blks) & 0.03163 & -60.76\% & -44.21\% & 0.817\% \\
-\texttt{fine\_90s\_perm} (38 blks) & 0.03166 & -60.76\% & -44.18\% & 0.820\% \\
-\texttt{coarse\_900s\_perm} (4 blks) & 0.03138 & -60.82\% & -44.33\% & 0.835\% \\
-\bottomrule
-\end{tabular}
-\end{table}
+Because raw Azure traces span 58.36~min (\texttt{conv}) and 57.27~min (\texttt{code}), I tested 24h block-tiling sensitivity across four modes ($N=10$ \texttt{conv} seeds; \texttt{run\_tiling\_ablation.py}, full 12-row results in Supplement Table~S3). Relative \texttt{P4} $\text{SCI}_{\text{op}}$ savings stay invariant within 0.12~pp (60.70\%--60.82\% vs.\ \texttt{B1}; 44.07\%--44.33\% vs.\ \texttt{B2}), and SLO violations hold within 0.817\%--0.835\% across original 280~s replacement, 280~s no-replacement permutation, fine 90~s, and coarse 900~s regimes.

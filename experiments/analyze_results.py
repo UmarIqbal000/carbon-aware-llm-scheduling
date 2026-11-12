@@ -337,6 +337,8 @@ def main() -> None:
         ("sw4_srv", "raw_sw4_serverless.csv", ["suite", "sub_exp", "model_size", "checkpoint_tier", "cold_power_frac", "idle_power_mode", "policy"], SERVERLESS_METRICS),
         ("sw4_clu", "raw_sw4_cluster_lifetime.csv", ["suite", "sub_exp", "lifetime_label", "host_lifetime_yr", "gpu_lifetime_yr", "pue", "mfu_gamma", "policy"], CLUSTER_METRICS),
         ("h4_elastic", "raw_h4_elastic.csv", ["suite", "sub_exp", "lifetime_label", "policy", "extra_clean_nodes"], CLUSTER_METRICS),
+        ("sw5", "raw_sw5_pathc.csv", ["suite", "sub_exp", "workload", "rps_scale", "diff_label", "wan_bw_gbps", "wan_rtt_ms", "policy"], CLUSTER_METRICS),
+        ("sw6", "raw_sw6_breakeven.csv", ["suite", "sub_exp", "lifetime_label", "rps_scale", "policy", "extra_clean_nodes"], CLUSTER_METRICS),
     ]
 
     for key, fname, gcols, metrics in specs:

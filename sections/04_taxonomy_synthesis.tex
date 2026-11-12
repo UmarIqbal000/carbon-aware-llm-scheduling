@@ -1,11 +1,11 @@
 \section{Taxonomy and Literature Synthesis}\label{sec:taxonomy}
 
-This section answers \texttt{RQ1} by classifying the 61 retained works into six functional classes (\texttt{L1.A--L1.F}), mapping the 50 non-survey works across phase awareness and carbon signals, and contrasting the closest 2024--2026 systems directly against this study.
+This section answers \texttt{RQ1} by classifying the 65 retained works into six functional classes (\texttt{L1.A--L1.F}), mapping the 54 non-survey works across phase awareness and carbon signals, and contrasting the closest 2024--2026 systems directly against this study.
 
 \subsection{Dual-Axis Taxonomy (\texorpdfstring{\texttt{L1.A--L1.F}}{L1.A-L1.F})}\label{subsec:taxonomy_classes}
 
 \subsubsection{L1.A Prior Surveys and Research Agendas (\texorpdfstring{$n=11$}{n=11})}
-Existing surveys address sustainable cloud scheduling or efficient LLM inference separately (Table~\ref{tab:surveys}). Hewage et al.~\cite{hewage2026carbon}, Yang et al.~\cite{yang2025container}, Alam et al.~\cite{alam2026computing} (finding 70\%, 44/63, of surveyed cloud carbon works rely solely on simulation and 6.3\% track live grid CI), Agarwal et al.~\cite{agarwal2026serverless}, and Besozzi et al.~\cite{besozzi2025serverless} synthesize cloud and serverless scheduling without P/D LLM serving. Conversely, Miao et al.~\cite{miao2025serving}, Jiang et al.~\cite{jiang2026kvcache}, Pan et al.~\cite{pan2025inference}, Bai et al.~\cite{bai2026efficiency}, and Zhen et al.~\cite{zhen2025taming} examine LLM inference disaggregation, KV compression, and cold starts while omitting cross-region carbon arbitrage and embodied emissions. Most closely, Sisodia~\cite{sisodia2026sicp} synthesizes distributed serving and proposes a Kubernetes \texttt{llm-d} Sustainable Inference Control Plane (SICP) combining operational, embodied, and intra-cluster KV recompute terms, but explicitly reports zero experiments.
+Existing surveys address sustainable cloud scheduling or LLM serving separately (Table~\ref{tab:surveys}). Cloud/serverless surveys~\cite{hewage2026carbon,yang2025container,alam2026computing,agarwal2026serverless,besozzi2025serverless} omit P/D LLM serving, while LLM-efficiency surveys~\cite{miao2025serving,jiang2026kvcache,pan2025inference,bai2026efficiency,zhen2025taming} omit cross-region carbon arbitrage and embodied emissions. Most closely, Sisodia~\cite{sisodia2026sicp} proposes a \texttt{llm-d} Sustainable Inference Control Plane (SICP) combining operational, embodied, and intra-cluster KV terms, with zero experiments.
 
 \begin{table*}[t]
 \centering
@@ -35,8 +35,8 @@ Sisodia~\cite{sisodia2026sicp} & 2026 & arXiv (13 pp.) & \texttt{llm-d} SICP age
 \ifdefined\BUILDELSEVIER}\fi
 \end{table*}
 
-\subsubsection{L1.B Spatial and Temporal Cloud Carbon Schedulers (\texorpdfstring{$n=12$}{n=12})}
-Single-DC temporal schedulers (Wait Awhile~\cite{wiesner2021letswait}, CarbonScaler~\cite{hanafy2023carbonscaler}, EcoVisor~\cite{souza2023ecovisor}, Clover~\cite{li2023clover}) and generic WAN routers (GreenCourier~\cite{chadha2023greencourier}, Caribou~\cite{gsteiger2024caribou}, Calavaro~\cite{calavaro2026offloading}, Sukprasert~\cite{sukprasert2024limitations}) establish spatial carbon bounds for non-LLM tasks. Four recent geo-distributed LLM routers schedule whole requests across sites: Topcu et al.~\cite{topcu2026tension} (-26\% to -60\% $\text{CO}_2$ via multi-DC MILP at $\approx 3\%$ SLO violation), SLIT~\cite{moore2025slit} (carbon, water, TOU routing across 5 sites), CarbonRouter~\cite{zhang2026context} (-16.1\% to -23.1\% operational $\text{CO}_2$ pricing multi-turn recomputation), and Bernhard and Yardimci~\cite{bernhard2026cleanest} (2-DC live testbed plus CONUS MOER replay yielding 22.7\%--51.0\% cuts). Zero of these eight WAN schedulers (0/8) incorporate P/D pool separation, cross-region KV forwarding, embodied carbon, or serverless keep-alive.
+\subsubsection{L1.B Spatial and Temporal Cloud Carbon Schedulers (\texorpdfstring{$n=15$}{n=15})}
+Single-DC temporal schedulers (Wait Awhile~\cite{wiesner2021letswait}, CarbonScaler~\cite{hanafy2023carbonscaler}, EcoVisor~\cite{souza2023ecovisor}, Clover~\cite{li2023clover}) and generic WAN routers (GreenCourier~\cite{chadha2023greencourier}, Caribou~\cite{gsteiger2024caribou}, Calavaro~\cite{calavaro2026offloading}, Sukprasert~\cite{sukprasert2024limitations}) establish spatial carbon bounds for non-LLM tasks. Seven recent geo-distributed LLM routers schedule whole requests across regional fleets: Topcu et al.~\cite{topcu2026tension} (-26\% to -60\% $\text{CO}_2$ via multi-DC MILP near $\approx 3\%$ SLO violations), SLIT~\cite{moore2025slit} (carbon, water, TOU across 5 sites), CarbonRouter~\cite{zhang2026context} (-16.1\% to -23.1\% $\text{CO}_2$ pricing multi-turn recomputation without WAN KV migration), Bernhard and Yardimci~\cite{bernhard2026cleanest} (2-DC testbed + CONUS replay, 22.7\%--51.0\% cuts), FREESH~\cite{he2025freesh} (multi-DC LME + 1-s DVFS yielding -13.07\% vs.\ MinEnergy; Eq.~1c writes a general P/D tuple while evaluating colocated TP pools), CEDAR~\cite{more2026cedar} (CMDP+SAC across 3 AWS regions, -26\% cost, -27\% $\text{CO}_2$), and Green-LLM~\cite{cheng2026greenllm} (distinct from GreenLLM~\cite{shi2024greenllm}; 9-DC edge LP under water caps). Across these 11 cross-region WAN schedulers (0/11 implemented), none evaluate cross-region P/D separation with WAN KV transfer gating, amortized embodied emissions, or serverless keep-alive.
 
 \subsubsection{L1.C Carbon-Aware Serverless Keep-Alive and Loaders (\texorpdfstring{$n=7$}{n=7})}
 Built on Azure Functions traces~\cite{shahrad2020serverless}, CPU controllers EcoLife~\cite{jiang2024ecolife}, CASA~\cite{qi2024casa}, LowCarb~\cite{roy2026lowcarb}, and LACE-RL~\cite{sun2026lacere} (-51.7\% cold starts, -77.08\% idle carbon) adapt keep-alive windows, while GPU loaders ServerlessLLM~\cite{fu2024serverlessllm} (10.3~s 70B load) and Festina~\cite{wang2026festina} (-56\% energy, -85\% cold starts, plus -7\% P/D) cut reload latency without testing keep-alive polarity across clean vs.\ coal grids.
@@ -44,8 +44,8 @@ Built on Azure Functions traces~\cite{shahrad2020serverless}, CPU controllers Ec
 \subsubsection{L1.D Phase-Disaggregated and Engine-Level LLM Serving (\texorpdfstring{$n=17$}{n=17})}
 Local engines vLLM~\cite{kwon2023vllm}, Sarathi-Serve~\cite{agrawal2024sarathi}, Wilkins~\cite{wilkins2024offline}, ThrottLL'eM~\cite{kakolyris2025throttllem}, SPROUT~\cite{li2024sprout} ($>40\%$ carbon cut via token LP), GreenCache~\cite{tian2026greencache} (5.6\%--25.3\% GPU vs.\ SSD total cut), ETCInfer~\cite{lu2026etcinfer} (33.1\% energy cut via CRAC/DVFS without grid CI), DynamoLLM~\cite{stojkovic2025dynamollm}, TAPAS~\cite{stojkovic2025tapas}, and Fernandez~\cite{fernandez2025acl} operate within single grids. Among the 8 disaggregated P/D designs (Splitwise~\cite{patel2024splitwise}, DistServe~\cite{zhong2024distserve}, Mooncake~\cite{qin2025mooncake}, DualScale~\cite{basit2026dualscale}, Li~\cite{li2026revisiting}, Yan~\cite{yan2026pdprov}, Festina~\cite{wang2026festina}), only GreenLLM~\cite{shi2024greenllm} integrates grid CI and GPU lifetime reuse (-31.3\% to -40.6\% total carbon on one GCP cluster), while 0/8 span multiple regions, WAN KV gating, or serverless keep-alive.
 
-\subsubsection{L1.E Embodied Hardware and Lifecycle Models (\texorpdfstring{$n=11$}{n=11})}
-GHG studies~\cite{gupta2021chasing,gupta2022act,acun2023carbonexplorer,iso2024sci}, LLMCarbon~\cite{faiz2024llmcarbon}, Sinha~\cite{sinha2025utilization}, Hewage~\cite{hewage2025aging}, EcoServe~\cite{li2025ecoserve} (9~yr/3~yr lifetimes), Nguyen~\cite{nguyen2025sustainable}, HungryAI~\cite{jegham2025hungryai}, and Vidur+Vessim~\cite{ozcan2025vidurvessim} establish Scope~3 dominance on clean grids but omit phase-disaggregated control, WAN KV gating, and keep-alive.
+\subsubsection{L1.E Embodied Hardware and Lifecycle Models (\texorpdfstring{$n=12$}{n=12})}
+GHG studies~\cite{gupta2021chasing,gupta2022act,acun2023carbonexplorer,iso2024sci}, LLMCarbon~\cite{faiz2024llmcarbon}, Sinha~\cite{sinha2025utilization}, Hewage~\cite{hewage2025aging}, EcoServe~\cite{li2025ecoserve} (9~yr/3~yr lifetimes), Nguyen~\cite{nguyen2025sustainable}, HungryAI~\cite{jegham2025hungryai}, Vidur+Vessim~\cite{ozcan2025vidurvessim}, and InFactPlanner~\cite{tsiopani2026infactplanner} (H100/B200 energy within 1.9\%--8.7\%, abstracting away batching, KV state, P/D split, and embodied carbon) establish Scope~3 dominance without P/D control, WAN KV gating, or keep-alive.
 
 \subsubsection{L1.F Foundations and Traces (\texorpdfstring{$n=3$}{n=3})}
 NIST SP 800-145~\cite{mell2011nist}, CloudSim~\cite{calheiros2011cloudsim}, and the Azure LLM Inference Trace 2024~\cite{azure2024trace} supply taxonomy and trace baselines.
@@ -53,19 +53,19 @@ NIST SP 800-145~\cite{mell2011nist}, CloudSim~\cite{calheiros2011cloudsim}, and 
 \begin{figure}[t]
     \centering
     \includegraphics[width=\ifdefined\BUILDELSEVIER 0.85\linewidth\else 0.68\linewidth\fi]{figures/fig3_taxonomy_heatmap.pdf}
-    \caption{Intersection of phase awareness and carbon/energy signals across $n=50$ non-survey works. GreenLLM~\cite{shi2024greenllm} populates P/D + Op.+Emb.\ (\texttt{1*}).}
+    \caption{Intersection of phase awareness and carbon/energy signals across $n=54$ non-survey works. GreenLLM~\cite{shi2024greenllm} populates P/D + Op.+Emb.\ (\texttt{1*}).}
     \label{fig:heatmap}
 \end{figure}
 
 \begin{figure}[t]
     \centering
     \includegraphics[width=\ifdefined\BUILDELSEVIER 0.85\linewidth\else 0.68\linewidth\fi]{figures/fig4_publication_trends.pdf}
-    \caption{Corpus bibliometrics from 2011 to Nov.\ 2026 ($n=61$): (a) 2024--2026 growth (55.7\% in 2025--2026); (b) 75.4\% embodied omission ($n=61$) and empirical split ($n=47$).}
+    \caption{Corpus bibliometrics from 2011 to Nov.\ 2026 ($n=65$): (a) 2024--2026 growth (58.5\% in 2025--2026); (b) 76.9\% embodied omission ($n=65$) and empirical split ($n=51$).}
     \label{fig:trends}
 \end{figure}
 
 \subsection{Gap Matrix and Closest Related Work Comparison}\label{subsec:gap_matrix}
-Cross-tabulating the 50 non-survey works in Fig.~\ref{fig:heatmap} shows that 46/61 works (75.4\%) omit embodied accounting (Fig.~\ref{fig:trends}b), while the 47 empirical works split across physical clusters (18/47, 38.3\%), hybrid testbed+simulators (13/47, 27.7\%), trace/analytical models (14/47, 29.8\%), and abstract-only records (2/47, 4.3\%). Table~\ref{tab:closest_work} maps the ten closest 2024--2026 systems and design agendas directly against this work across all four architectural axes, and Table~\ref{tab:matrix} summarizes the broader \texttt{L1.B--L1.F} classes. Across all 61 works, \textbf{zero implemented systems} jointly combine P/D disaggregation, cross-region carbon routing with explicit WAN KV transfer gating, host plus GPU embodied carbon amortization, and serverless checkpoint keep-alive.
+Cross-tabulating the 54 non-survey works in Fig.~\ref{fig:heatmap} shows that 50/65 works (76.9\%) omit embodied accounting (Fig.~\ref{fig:trends}b), while the 51 empirical works split across physical clusters (18/51, 35.3\%), hybrid testbed+simulators (14/51, 27.5\%), trace/analytical models (17/51, 33.3\%), and abstract-only records (2/51, 3.9\%). Table~\ref{tab:closest_work} maps the closest 2024--2026 systems and design agendas directly against this work across all four architectural axes, and Table~\ref{tab:matrix} summarizes the broader \texttt{L1.B--L1.F} classes. Across all 65 works, \textbf{zero implemented systems} jointly combine P/D disaggregation, cross-region carbon routing with explicit WAN KV transfer gating, host plus GPU embodied carbon amortization, and serverless checkpoint keep-alive.
 
 \begin{table*}[t]
 \centering
@@ -85,6 +85,10 @@ Sisodia (\texttt{llm-d} SICP)~\cite{sisodia2026sicp} & Research agenda & Agenda 
 CarbonRouter~\cite{zhang2026context} & 4 US DCs (multi-turn) & $\times$ & \checkmark & \checkmark & Recompute only & $\times$ & $\times$ \\
 Cleanest Grid~\cite{bernhard2026cleanest} & 2-DC live + CONUS replay & $\times$ & \checkmark & \checkmark (MOER) & $\times$ & $\times$ & $\times$ \\
 SLIT~\cite{moore2025slit} & 5 global DCs & $\times$ & \checkmark & \checkmark (+water) & $\times$ & $\times$ & $\times$ \\
+FREESH~\cite{he2025freesh} & 3 heterogeneous DCs & Coloc.\ eval. & \checkmark & \checkmark (LME) & $\times$ & $\times$ & $\times$ \\
+CEDAR~\cite{more2026cedar} & 3 AWS regions & $\times$ & \checkmark & \checkmark (MOER) & $\times$ & $\times$ & $\times$ \\
+Green-LLM~\cite{cheng2026greenllm} & 9 edge DCs (+wind) & $\times$ & \checkmark & \checkmark (+water) & $\times$ & $\times$ & $\times$ \\
+InFactPlanner~\cite{tsiopani2026infactplanner} & Multi-DC planner & $\times$ & \checkmark & \checkmark (+solar/water) & $\times$ & $\times$ & $\times$ \\
 GreenCache~\cite{tian2026greencache} & Single cluster + SSD & $\times$ & $\times$ & \checkmark & $\times$ & SSD only & $\times$ \\
 SPROUT~\cite{li2024sprout} & Single A100 cluster & $\times$ & $\times$ & \checkmark & $\times$ & \checkmark (5~yr) & $\times$ \\
 Vidur+Vessim~\cite{ozcan2025vidurvessim} & Single-DC co-sim & $\times$ & $\times$ & \checkmark & $\times$ & Formula only & $\times$ \\
@@ -110,24 +114,24 @@ EcoServe~\cite{li2025ecoserve} & Single-DC lifecycle & $\times$ & $\times$ & \ch
 \midrule
 Wait Awhile~\cite{wiesner2021letswait}, CarbonScaler~\cite{hanafy2023carbonscaler}, EcoVisor~\cite{souza2023ecovisor}, Clover~\cite{li2023clover} & L1.B & Single DC & Non-LLM & \checkmark & $\times$ & $\times$ & $\times$ & Temporal shift, MIG, batteries \\
 GreenCourier~\cite{chadha2023greencourier}, Caribou~\cite{gsteiger2024caribou}, Sukprasert~\cite{sukprasert2024limitations}, Calavaro~\cite{calavaro2026offloading}$^\dagger$ & L1.B & Multi-DC & Non-LLM & \checkmark & $\times$ & $\times$ & $\times$ & Geo-routing, FaaS DAGs, LP \\
-Topcu~\cite{topcu2026tension}$^\ddagger$, SLIT~\cite{moore2025slit}, CarbonRouter~\cite{zhang2026context}$^\ddagger$, Cleanest Grid~\cite{bernhard2026cleanest}$^\ddagger$ & L1.B & Multi-DC & Coloc.\ LLM & \checkmark & $\times$ & $\times$ & $\times$ & MILP, recompute cost, MOER \\
+Topcu~\cite{topcu2026tension}$^\ddagger$, SLIT~\cite{moore2025slit}, CarbonRouter~\cite{zhang2026context}$^\ddagger$, Cleanest Grid~\cite{bernhard2026cleanest}$^\ddagger$, FREESH~\cite{he2025freesh}$^\ddagger$, CEDAR~\cite{more2026cedar}, Green-LLM~\cite{cheng2026greenllm}$^\ddagger$ & L1.B & Multi-DC & Coloc.\ LLM & \checkmark & $\times$ & $\times$ & $\times$ & MILP, SAC, DVFS, MOER, LP \\
 CASA~\cite{qi2024casa}, EcoLife~\cite{jiang2024ecolife}, LowCarb~\cite{roy2026lowcarb}$^\dagger$, LACE-RL~\cite{sun2026lacere}, ServerlessLLM~\cite{fu2024serverlessllm}, Festina~\cite{wang2026festina}$^\ddagger$ & L1.C & Serverl. & Mixed/P/D & Mixed & EcoLife & $\times$ & \checkmark & Dynamic TTL, NVMe I/O, MPS \\
 vLLM~\cite{kwon2023vllm}, Sarathi~\cite{agrawal2024sarathi}, DynamoLLM~\cite{stojkovic2025dynamollm}, GreenCache~\cite{tian2026greencache}, SPROUT~\cite{li2024sprout}, ETCInfer~\cite{lu2026etcinfer}$^\ddagger$ & L1.D & Engine/DC & Coloc.\ / Aware & Subset & Subset & $\times$ & $\times$ & DVFS, token LP, SSD cache \\
 Splitwise~\cite{patel2024splitwise}, DistServe~\cite{zhong2024distserve}, Mooncake~\cite{qin2025mooncake}, DualScale~\cite{basit2026dualscale}$^\ddagger$, Li~\cite{li2026revisiting}$^\ddagger$, Yan~\cite{yan2026pdprov}$^\ddagger$ & L1.D & Intra-DC & Disagg.\ P/D & $\times$ & $\times$ & Intra-DC & $\times$ & P/D pools, 50\% cap, RDMA \\
 GreenLLM~\cite{shi2024greenllm}$^\ddagger$ & L1.D & Single DC & Disagg.\ P/D & \checkmark & GPU & Intra-DC & $\times$ & Het.\ A100+T4/V100, spec.\ dec. \\
-ACT~\cite{gupta2022act}$^\dagger$, LLMCarbon~\cite{faiz2024llmcarbon}, EcoServe~\cite{li2025ecoserve}$^\ddagger$, Nguyen~\cite{nguyen2025sustainable}, Vidur+Vessim~\cite{ozcan2025vidurvessim}$^\ddagger$, HungryAI~\cite{jegham2025hungryai}$^\ddagger$ & L1.E & Lifecycle & Agnostic & \checkmark & Subset & $\times$ & $\times$ & SCI Eq.~\eqref{eq:sci}, 4R (9/3~yr), MFU \\
+ACT~\cite{gupta2022act}$^\dagger$, LLMCarbon~\cite{faiz2024llmcarbon}, EcoServe~\cite{li2025ecoserve}$^\ddagger$, Nguyen~\cite{nguyen2025sustainable}, Vidur+Vessim~\cite{ozcan2025vidurvessim}, HungryAI~\cite{jegham2025hungryai}$^\ddagger$, InFactPlanner~\cite{tsiopani2026infactplanner}$^\ddagger$ & L1.E & Lifecycle & Agnostic & \checkmark & Subset & $\times$ & $\times$ & SCI Eq.~\eqref{eq:sci}, 4R (9/3~yr), MFU \\
 NIST~\cite{mell2011nist}, CloudSim~\cite{calheiros2011cloudsim}$^\dagger$, Azure Trace~\cite{azure2024trace} & L1.F & Found. & Spec./Trace & $\times$ & $\times$ & $\times$ & $\times$ & Taxonomy, cloud sim, traces \\
 \midrule
 \textbf{This Work (\texttt{P4} Cluster + \texttt{S3} Serverless)} & \text{--} & \textbf{Multi-DC} & \textbf{Disagg.\ P/D} & \checkmark & \checkmark & \checkmark & \checkmark & \textbf{Hybrid A--D, SCI, GapHazard} \\
 \bottomrule
-\multicolumn{9}{@{}l@{}}{\scriptsize $^\dagger$Abstract-only verified (5 works). $^\ddagger$Preprint / accepted conference preprint (16 works across corpus).}
+\multicolumn{9}{@{}l@{}}{\scriptsize $^\dagger$Abstract-only verified (5 works). $^\ddagger$Preprint / accepted conference preprint (18 works across corpus).}
 \end{tabular}%
 \ifdefined\BUILDELSEVIER}\fi
 \end{table*}
 
 \subsection{Detailed Comparison Against Closest Systems}\label{subsec:closest_comparison}
 \begin{itemize}
-    \item \textbf{Topcu et al.\ (Penn State)~\cite{topcu2026tension}:} Their geo-distributed MILP router schedules continuous-batching LLMs across 16 US/EU DCs (queueing simulator within $<5\%$ TPOT, 9.1\% TTFT, $<2.5\%$ energy), cutting operational $\text{CO}_2$ by 26\%--60\% near $\approx 3\%$ SLO violations. Because sites stay homogeneous colocated A100 pools, it omits P/D separation, WAN KV transfer, embodied carbon, and serverless keep-alive, all isolated here.
-    \item \textbf{GreenLLM~\cite{shi2024greenllm}:} GreenLLM disaggregates prefill/decode with speculative decoding on heterogeneous A100 and reused T4/V100 GPUs inside one GCP cluster, pairing grid CI with 5--7~yr GPU reuse for 31.3\%--40.6\% total carbon cuts at 90\% SLO. Staying intra-DC, it omits WAN KV bottlenecks, host/chassis embodied dominance ($\ge 90\%$ clean grids), and serverless keep-alive.
-    \item \textbf{Complementary Works:} CarbonRouter~\cite{zhang2026context} prices prompt recomputation across four US DCs and defers WAN KV transfer, while Sisodia~\cite{sisodia2026sicp} sketches an intra-DC \texttt{llm-d} objective without experiments or serverless modeling.
+    \item \textbf{Topcu et al.\ (Penn State)~\cite{topcu2026tension}:} Their MILP router schedules continuous-batching LLMs across 16 US/EU DCs ($<5\%$ TPOT, 9.1\% TTFT, $<2.5\%$ energy simulator error), cutting $\text{CO}_2$ by 26\%--60\% near $\approx 3\%$ SLO violations. Colocated A100 pools omit P/D separation, WAN KV transfer, embodied carbon, and keep-alive.
+    \item \textbf{GreenLLM~\cite{shi2024greenllm}:} GreenLLM disaggregates P/D with speculative decoding on A100 and reused T4/V100 GPUs within one GCP cluster, pairing grid CI with 5--7~yr GPU reuse for 31.3\%--40.6\% total carbon cuts at 90\% SLO. Staying intra-DC, it omits WAN KV gating, host/chassis embodied share ($\ge 90\%$ clean grids), and keep-alive.
+    \item \textbf{Complementary Works:} CarbonRouter~\cite{zhang2026context} prices prompt recomputation across four US DCs without WAN KV migration; FREESH~\cite{he2025freesh}, CEDAR~\cite{more2026cedar}, and Green-LLM~\cite{cheng2026greenllm} omit WAN KV gating and embodied carbon; InFactPlanner~\cite{tsiopani2026infactplanner} omits batching, KV state, and P/D separation; and Sisodia~\cite{sisodia2026sicp} proposes an intra-DC \texttt{llm-d} objective with zero experiments.
 \end{itemize}

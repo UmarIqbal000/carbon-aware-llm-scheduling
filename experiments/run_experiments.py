@@ -55,7 +55,7 @@ def _run_jobs(
                 elapsed = time.perf_counter() - t0
                 print(f"[{name}]   completed {done}/{len(jobs)} ({elapsed:.1f}s)", flush=True)
     df = pd.DataFrame(rows)
-    sort_cols = [c for c in ("suite", "sub_exp", "horizon", "workload", "region", "topology", "ci_mode", "slo_name", "decode_tier", "wan_bw_gbps", "rps_scale", "model_size", "checkpoint_tier", "cold_power_frac", "idle_power_mode", "lifetime_label", "pue", "mfu_gamma", "policy", "seed") if c in df.columns]
+    sort_cols = [c for c in ("suite", "sub_exp", "horizon", "workload", "region", "topology", "ci_mode", "slo_name", "decode_tier", "diff_label", "wan_bw_gbps", "wan_rtt_ms", "rps_scale", "model_size", "checkpoint_tier", "cold_power_frac", "idle_power_mode", "lifetime_label", "pue", "mfu_gamma", "extra_clean_nodes", "policy", "seed") if c in df.columns]
     if sort_cols:
         df = df.sort_values(sort_cols)
     out_csv.parent.mkdir(parents=True, exist_ok=True)
@@ -487,13 +487,118 @@ def build_h4_elastic_jobs() -> List[Tuple[Dict[str, Any], ClusterConfig]]:
     return jobs
 
 
+def build_sw5_jobs() -> List[Tuple[Dict[str, Any], ClusterConfig]]:
+    """SW5: Cross-region Path C activation regime across WAN BW, RTT, differential, and load."""
+    jobs: List[Tuple[Dict[str, Any], ClusterConfig]] = []
+    bws = (10.0, 25.0, 100.0, 400.0)
+    rtts = (5.0, 20.0, 50.0, 100.0, 200.0)
+
+    # 1) Full BW x RTT grid on conv across high differential (1.0x nominal & 2.0x congested) and low differential (2.0x)
+    grid_slices = [
+        ("bw_rtt_high_nom", "conv", 1.0, "high_S_TEP", ("South Scotland", "TEPCO")),
+        ("bw_rtt_high_cong", "conv", 2.0, "high_S_TEP", ("South Scotland", "TEPCO")),
+        ("bw_rtt_low_cong", "conv", 2.0, "low_S_NW", ("South Scotland", "North West England")),
+    ]
+    for sub_exp, wl, rps, dlbl, regs in grid_slices:
+        for bw in bws:
+            for rtt in rtts:
+                for seed in SEEDS:
+                    cfg = ClusterConfig(
+                        policy="P4",
+                        regions=regs,
+                        workload=wl,
+                        horizon="1h",
+                        seed=seed,
+                        rps_scale=rps,
+                        wan_bw_gbps=bw,
+                        wan_rtt_override_ms=rtt,
+                    )
+                    meta = {
+                        "suite": "SW5",
+                        "sub_exp": sub_exp,
+                        "workload": wl,
+                        "rps_scale": rps,
+                        "diff_label": dlbl,
+                        "wan_bw_gbps": bw,
+                        "wan_rtt_ms": rtt,
+                        "policy": "P4",
+                        "seed": seed,
+                    }
+                    jobs.append((meta, cfg))
+
+    # 2) Targeted code 2.0x slice verifying large-KV Path C pruning under congestion
+    for bw in (10.0, 100.0, 400.0):
+        for rtt in (5.0, 20.0, 100.0):
+            for seed in SEEDS:
+                cfg = ClusterConfig(
+                    policy="P4",
+                    regions=("South Scotland", "London"),
+                    workload="code",
+                    horizon="1h",
+                    seed=seed,
+                    rps_scale=2.0,
+                    wan_bw_gbps=bw,
+                    wan_rtt_override_ms=rtt,
+                )
+                meta = {
+                    "suite": "SW5",
+                    "sub_exp": "code_cong",
+                    "workload": "code",
+                    "rps_scale": 2.0,
+                    "diff_label": "med_S_Lon",
+                    "wan_bw_gbps": bw,
+                    "wan_rtt_ms": rtt,
+                    "policy": "P4",
+                    "seed": seed,
+                }
+                jobs.append((meta, cfg))
+    return jobs
+
+
+def build_sw6_jobs() -> List[Tuple[Dict[str, Any], ClusterConfig]]:
+    """SW6: Extended H4 clean-region scale-out break-even sweep across RPS utilization (1.0x-3.0x)."""
+    jobs: List[Tuple[Dict[str, Any], ClusterConfig]] = []
+    configs = [
+        ("P3_equal", "P3", 0),
+        ("P3_overprov_plus4", "P3_overprov", 4),
+        ("P4_equal", "P4", 0),
+        ("P4_overprov_plus4", "P4", 4),
+    ]
+    for lt_lbl, h_lt, g_lt in (("4yr_unif", 4.0, 4.0), ("9yr_host_3yr_gpu", 9.0, 3.0)):
+        for rps in (1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0):
+            for pol_lbl, policy, extra in configs:
+                for seed in SEEDS:
+                    cfg = ClusterConfig(
+                        policy=policy,
+                        workload="conv",
+                        horizon="1h",
+                        seed=seed,
+                        rps_scale=rps,
+                        regions=("South Scotland", "North East England", "London"),
+                        clean_scaleout_extra_nodes=extra,
+                        host_lifetime_yr=h_lt,
+                        gpu_lifetime_yr=g_lt,
+                    )
+                    meta = {
+                        "suite": "SW6",
+                        "sub_exp": "scaleout_breakeven",
+                        "lifetime_label": lt_lbl,
+                        "rps_scale": rps,
+                        "policy": pol_lbl,
+                        "extra_clean_nodes": extra,
+                        "seed": seed,
+                    }
+                    jobs.append((meta, cfg))
+    return jobs
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run SimPy carbon-aware LLM scheduling experiments.")
     parser.add_argument(
         "--suite",
         type=str,
         default="all",
-        choices=["all", "e1_1h", "e1_24h", "e1", "e2", "sw1", "sw2", "sw3", "sw4", "h4"],
+        choices=["all", "e1_1h", "e1_24h", "e1", "e2", "sw1", "sw2", "sw3", "sw4", "h4", "sw5", "sw6"],
         help="Which experiment suite to execute.",
     )
     parser.add_argument("--workers", type=int, default=10, help="Parallel worker processes.")
@@ -518,6 +623,10 @@ def main() -> None:
         _run_jobs("SW4_clu", clu_jobs, _exec_cluster_job, args.workers, RESULTS_DIR / "raw_sw4_cluster_lifetime.csv")
     if s in ("all", "h4"):
         _run_jobs("H4_elastic", build_h4_elastic_jobs(), _exec_cluster_job, args.workers, RESULTS_DIR / "raw_h4_elastic.csv")
+    if s in ("all", "sw5"):
+        _run_jobs("SW5", build_sw5_jobs(), _exec_cluster_job, args.workers, RESULTS_DIR / "raw_sw5_pathc.csv")
+    if s in ("all", "sw6"):
+        _run_jobs("SW6", build_sw6_jobs(), _exec_cluster_job, args.workers, RESULTS_DIR / "raw_sw6_breakeven.csv")
 
 
 if __name__ == "__main__":

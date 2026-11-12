@@ -145,32 +145,41 @@ To address reviewer concerns over recent 2024–2026 systems missed in the bound
 | `V2-AX-SCI` | arXiv Atom API (`2024–2026`) | `all:"Software Carbon Intensity" AND all:"LLM"` | 0 (Channel 2) | Confirms gap on formal SCI + LLM inference (`CR`: ISO standard `10.3403/30470628` + non-serving grid-node agent `10.21203/rs.3.rs-9814067/v1`) |
 | `V2-CR-SL` | Crossref / arXiv / ACL 2024–2026 Candidate Screen | `"carbon-aware" + "prefill decode disaggregation"`; `"KV cache" + "cross-region" + "carbon"`; *"SPROUT"* (`10.18653/v1/2024.emnlp-main.1215`); recent 2025–2026 preprints (`2609.27085`, `2609.24639`, `2505.09598`, `2504.19720`, `2609.12602`, `2609.15230`, `2609.12449`, `2507.08954`) | 9 (Channel 2) | **4 Excluded Eligibility** (`2609.27085` Crossflow: latency-only, zero energy/carbon; `2609.12602` GreenDirector: non-LLM HTC batch grid; `2609.12449` HeatCache: single-workstation edge room; `2507.08954` MQFQ-Sticky: non-LLM FaaS + zero operational carbon); **5 Included** (`yan2026pdprov`, `jegham2025hungryai`, `zhen2025taming`, `lu2026etcinfer`, `li2024sprout`) |
 
-**Updated Cumulative PRISMA-2020 Flow Summary (`v1 + v2 = 61` Verified Sources):**
+### 5.2 Final-Fixes Literature Addition (`2026-11-12`, Part A3)
 
-| PRISMA Stage | Channel 1 | Channel 2 (`v1 + v2`) | Channel 3 (`v1 + v2`) | **Total (`v2`)** |
+Four additional 2025–2026 geo-distributed LLM scheduling and datacenter sustainability planning works were retrieved in full text, verified against Crossref/arXiv APIs, and added to `sources.csv` (`61 -> 65`):
+- `he2025freesh` (**FREESH**, `arXiv:2511.00807v2`, Nov 2025): 3-level geo-distributed LLM scheduler (30-min LME pool IP + 1-s MIAD GPU DVFS + preemptive LLF); Sec. 4 & App. B.2 evaluate colocated TP2/TP4/TP8 clusters without WAN KV transfer, embodied carbon, or serverless keep-alive (Eq. 1c shows illustrative `Prefill-TP-Decode-TP` mode syntax). Classified in `L1.B`.
+- `more2026cedar` (**CEDAR**, GreenSys'26, DOI `10.1145/3802973.3804457`, pp. 25–30): CMDP+SAC queue-level router across 3 AWS regions cutting marginal CO2 27% and cost 26%; zero P/D disaggregation, WAN KV transfer, embodied carbon, or keep-alive. Classified in `L1.B`.
+- `cheng2026greenllm` (**Green-LLM**, `arXiv:2507.09942v3`, v1 Jul 2025 / v3 Apr 2026; distinct from Shi et al. `shi2024greenllm`): Lexicographic multi-objective LP over 9 edge DCs with wind and WUE/EWIF water cap; zero P/D disaggregation, WAN KV, embodied carbon, or keep-alive. Classified in `L1.B`.
+- `tsiopani2026infactplanner` (**InFactPlanner**, `arXiv:2608.12915v1`, Aug 2026): Ray-parallel multi-DC sustainability planner modeling H100/B200 energy, solar RES, water, and illustrative geo-routing (`-7%` CO2 / `+22%` latency); Sec. II & VI-D explicitly abstract away batching, KV cache, and P/D separation, and exclude embodied carbon. Classified in `L1.E`.
+
+Additionally, `ozcan2025vidurvessim` (`arXiv:2507.11417v1`) was verified published in *Euro-Par 2025: Parallel Processing Workshops* (LNCS, 2026, pp. 223–235, DOI `10.1007/978-3-032-19144-1_18`), updating its year (`2025 -> 2026`) and moving it out of arXiv-only preprints.
+
+**Updated Cumulative PRISMA-2020 Flow Summary (`n = 65` Verified Sources):**
+
+| PRISMA Stage | Channel 1 | Channel 2 | Channel 3 | **Total** |
 | :--- | :---: | :---: | :---: | :---: |
-| **Records Identified (Retrieved & Logged)** | 16 | 30 + 14 = **44** | 29 + 9 = **38** | **98** |
-| *(Less)* Duplicate Records Removed | 0 | 1 + 2 = **3** | 0 | **3** |
-| **Unique Records Screened (Title & Abstract)** | **16** | **41** | **38** | **95** |
-| *(Less)* Excluded at Title / Abstract Screening | 1 | 10 + 3 = **13** | 0 | **14** |
-| **Full-Text / Metadata Assessed for Eligibility** | **15** | **28** | **38** | **81** |
-| *(Less)* Excluded at Eligibility Assessment | 6 | 10 + 4 = **14** | 0 | **20** |
-| **Studies Included in Final Corpus (`sources.csv`)** | **9** | **14** | **38** | **61** |
+| **Records Identified (Retrieved & Logged)** | 16 | 44 | 38 + 4 = **42** | **102** |
+| *(Less)* Duplicate Records Removed | 0 | 3 | 0 | **3** |
+| **Unique Records Screened (Title & Abstract)** | **16** | **41** | **42** | **99** |
+| *(Less)* Excluded at Title / Abstract Screening | 1 | 13 | 0 | **14** |
+| **Full-Text / Metadata Assessed for Eligibility** | **15** | **28** | **42** | **85** |
+| *(Less)* Excluded at Eligibility Assessment | 6 | 14 | 0 | **20** |
+| **Studies Included in Final Corpus (`sources.csv`)** | **9** | **14** | **42** | **65** |
 
-*(Arithmetic verification: `98 - 3 = 95`; `95 - 14 = 81`; `81 - 20 = 61`; `9 + 14 + 38 = 61`.)*
+*(Arithmetic verification: `102 - 3 = 99`; `99 - 14 = 85`; `85 - 20 = 65`; `9 + 14 + 42 = 65`.)*
 
-### 5.2 Retained V2 Corpus Breakdown (`61` Verified Sources)
+### 5.3 Retained Final-Fixes Corpus Breakdown (`65` Verified Sources)
 
 - **By Thematic Pillar (`sources.csv`):**
-  - **Pillar (a) — Surveys, Taxonomies & Synthesis (`11`):** 9 v1 surveys + `zhen2025taming`, `sisodia2026sicp`
-  - **Pillar (b) — Carbon-Aware Cloud, Container, Serverless/FaaS & Geo-Distributed Schedulers (`15`):** 11 v1 + `topcu2026tension`, `zhang2026context`, `bernhard2026cleanest`, `moore2025slit`
-  - **Pillar (c) — Phase-Disaggregated, Energy-Aware & Serving-Layer LLM Systems (`21`):** 16 v1 + `shi2024greenllm`, `yan2026pdprov`, `lu2026etcinfer`, `tian2026greencache`, `li2024sprout`
-  - **Pillar (d) — Operational vs. Embodied Carbon Modeling, Benchmarks, Traces & Standards (`12`):** 9 v1 + `nguyen2025sustainable`, `ozcan2025vidurvessim`, `jegham2025hungryai`
-  - **Pillar (e) — Cloud & Serverless Foundations (`2`):** `mell2011nist`, `calheiros2011cloudsim`
-- **By Year:** `2011`: 2 | `2020`: 1 | `2021`: 2 | `2022`: 1 | `2023`: 6 | `2024`: 15 | `2025`: 16 | `2026`: 18 (Total = **61**)
-- **Recency Compliance:**
-  - `2022–2026`: **56 / 61 (91.8%)** (exceeds $\ge 60\%$ threshold)
-  - `2025–2026`: **34 / 61 (55.7%)**
-- **By Type:** `survey`: 11 | `empirical`: 47 | `industry`: 1 (`azure2024trace`) | `standard`: 2 (`iso2024sci`, `mell2011nist`). (`50` non-survey works.)
-- **By `access_level`:** `full_text`: **56 (91.8%)** | `abstract_only`: **5 (8.2%)** (`roy2026lowcarb`, `calavaro2026offloading`, `gupta2022act`, `sinha2025utilization`, `calheiros2011cloudsim`).
-- **Preprint Status (`16` items):** `15` arXiv-only preprints (`hewage2026carbon`, `yang2025container`, `pan2025inference`, `li2025ecoserve`, `basit2026dualscale`, `shi2024greenllm`, `topcu2026tension`, `sisodia2026sicp`, `zhang2026context`, `bernhard2026cleanest`, `ozcan2025vidurvessim`, `yan2026pdprov`, `jegham2025hungryai`, `zhen2025taming`, `lu2026etcinfer`) + `1` accepted conference preprint (`wang2026festina` for ACM SIGOPS ATC 2026). Formal 2026 DOIs verified via Crossref in v2 for `sun2026lacere` (`10.1109/ccgrid68966.2026.00034`, CCGrid'26), `li2026revisiting` (`10.1145/3805621.3807662`, EuroMLSys'26), and `tian2026greencache` (`10.1145/3788087`, POMACS'26).
+  - **Pillar (a) — Surveys, Taxonomies & Synthesis (`11`):** unchanged.
+  - **Pillar (b) — Carbon-Aware Cloud, Container, Serverless/FaaS & Geo-Distributed Schedulers (`18`):** 15 v2 + `he2025freesh`, `more2026cedar`, `cheng2026greenllm`.
+  - **Pillar (c) — Phase-Disaggregated, Energy-Aware & Serving-Layer LLM Systems (`21`):** unchanged.
+  - **Pillar (d) — Operational vs. Embodied Carbon Modeling, Benchmarks, Traces & Standards (`13`):** 12 v2 + `tsiopani2026infactplanner`.
+  - **Pillar (e) — Cloud & Serverless Foundations (`2`):** unchanged.
+- **By Year:** `2011`: 2 | `2020`: 1 | `2021`: 2 | `2022`: 1 | `2023`: 6 | `2024`: 15 | `2025`: 16 | `2026`: 22 (Total = **65**).
+- **Recency Compliance:** `2022–2026`: **60 / 65 (92.3%)**; `2025–2026`: **38 / 65 (58.5%)**.
+- **By Type:** `survey`: 11 | `empirical`: 51 | `industry`: 1 (`azure2024trace`) | `standard`: 2 (`iso2024sci`, `mell2011nist`). (`54` non-survey works.)
+- **By `access_level`:** `full_text`: **60 (92.3%)** | `abstract_only`: **5 (7.7%)**.
+- **Preprints (`18` total, `27.7%`):** `17` arXiv-only preprints (`15` v2 minus published `ozcan2025vidurvessim` + `he2025freesh`, `cheng2026greenllm`, `tsiopani2026infactplanner`) + `1` accepted SIGOPS ATC 2026 preprint (`wang2026festina`). Archival works: `42` full-text + `5` abstract-only = `47` (`72.3%`).
+- **Embodied Carbon Omission:** **50 / 65 (76.9%)** omit hardware manufacturing (embodied) emissions (`15 / 65 = 23.1%` consider embodied terms).

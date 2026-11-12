@@ -1,6 +1,6 @@
 \section{Simulation Results and Discussion}\label{sec:results}
 
-Unless noted otherwise, all inferential comparisons span $N=10$ paired random seeds ($100\text{--}109$). Because $p = 2/2^{10} \approx 0.002$ ($0.00195$) is the minimum attainable two-sided exact paired Wilcoxon signed-rank $p$-value for $N=10$ whenever all 10 seed pairs agree in sign (rank-biserial correlation $|r_{\text{rb}}| = 1.000$), I report paired mean differences ($\Delta$), Student-$t$ 95\% confidence intervals, rank-biserial $r_{\text{rb}}$, and paired Cohen's $d_z$ alongside exact $p$-values (full paired statistics appear in the online supplement).
+All inferential comparisons span $N=10$ paired seeds ($100\text{--}109$). Because $p = 2/2^{10} \approx 0.00195$ is the minimum two-sided exact paired Wilcoxon signed-rank $p$-value for $N=10$ when all pairs share sign ($|r_{\text{rb}}| = 1.000$), I report paired mean differences ($\Delta$), Student-$t$ 95\% CIs, $r_{\text{rb}}$, paired Cohen's $d_z$, and exact $p$-values (0.002 at three decimals; full statistics in the online supplement).
 
 \subsection{E1: Multi-Region Cluster Carbon--SLO Frontier}\label{subsec:res_e1}
 Table~\ref{tab:e1_results} and Fig.~\ref{fig:e1_pareto} summarize \texttt{E1} across 1h and 24h horizons. On conversational traffic (\texttt{conv}), hybrid routing \texttt{P4} lowers $\text{SCI}_{\text{op}}$ by 60.77\% at 1h ($\Delta = -0.05124$ [-0.05473, -0.04775] g/1k tok, $r_{\text{rb}} = -1.000$, $d_z = -10.50$, $p = 0.002$) and 60.70\% at 24h ($\Delta = -0.04948$ [-0.05220, -0.04676], $d_z = -13.01$, $p = 0.002$) relative to carbon-agnostic colocation \texttt{B1}, and by 43.95\%--44.07\% relative to intra-region phase disaggregation \texttt{B2} ($d_z \in [-19.99, -11.29]$, $p = 0.002$). Because fixed hardware amortization adds $\text{SCI}_{\text{emb}} \approx 0.0090$~gCO$_2$eq/1k tok across equal-capacity clusters, total $\text{SCI}_{\text{tot}}$ drops 54.92\% (1h) and 54.64\% (24h) versus \texttt{B1} at 0.81\%--0.82\% SLO violations (TTFT P95 = 504.5--506.4~ms), well below the 5\% boundary.
@@ -85,55 +85,37 @@ Table~\ref{tab:e2_results} and Fig.~\ref{fig:e2_serverless} reveal an inverse re
 \end{tabular}
 \end{table}
 
-Conversely, on clean \texttt{South Scotland} (9.75~gCO$_2$eq/kWh), inverse intensity scaling in Eq.~\eqref{eq:gaphazard} extends warm retention during clean intervals, cutting cold-start SLO violations by \textbf{32.63\%} relative to 30~s \texttt{S2} ($\Delta = -6.29\text{ pp}$ [-6.60, -5.99], $12.99\%$ vs.\ $19.29\%$, $r_{\text{rb}}=-1.000$, $p=0.002$) while statistically tying 60~s \texttt{S2b} ($12.84\%$, $p=0.125$) at numerically lower $\text{SCI}_{\text{op}}$ ($0.00094$, $p=0.084$ vs.\ \texttt{S1}/\texttt{S2}). Embodied hardware accounts for 97.4\%--97.6\% of clean-grid lifecycle SCI ($\text{SCI}_{\text{emb}}=0.03308$), supporting \textbf{H4}. Volatile \texttt{North Scotland} displays zero-carbon wind slots that erase operational differences ($p \ge 0.50$) while retaining the -30.50\% SLO reduction versus \texttt{S2} ($\Delta=-5.88\text{ pp}$, $p=0.002$).
+Conversely, on clean \texttt{South Scotland} (9.75~gCO$_2$eq/kWh), inverse intensity scaling in Eq.~\eqref{eq:gaphazard} extends warm retention during clean intervals, cutting cold-start SLO violations by \textbf{32.63\%} relative to 30~s \texttt{S2} ($\Delta = -6.29\text{ pp}$ [-6.60, -5.99], $12.99\%$ vs.\ $19.29\%$, $r_{\text{rb}}=-1.000$, $p=0.002$) while statistically tying 60~s \texttt{S2b} ($12.84\%$, $p=0.125$) at numerically lower $\text{SCI}_{\text{op}}$ ($0.00094$, $p=0.084$ vs.\ \texttt{S1}/\texttt{S2}). Embodied hardware accounts for 97.4\%--97.6\% of clean-grid lifecycle SCI ($\text{SCI}_{\text{emb}}=0.03308$), supporting \textbf{H4}. Volatile \texttt{North Scotland} displays zero-carbon wind slots that erase operational differences ($p \ge 0.50$) while retaining the $30.50\%$ SLO reduction versus \texttt{S2} ($\Delta=-5.88\text{ pp}$, $p=0.002$).
 
-In \texttt{SW4} (1h \texttt{TEPCO}, Fig.~\ref{fig:e2_serverless}c), slow 70B loaders amplify \texttt{S3} operational carbon savings: -23.74\% vs.\ \texttt{S1} under PyTorch ($0.46686 \rightarrow 0.35601$ at 84~s) and -30.93\% under Safetensors ($0.35452 \rightarrow 0.24488$ at 48~s), whereas fast \texttt{opt\_13b} (2.0~s) favors \texttt{S1} on carbon (0.00831 vs.\ 0.00936) at 16.02\% vs.\ 3.60\% SLO violations. Replacing the 20\% idle ratio with H100's 8.6\% hardware idle ratio (60~W/700~W) cuts \texttt{S3} $\text{SCI}_{\text{op}}$ by another 14.43\% ($0.11193 \rightarrow 0.09578$).
+In \texttt{SW4} (1h \texttt{TEPCO}, Fig.~\ref{fig:e2_serverless}c), slow 70B loaders amplify \texttt{S3} operational carbon savings: $23.74\%$ vs.\ \texttt{S1} under PyTorch ($0.46686 \rightarrow 0.35601$ at 84~s) and $30.93\%$ under Safetensors ($0.35452 \rightarrow 0.24488$ at 48~s), whereas fast \texttt{opt\_13b} (2.0~s) favors \texttt{S1} on carbon (0.00831 vs.\ 0.00936) at 16.02\% vs.\ 3.60\% SLO violations. Replacing the 20\% idle ratio with H100's 8.6\% hardware idle ratio (60~W/700~W) cuts \texttt{S3} $\text{SCI}_{\text{op}}$ by another 14.43\% ($0.11193 \rightarrow 0.09578$).
 
-\subsection{Sensitivity Sweeps (\texorpdfstring{\texttt{SW1--SW3}}{SW1-SW3}) and Clean Scale-Out Paradox (\texorpdfstring{\texttt{H4}}{H4})}\label{subsec:res_sweeps}
-Fig.~\ref{fig:sw_paradox} and Table~\ref{tab:wan_pathmix} expose regime boundaries across load, WAN bandwidth, hardware tiering, and cluster capacity:
+\subsection{Sensitivity Sweeps (\texorpdfstring{\texttt{SW1--SW6}}{SW1-SW6}) and Clean Scale-Out Break-Even (\texorpdfstring{\texttt{H4}}{H4})}\label{subsec:res_sweeps}
+Fig.~\ref{fig:sw_paradox}, Fig.~\ref{fig:sw5_pathc}, and Supplement Table~S7 expose regime boundaries across load, WAN bandwidth/RTT, hardware tiering, and cluster capacity:
 \begin{enumerate}
     \item \textbf{SW1 Load Scaling (0.5x--3.0x conv):} At 3.0x load, \texttt{P3} saturates clean pools (71.94\% SLO viol., TTFT P95 = 446.7~s), \texttt{B1} stalls via colocation (54.48\% viol., TPOT P95 = 2,331~ms), and \texttt{B2} reaches 20.00\%. Activating 11.30\% Path A local spillover with Path B (36.62\%) and Path D (52.08\%), \texttt{P4} holds 2.89\% violations ($\text{SCI}_{\text{op}}=0.03483$ vs.\ \texttt{B1} 0.04943).
     \item \textbf{SW2 Grid \& Forecast Noise:} UK NESO forecasts, 30--60~min lags, and $2\times$ noise shift \texttt{P4} $\text{SCI}_{\text{tot}}$ by $<0.3\%$. Across a low-differential UK pair (\texttt{South Scotland} + \texttt{North West England}), \texttt{P4} holds 0.08\% violations ($\text{SCI}_{\text{op}}=0.00513$) vs.\ \texttt{P3}'s 10.71\% (0.00425).
-    \item \textbf{SW3 Hardware Tiers \& WAN Path Mix:} Under \texttt{L4} decode nodes, \texttt{B2} (24.73\%) and \texttt{P3} (53.47\%) suffer decode SLO collapse, whereas \texttt{P4} holds 0.76\% violations (Fig.~\ref{fig:sw_paradox}b). Table~\ref{tab:wan_pathmix} explains WAN insensitivity: raising WAN bandwidth from 10 to 100~Gbps halves \texttt{P3}'s \texttt{code} violations from 44.45\% to 20.78\% (and high-rate 2.0x \texttt{conv} from 42.20\% to 3.76\%), whereas \texttt{P4} keeps Path C pruned (\textbf{0.00\%} at 10--25~Gbps; 0.02\% at 100~Gbps \texttt{conv}) because clean-region whole-request routing (Path D: 46.08\% \texttt{code}, 62.97\% \texttt{conv}) and local disaggregation (Path B) dominate cross-region KV pipelining under 20--200~ms RTT. Under a strict 125~ms TTFT cap (\texttt{strict\_code}), every fixed-capacity policy exceeds 5\% (\texttt{P4} 48.69\%, \texttt{B1} 53.30\%).
-    \item \textbf{H4 Clean Scale-Out Paradox:} Across 24h \texttt{E1}, clean \texttt{South Scotland} reaches 93.0\% embodied share on \texttt{code} (90.7\% on \texttt{conv}). On all-UK nodes (where balanced \texttt{P4\_equal} carries a 53.3\% embodied share), adding four spare clean nodes (\texttt{P3\_overprov\_plus4}, 10 vs.\ 6 nodes) trims $\text{SCI}_{\text{op}}$ by only -3.94\% ($0.00804$ vs.\ $0.00837$) while inflating net lifecycle $\text{SCI}_{\text{tot}}$ by \textbf{+32.61\%} under 4-year uniform amortization ($0.02300$ vs.\ $0.01735$) and \textbf{+27.71\%} under decoupled 9~yr host / 3~yr GPU lifetimes ($0.01937$ vs.\ $0.01516$, Fig.~\ref{fig:sw_paradox}c), supporting \textbf{H4}.
+    \item \textbf{SW3 \& SW5 Hardware Tiers and Path C Regime:} Under \texttt{L4} decode nodes, \texttt{B2} (24.73\%) and \texttt{P3} (53.47\%) suffer decode SLO collapse, whereas \texttt{P4} holds 0.76\% violations (Fig.~\ref{fig:sw_paradox}b). Supplement Table~S7 and the 690-run \texttt{SW5} sweep (Fig.~\ref{fig:sw5_pathc}, full matrix in Supplement Table~S4) explain WAN Path C pruning: raising WAN bandwidth from 10 to 100~Gbps halves \texttt{P3}'s \texttt{code} violations from 44.45\% to 20.78\%, whereas under \texttt{P4} at 10--25~Gbps and $\ge 20\text{ ms}$ RTT, Path C stays exactly \textbf{0.000\%}. Opening 100--400~Gbps links at 5--50~ms RTT under $2.0\times$ \texttt{conv} congestion activates Path C up to \textbf{0.308\%} (high $\Delta$CI, 400~Gbps/5~ms) and \textbf{0.228\%} (low $\Delta$CI), vs.\ at most 0.060\% at $1.0\times$ nominal load and $\le 0.009\%$ on $2.0\times$ \texttt{code}; Path D whole-request routing (38.9\%--63.0\%) dominates cross-region KV transfers whenever both phases fit clean capacity. Under a strict 125~ms TTFT cap (\texttt{strict\_code}), every fixed-capacity policy exceeds 5\% (\texttt{P4} 48.69\%, \texttt{B1} 53.30\%).
+    \item \textbf{H4 \& SW6 Clean Scale-Out Break-Even:} Across 24h \texttt{E1}, clean \texttt{South Scotland} reaches 93.0\% embodied share on \texttt{code} (90.7\% on \texttt{conv}). At $1.0\times$ UK demand, adding four spare clean nodes (\texttt{P3\_overprov\_plus4} / \texttt{P4+4}, 10 vs.\ 6 nodes) trims \texttt{SCI}$_{\text{op}}$ by only 3.94\% ($0.00804$ vs.\ $0.00837$) while raising lifecycle \texttt{SCI}$_{\text{tot}}$ by \textbf{+32.61\%--32.66\%} under 4-year uniform life (0.02300--0.02301 vs.\ $0.01735$) and \textbf{+27.71\%--27.76\%} under 9~yr host / 3~yr GPU lifetimes ($0.01937$ vs.\ $0.01516$), supporting \textbf{H4}. Across the 560-run \texttt{SW6} load sweep (Fig.~\ref{fig:sw_paradox}c, Supplement Table~S5), this penalty shrinks at $1.25\times$ (+26.96\% / +21.56\%) and $1.50\times$ (+13.62\% / +7.30\%), crosses a capacity break-even near \textbf{1.6--1.7$\times$} RPS once the 6-node clean pool spills into dirtier UK zones, and flips carbon-negative from $1.75\times$ ($-2.59\%$ / $-9.51\%$) to $3.0\times$ ($\mathbf{-30.63\%}$ 4-yr; $\mathbf{-36.45\%}$ 9/3-yr, cutting SLO violations from 1.17\% to 0.20\%).
 \end{enumerate}
-
-\begin{table}[t]
-\centering
-\caption{WAN Bandwidth Sweep (\texttt{SW3c}) Path Mix and Performance ($N=10$ Seeds)}
-\label{tab:wan_pathmix}
-\scriptsize
-\setlength{\tabcolsep}{2.1pt}
-\begin{tabular}{@{}lllccccccc@{}}
-\toprule
-\textbf{Work.} & \textbf{BW} & \textbf{Pol.} & $\textbf{SCI}_{\text{op}}$ & \textbf{SLO} & \textbf{P95 (ms)} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D (\%)} \\
-\midrule
-\texttt{code} & 10G & \texttt{P3} & 0.04441 & 44.45\% & 39,318 & 0.0 & 56.6 & 43.4 & 0.0 \\
-\texttt{code} & 10G & \texttt{P4} & 0.04419 & \textbf{6.57\%} & \textbf{1,614} & 14.1 & 39.8 & \textbf{0.0} & \textbf{46.1} \\
-\texttt{code} & 25G & \texttt{P3} & 0.04403 & 32.12\% & 7,110 & 0.0 & 56.7 & 43.3 & 0.0 \\
-\texttt{code} & 100G & \texttt{P3} & 0.04391 & 20.78\% & 3,341 & 0.0 & 56.7 & 43.3 & 0.0 \\
-\texttt{code} & 100G & \texttt{P4} & 0.04419 & \textbf{6.57\%} & \textbf{1,614} & 14.1 & 39.8 & \textbf{0.0} & \textbf{46.1} \\
-\midrule
-\texttt{conv} 2x & 10G & \texttt{P3} & 0.02481 & 42.20\% & 162,595 & 0.0 & 49.8 & 50.2 & 0.0 \\
-\texttt{conv} 2x & 10G & \texttt{P4} & 0.03191 & \textbf{1.10\%} & \textbf{881} & 1.6 & 35.5 & \textbf{0.0} & \textbf{63.0} \\
-\texttt{conv} 2x & 25G & \texttt{P3} & 0.02502 & 9.63\% & 1,694 & 0.0 & 49.1 & 50.9 & 0.0 \\
-\texttt{conv} 2x & 100G & \texttt{P3} & 0.02488 & 3.76\% & 1,492 & 0.0 & 49.5 & 50.5 & 0.0 \\
-\texttt{conv} 2x & 100G & \texttt{P4} & 0.03193 & \textbf{1.10\%} & \textbf{881} & 1.6 & 35.4 & \textbf{0.02} & \textbf{63.0} \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \begin{figure*}[t]
     \centering
     \includegraphics[width=\ifdefined\BUILDELSEVIER 0.94\textwidth\else 0.57\textwidth\fi]{figures/fig7_sw_sensitivity_embodied.pdf}
-    \caption{Robustness and lifecycle evaluations ($N=10$ seeds, 95\% CIs): (a) \texttt{SW1} load scaling (\texttt{P4} holds 2.89\% at 3.0x); (b) \texttt{SW3} decode GPU tiers (\texttt{P4} holds 0.76\% on \texttt{L4}); (c) \texttt{H4} clean over-provisioning (+4 nodes) raising net $\text{SCI}_{\text{tot}}$ by +27.71\% to +32.61\%.}
+    \caption{Robustness and lifecycle evaluations ($N=10$ seeds, 95\% CIs): (a) \texttt{SW1} load scaling (\texttt{P4} holds 2.89\% at 3.0x); (b) \texttt{SW3} decode GPU tiers (\texttt{P4} holds 0.76\% on \texttt{L4}); (c) \texttt{SW6} scale-out break-even curve crossing from $+32.66\%$ ($4$-yr) / $+27.76\%$ ($9/3$-yr) penalty at $1.0\times$ to $-30.63\%$ / $-36.45\%$ net SCI savings at $3.0\times$.}
     \label{fig:sw_paradox}
 \end{figure*}
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\ifdefined\BUILDELSEVIER 0.62\linewidth\else 0.92\linewidth\fi]{figures/fig8_sw5_pathC_heatmap.pdf}
+    \caption{Cross-region Path C activation (\%) across WAN bandwidth and RTT (\texttt{SW5}, $2.0\times$ \texttt{conv}, $N=10$ seeds): (a) high $\Delta$CI (\texttt{South Scotland--TEPCO}); (b) low $\Delta$CI (\texttt{South Scotland--NW England}).}
+    \label{fig:sw5_pathc}
+\end{figure}
+
 \subsection{Summary Answers to Research Questions (\texorpdfstring{\texttt{RQ1--RQ4}}{RQ1-RQ4})}\label{subsec:rq_answers}
 \begin{itemize}
-    \item \textbf{RQ1:} While GreenLLM~\cite{shi2024greenllm} handles single-cluster P/D carbon and multi-DC routers~\cite{topcu2026tension,moore2025slit,zhang2026context,bernhard2026cleanest} schedule colocated LLMs, 75.4\% of 61 works omit embodied carbon, 0/8 geo-routers use P/D or WAN KV gating, and 0 implemented systems unify all four axes with keep-alive.
-    \item \textbf{RQ2:} Hybrid routing (\texttt{P4}) cuts \texttt{conv} $\text{SCI}_{\text{op}}$ by 60.70\%--60.77\% ($\text{SCI}_{\text{tot}}$ 54.64\%--54.92\%, $|r_{\text{rb}}|=1.000$) at $<1\%$ SLO violation and trims \texttt{P3} \texttt{code} SLO violations by 85.22\%--86.01\% by pruning Path C (0\%) to rely on Path D and local fallbacks.
-    \item \textbf{RQ3:} GapHazard (\texttt{S3}) saves 7.03\%--11.02\% \texttt{TEPCO} $\text{SCI}_{\text{op}}$ (23.74\%--30.93\% for 48--84~s loaders) with 28.60\% SLO violations, yet flips to cut clean \texttt{South Scotland} SLO violations by 32.63\% vs.\ 30~s TTL.
-    \item \textbf{RQ4:} Embodied carbon hits 93.0\%--97.6\% of clean-grid SCI, so four spare clean nodes raise net $\text{SCI}_{\text{tot}}$ by +32.61\% (4-yr) and +27.71\% (9~yr/3~yr).
+    \item \textbf{RQ1:} Single-cluster P/D~\cite{shi2024greenllm} and colocated multi-DC routers~\cite{topcu2026tension,moore2025slit,zhang2026context,bernhard2026cleanest,he2025freesh,more2026cedar,cheng2026greenllm} exist, yet 50/65 works (76.9\%) omit embodied carbon, 0/11 geo-routers model P/D WAN KV transfer, and 0 unify all four axes with keep-alive.
+    \item \textbf{RQ2:} Hybrid routing (\texttt{P4}) cuts \texttt{conv} $\text{SCI}_{\text{op}}$ by 60.70\%--60.77\% ($\text{SCI}_{\text{tot}}$ 54.64\%--54.92\%, $|r_{\text{rb}}|=1.000$) at $<1\%$ SLO violation and trims \texttt{P3} \texttt{code} SLO violations by 85.22\%--86.01\% by holding Path C at 0.000\% ($\le 25$~Gbps, $\ge 20$~ms RTT) and $\le 0.308\%$ on congested 400~Gbps links.
+    \item \textbf{RQ3:} GapHazard (\texttt{S3}) cuts \texttt{TEPCO} $\text{SCI}_{\text{op}}$ by 7.03\%--11.02\% (23.74\%--30.93\% at 48--84~s loaders; 28.60\% SLO viol.) and trims clean \texttt{South Scotland} SLO violations by 32.63\% vs.\ 30~s TTL.
+    \item \textbf{RQ4:} Embodied carbon hits 93.0\%--97.6\% on clean grids; $+4$ clean nodes raise net $\text{SCI}_{\text{tot}}$ by +32.61\%--32.66\% (4-yr) and +27.71\%--27.76\% (9/3-yr) at $1.0\times$ load before turning carbon-negative above 1.6--1.7$\times$ RPS.
 \end{itemize}

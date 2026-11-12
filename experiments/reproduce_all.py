@@ -55,7 +55,7 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.rerun_sims:
-        run_step("Full SimPy simulation suite (226 configs x 10 seeds)", EXP_DIR / "run_experiments.py")
+        run_step("Full SimPy simulation suite (351 configs x 10 seeds)", EXP_DIR / "run_experiments.py")
         run_step("24h Azure trace-tiling ablation (4 modes x 3 policies x 10 seeds)", EXP_DIR / "run_tiling_ablation.py")
 
     run_step("Statistical aggregation & Wilcoxon analysis", EXP_DIR / "analyze_results.py")

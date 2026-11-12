@@ -270,6 +270,43 @@ def main() -> None:
             f"emb_share={sub.loc['P4','embodied_share_pct']:.2f}%, clean_emb={sub.loc['P4','clean_region_emb_share_pct']:.2f}%"
         )
 
+    sw5_p = RESULTS_DIR / "raw_sw5_pathc.csv"
+    if sw5_p.exists():
+        sw5 = pd.read_csv(sw5_p)
+        lines.append("")
+        lines.append("### SW5 Path C Regime Activation (10 Seeds)")
+        sw5_g = sw5.groupby(["sub_exp", "workload", "rps_scale", "diff_label", "wan_bw_gbps", "wan_rtt_ms"])[
+            ["path_coloc_pct", "path_intra_pd_pct", "path_cross_pd_pct", "path_remote_pd_pct", "sci_op_g_per_1k_tok", "slo_viol_pct"]
+        ].mean().reset_index()
+        nz = sw5_g[sw5_g["path_cross_pd_pct"] > 0.001].sort_values("path_cross_pd_pct", ascending=False)
+        lines.append(f"- Configs with Path C > 0.001%: {len(nz)}/{len(sw5_g)}, max Path C = {sw5_g['path_cross_pd_pct'].max():.4f}%")
+        for _, r in nz.head(12).iterrows():
+            lines.append(
+                f"  - `{r['sub_exp']}` wl={r['workload']} rps={r['rps_scale']:.1f} {r['diff_label']} "
+                f"BW={r['wan_bw_gbps']:.0f} RTT={r['wan_rtt_ms']:.0f}: C={r['path_cross_pd_pct']:.3f}%, "
+                f"D={r['path_remote_pd_pct']:.2f}%, op={r['sci_op_g_per_1k_tok']:.5f}, SLO={r['slo_viol_pct']:.2f}%"
+            )
+
+    sw6_p = RESULTS_DIR / "raw_sw6_breakeven.csv"
+    if sw6_p.exists():
+        sw6 = pd.read_csv(sw6_p)
+        lines.append("")
+        lines.append("### SW6 Clean-Region Scale-Out Break-Even (10 Seeds)")
+        sw6_g = sw6.groupby(["lifetime_label", "rps_scale", "policy"])[
+            ["sci_op_g_per_1k_tok", "sci_emb_g_per_1k_tok", "sci_tot_g_per_1k_tok", "slo_viol_pct"]
+        ].mean().reset_index()
+        for lt in sw6_g["lifetime_label"].unique():
+            lines.append(f"- Lifetime `{lt}`:")
+            for rps_v in sorted(sw6_g["rps_scale"].unique()):
+                sub = sw6_g[(sw6_g["lifetime_label"] == lt) & (sw6_g["rps_scale"] == rps_v)].set_index("policy")
+                d_p4 = 100.0 * (sub.loc["P4_overprov_plus4", "sci_tot_g_per_1k_tok"] - sub.loc["P4_equal", "sci_tot_g_per_1k_tok"]) / sub.loc["P4_equal", "sci_tot_g_per_1k_tok"]
+                lines.append(
+                    f"  - RPS={rps_v:.2f}x: P4_eq={sub.loc['P4_equal','sci_tot_g_per_1k_tok']:.5f} (SLO {sub.loc['P4_equal','slo_viol_pct']:.2f}%), "
+                    f"P4+4={sub.loc['P4_overprov_plus4','sci_tot_g_per_1k_tok']:.5f} (SLO {sub.loc['P4_overprov_plus4','slo_viol_pct']:.2f}%, {d_p4:+.2f}%), "
+                    f"P3_eq={sub.loc['P3_equal','sci_tot_g_per_1k_tok']:.5f} (SLO {sub.loc['P3_equal','slo_viol_pct']:.2f}%), "
+                    f"P3+4={sub.loc['P3_overprov_plus4','sci_tot_g_per_1k_tok']:.5f} (SLO {sub.loc['P3_overprov_plus4','slo_viol_pct']:.2f}%)"
+                )
+
     # 6. Check current LaTeX/README numbers for specific recurring flags
     lines.append("")
     lines.append("## 6. Automated Claim Scan on Current Draft Texts")
@@ -277,9 +314,11 @@ def main() -> None:
     check_files = [ROOT / "main.tex", ROOT / "README.md"] + sorted((ROOT / "sections").glob("*.tex"))
     patterns = {
         "em_dash_latex": re.compile(r"---"),
+        "hardware_validated": re.compile(r"hardware[- ]validated", re.IGNORECASE),
         "claim_0_of_6": re.compile(r"0/6|0\s+of\s+6"),
         "claim_0_of_4": re.compile(r"0/4|0\s+of\s+4"),
         "stale_n47": re.compile(r"\b47\b"),
+        "stale_n61": re.compile(r"\b61\b"),
         "stale_32_6": re.compile(r"32\.6"),
         "stale_p_002": re.compile(r"0\.002"),
         "plural_we_our": re.compile(r"\b(we|our|ours|us)\b", re.IGNORECASE),

@@ -79,6 +79,7 @@ def validate_splitwise_single_request() -> list[dict]:
         ttft_err_pct = 100.0 * (measured["ttft_ms"] - ref_ttft) / ref_ttft
         tpot_err_pct = 100.0 * (measured["tpot_ms"] - ref_tbt) / ref_tbt
         rows.append({
+            "check_type": "calibration_anchor",
             "validation_suite": benchmark,
             "condition": f"{gpu_name}_Lin={l_in}",
             "metric": "TTFT_disagg_vs_TableIV_ms",
@@ -88,6 +89,7 @@ def validate_splitwise_single_request() -> list[dict]:
             "notes": f"raw_prefill={sim_prefill_ms:.1f}ms + kv_stall={gpu.kv_stall_ms:.1f}ms",
         })
         rows.append({
+            "check_type": "calibration_anchor",
             "validation_suite": benchmark,
             "condition": f"{gpu_name}_Lin={l_in}",
             "metric": "TPOT_55pct_cap_vs_TableIV_ms",
@@ -113,13 +115,14 @@ def validate_splitwise_single_request() -> list[dict]:
         step_batch_ms = d_node._current_t_step_s() * 1000.0
         p_w, _ = d_node._current_power_and_phase()
         rows.append({
+            "check_type": "calibration_anchor",
             "validation_suite": "Splitwise_Fig8_9_PowerCap",
             "condition": f"H100_cap={cap:.2f}_batch16",
             "metric": "Decode_step_ms_and_Power_W",
             "sim_value": round(step_batch_ms, 2),
             "ref_value": 28.0 if cap >= 0.50 else float("nan"),
             "rel_err_pct": round(100.0 * (step_batch_ms - 28.0) / 28.0, 2) if cap >= 0.50 else 0.0,
-            "notes": f"Node power={p_w:.1f}W (flat step below 0.50 threshold vs +6% at 0.40 cap)",
+            "notes": f"Node power={p_w:.1f}W (encoded 0.50 threshold + emergent Ozcan/HBM={step_batch_ms:.2f}ms)",
         })
     return rows
 
@@ -149,6 +152,7 @@ def validate_serverlessllm_cold_starts() -> list[dict]:
             env.run(until=ref_s + 5.0)
             err = 100.0 * (obs["load_s"] - ref_s) / ref_s
             rows.append({
+                "check_type": "calibration_anchor",
                 "validation_suite": "ServerlessLLM_Fig6a_Loader",
                 "condition": f"{model_size}_{tier}",
                 "metric": "Checkpoint_load_latency_s",
@@ -174,6 +178,7 @@ def validate_small_batch_crossover() -> list[dict]:
         ttft_diff_pct = 100.0 * (res_b2["ttft_p95_ms"] - res_b1["ttft_p95_ms"]) / res_b1["ttft_p95_ms"]
         tpot_diff_pct = 100.0 * (res_b2["tpot_p95_ms"] - res_b1["tpot_p95_ms"]) / res_b1["tpot_p95_ms"]
         rows.append({
+            "check_type": "held_out",
             "validation_suite": "Li2026_SmallBatch_vs_Saturation",
             "condition": f"conv_1h_rps={rps_sc:.2f}x",
             "metric": "B2_vs_B1_J_per_tok_and_P95_TTFT_pct",

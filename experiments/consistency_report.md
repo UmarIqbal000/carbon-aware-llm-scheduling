@@ -301,16 +301,49 @@ Note: Verify distinction between S3 operational carbon reduction vs S3 SLO viola
 - Lifetime `6yr_unif`: P4 SCI_tot=0.03906, emb_share=15.60%, clean_emb=86.55%
 - Lifetime `9yr_host_3yr_gpu`: P4 SCI_tot=0.03987, emb_share=17.33%, clean_emb=87.58%
 
+### SW5 Path C Regime Activation (10 Seeds)
+- Configs with Path C > 0.001%: 35/69, max Path C = 0.3077%
+  - `bw_rtt_high_cong` wl=conv rps=2.0 high_S_TEP BW=400 RTT=5: C=0.308%, D=40.04%, op=0.03878, SLO=2.35%
+  - `bw_rtt_high_cong` wl=conv rps=2.0 high_S_TEP BW=400 RTT=20: C=0.296%, D=39.84%, op=0.03884, SLO=2.40%
+  - `bw_rtt_high_cong` wl=conv rps=2.0 high_S_TEP BW=100 RTT=5: C=0.286%, D=40.05%, op=0.03885, SLO=2.33%
+  - `bw_rtt_high_cong` wl=conv rps=2.0 high_S_TEP BW=100 RTT=20: C=0.276%, D=39.72%, op=0.03887, SLO=2.47%
+  - `bw_rtt_low_cong` wl=conv rps=2.0 low_S_NW BW=400 RTT=5: C=0.228%, D=39.50%, op=0.00640, SLO=2.20%
+  - `bw_rtt_low_cong` wl=conv rps=2.0 low_S_NW BW=400 RTT=20: C=0.227%, D=39.27%, op=0.00641, SLO=2.39%
+  - `bw_rtt_high_cong` wl=conv rps=2.0 high_S_TEP BW=400 RTT=50: C=0.221%, D=38.85%, op=0.03887, SLO=2.67%
+  - `bw_rtt_low_cong` wl=conv rps=2.0 low_S_NW BW=100 RTT=5: C=0.204%, D=39.41%, op=0.00642, SLO=2.13%
+  - `bw_rtt_low_cong` wl=conv rps=2.0 low_S_NW BW=100 RTT=20: C=0.201%, D=39.08%, op=0.00642, SLO=2.25%
+  - `bw_rtt_low_cong` wl=conv rps=2.0 low_S_NW BW=400 RTT=50: C=0.177%, D=38.11%, op=0.00642, SLO=2.58%
+  - `bw_rtt_high_cong` wl=conv rps=2.0 high_S_TEP BW=100 RTT=50: C=0.103%, D=38.89%, op=0.03896, SLO=2.70%
+  - `bw_rtt_high_cong` wl=conv rps=2.0 high_S_TEP BW=400 RTT=100: C=0.074%, D=37.86%, op=0.03902, SLO=2.99%
+
+### SW6 Clean-Region Scale-Out Break-Even (10 Seeds)
+- Lifetime `4yr_unif`:
+  - RPS=1.00x: P4_eq=0.01735 (SLO 0.08%), P4+4=0.02301 (SLO 0.02%, +32.66%), P3_eq=0.01719 (SLO 11.54%), P3+4=0.02300 (SLO 0.54%)
+  - RPS=1.25x: P4_eq=0.01442 (SLO 0.10%), P4+4=0.01831 (SLO 0.02%, +26.96%), P3_eq=0.01400 (SLO 20.93%), P3+4=0.01830 (SLO 1.44%)
+  - RPS=1.50x: P4_eq=0.01299 (SLO 0.13%), P4+4=0.01476 (SLO 0.04%, +13.62%), P3_eq=0.01215 (SLO 30.92%), P3+4=0.01485 (SLO 2.16%)
+  - RPS=1.75x: P4_eq=0.01344 (SLO 0.14%), P4+4=0.01310 (SLO 0.05%, -2.59%), P3_eq=0.01190 (SLO 37.98%), P3+4=0.01333 (SLO 3.03%)
+  - RPS=2.00x: P4_eq=0.01374 (SLO 0.16%), P4+4=0.01187 (SLO 0.07%, -13.61%), P3_eq=0.01174 (SLO 44.81%), P3+4=0.01221 (SLO 5.12%)
+  - RPS=2.50x: P4_eq=0.01299 (SLO 0.36%), P4+4=0.00955 (SLO 0.14%, -26.49%), P3_eq=0.01089 (SLO 54.25%), P3+4=0.00983 (SLO 13.10%)
+  - RPS=3.00x: P4_eq=0.01292 (SLO 1.17%), P4+4=0.00896 (SLO 0.20%, -30.63%), P3_eq=0.01069 (SLO 67.12%), P3+4=0.00923 (SLO 22.50%)
+- Lifetime `9yr_host_3yr_gpu`:
+  - RPS=1.00x: P4_eq=0.01516 (SLO 0.08%), P4+4=0.01937 (SLO 0.02%, +27.76%), P3_eq=0.01501 (SLO 11.54%), P3+4=0.01937 (SLO 0.54%)
+  - RPS=1.25x: P4_eq=0.01270 (SLO 0.10%), P4+4=0.01543 (SLO 0.02%, +21.56%), P3_eq=0.01227 (SLO 20.93%), P3+4=0.01542 (SLO 1.44%)
+  - RPS=1.50x: P4_eq=0.01160 (SLO 0.13%), P4+4=0.01245 (SLO 0.04%, +7.30%), P3_eq=0.01074 (SLO 30.92%), P3+4=0.01253 (SLO 2.16%)
+  - RPS=1.75x: P4_eq=0.01222 (SLO 0.14%), P4+4=0.01106 (SLO 0.05%, -9.51%), P3_eq=0.01061 (SLO 37.98%), P3+4=0.01127 (SLO 3.03%)
+  - RPS=2.00x: P4_eq=0.01265 (SLO 0.16%), P4+4=0.01005 (SLO 0.07%, -20.55%), P3_eq=0.01054 (SLO 44.81%), P3+4=0.01034 (SLO 5.12%)
+  - RPS=2.50x: P4_eq=0.01215 (SLO 0.36%), P4+4=0.00814 (SLO 0.14%, -32.99%), P3_eq=0.00991 (SLO 54.25%), P3+4=0.00836 (SLO 13.10%)
+  - RPS=3.00x: P4_eq=0.01219 (SLO 1.17%), P4+4=0.00775 (SLO 0.20%, -36.45%), P3_eq=0.00982 (SLO 67.12%), P3+4=0.00791 (SLO 22.50%)
+
 ## 6. Automated Claim Scan on Current Draft Texts
 
 - `main.tex`: no flags
 - `README.md`: {'em_dash_latex': 12, 'stale_n47': 1, 'stale_32_6': 2, 'stale_p_002': 3}
 - `sections\00_abstract.tex`: {'stale_32_6': 1}
-- `sections\01_introduction.tex`: {'stale_n47': 1}
-- `sections\02_background.tex`: no flags
-- `sections\03_methodology.tex`: {'stale_n47': 1}
-- `sections\04_taxonomy_synthesis.tex`: {'stale_n47': 6, 'plural_we_our': 4}
+- `sections\01_introduction.tex`: {'claim_0_of_6': 1}
+- `sections\02_background.tex`: {'stale_n61': 1}
+- `sections\03_methodology.tex`: {'claim_0_of_6': 2}
+- `sections\04_taxonomy_synthesis.tex`: {'claim_0_of_6': 1, 'plural_we_our': 4}
 - `sections\05_simulation_design.tex`: no flags
-- `sections\06_results_discussion.tex`: {'stale_n47': 2, 'stale_32_6': 5, 'stale_p_002': 18}
+- `sections\06_results_discussion.tex`: {'claim_0_of_6': 1, 'stale_n47': 2, 'stale_n61': 2, 'stale_32_6': 7, 'stale_p_002': 18}
 - `sections\07_open_challenges_limitations.tex`: {'stale_32_6': 1}
 - `sections\08_conclusion.tex`: {'stale_32_6': 2, 'stale_p_002': 1}

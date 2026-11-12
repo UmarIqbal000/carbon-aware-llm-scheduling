@@ -353,7 +353,7 @@ def make_fig1(make_preview: bool) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Figure 2: Exact PRISMA-2020 Flow Diagram (search_log.md v2, n=61)
+# Figure 2: Exact PRISMA-2020 Flow Diagram (search_log.md, n=65)
 # ---------------------------------------------------------------------------
 def make_fig2(make_preview: bool) -> None:
     fig = plt.figure(figsize=(3.50, 2.55))
@@ -368,7 +368,7 @@ def make_fig2(make_preview: bool) -> None:
         0.785,
         0.59,
         0.19,
-        "Records Identified (n = 98)\nCh. 1 (16) + Ch. 2 API (44)\n+ Ch. 3 Audit/Bench (38)",
+        "Records Identified (n = 102)\nCh. 1 (16) + Ch. 2 API (44)\n+ Ch. 3 Audit/Bench (42)",
         "#EFF6FF",
         edgecolor=OI["blue"],
         fontsize=8.0,
@@ -380,7 +380,7 @@ def make_fig2(make_preview: bool) -> None:
         0.54,
         0.59,
         0.16,
-        "Records Screened\nTitle & Abstract (n = 95)",
+        "Records Screened\nTitle & Abstract (n = 99)",
         "#EFF6FF",
         edgecolor=OI["blue"],
         fontsize=8.0,
@@ -391,7 +391,7 @@ def make_fig2(make_preview: bool) -> None:
         0.295,
         0.59,
         0.16,
-        "Full-Text & Metadata\nEligibility Assessed (n = 81)",
+        "Full-Text & Metadata\nEligibility Assessed (n = 85)",
         "#EFF6FF",
         edgecolor=OI["blue"],
         fontsize=8.0,
@@ -402,7 +402,7 @@ def make_fig2(make_preview: bool) -> None:
         0.02,
         0.59,
         0.20,
-        "Included in Synthesis (n = 61)\n56 Full-Text (40 peer-rev.,\n15 arXiv, 1 acc. conf. preprint)\n+ 5 Abstract-Only",
+        "Included in Synthesis (n = 65)\n60 Full-Text (42 peer-rev.,\n17 arXiv, 1 acc. conf. preprint)\n+ 5 Abstract-Only",
         "#ECFDF5",
         edgecolor=OI["teal"],
         fontsize=8.0,
@@ -456,12 +456,12 @@ def make_fig2(make_preview: bool) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Figure 3: Annotated Heatmap of Phase Awareness x Carbon/Energy Signal (n=50)
+# Figure 3: Annotated Heatmap of Phase Awareness x Carbon/Energy Signal (n=54)
 # ---------------------------------------------------------------------------
 def make_fig3(make_preview: bool) -> None:
     cm = pd.read_csv(RESEARCH_DIR / "comparison_matrix.csv")
     ns = cm[cm["doc_type"] != "survey"].copy()
-    assert len(ns) == 50
+    assert len(ns) == 54
 
     row_order = [
         "Disaggregated P/D",
@@ -498,7 +498,7 @@ def make_fig3(make_preview: bool) -> None:
     for i, r in enumerate(row_order):
         for j, c in enumerate(col_order):
             mat[i, j] = int(((ns["phase_awareness"] == r) & (ns["sig_bin"] == c)).sum())
-    assert mat.sum() == 50
+    assert mat.sum() == 54
 
     fig, ax = plt.subplots(figsize=(3.50, 2.35))
     fig.subplots_adjust(left=0.26, right=0.86, top=0.87, bottom=0.16)
@@ -545,7 +545,7 @@ def make_fig3(make_preview: bool) -> None:
                 color = "white" if val >= 8 else OI["black"]
                 ax.text(j, i, f"{val}", ha="center", va="center", fontsize=8.5, fontweight="bold" if val > 0 else "normal", color=color)
 
-    ax.set_title("Research Gap Matrix (n = 50 Non-Survey)", fontsize=8.8, fontweight="bold", pad=6)
+    ax.set_title("Research Gap Matrix (n = 54 Non-Survey)", fontsize=8.8, fontweight="bold", pad=6)
     cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
     cbar.ax.tick_params(labelsize=8.0)
     cbar.set_label("# Works", fontsize=8.0)
@@ -554,13 +554,13 @@ def make_fig3(make_preview: bool) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Figure 4: Bibliometric Trends & Empirical Modality (n=61 / n=47)
+# Figure 4: Bibliometric Trends & Empirical Modality (n=65 / n=51)
 # ---------------------------------------------------------------------------
 def make_fig4(make_preview: bool) -> None:
     s = pd.read_csv(RESEARCH_DIR / "sources.csv")
     cm = pd.read_csv(RESEARCH_DIR / "comparison_matrix.csv")
     m = s.merge(cm[["id", "pillar", "doc_type", "embodied_carbon_considered", "evaluation_platform"]], on="id")
-    assert len(m) == 61
+    assert len(m) == 65
 
     years = sorted(m["year"].unique())
     pillar_counts = m["pillar"].value_counts().to_dict()
@@ -598,14 +598,14 @@ def make_fig4(make_preview: bool) -> None:
 
     ax1.set_xticks(x)
     ax1.set_xticklabels([str(y) for y in years], fontsize=8.0)
-    ax1.set_ylabel("Works (n=61)", fontsize=8.3)
+    ax1.set_ylabel("Works (n=65)", fontsize=8.3)
     ax1.set_ylim(0, max(bottom) + 3.5)
     ax1.set_title("(a) Publication Timeline by Thematic Pillar", fontsize=8.6, fontweight="bold", loc="left")
     ax1.grid(axis="y", alpha=0.35, linestyle=":")
     ax1.legend(loc="upper left", frameon=True, framealpha=0.95, edgecolor="#D1D5DB", fontsize=7.8, ncol=1, borderpad=0.28, labelspacing=0.22)
 
     n_emp = int((m["type"] == "empirical").sum())
-    assert n_emp == 47
+    assert n_emp == 51
 
     def eval_bucket(row: pd.Series) -> str:
         if row["id"] in {"roy2026lowcarb", "sinha2025utilization"}:
@@ -624,6 +624,7 @@ def make_fig4(make_preview: bool) -> None:
             "bernhard2026cleanest",
             "lu2026etcinfer",
             "yan2026pdprov",
+            "he2025freesh",
         }:
             return "Hybrid Testbed + Sim."
         if row["id"] in {
@@ -641,6 +642,9 @@ def make_fig4(make_preview: bool) -> None:
             "moore2025slit",
             "ozcan2025vidurvessim",
             "jegham2025hungryai",
+            "more2026cedar",
+            "cheng2026greenllm",
+            "tsiopani2026infactplanner",
         }:
             return "Trace Sim. / Analytical"
         return "Hardware / Prod. Cluster"
@@ -650,7 +654,7 @@ def make_fig4(make_preview: bool) -> None:
 
     emb_omitted = int((m["embodied_carbon_considered"] == "No").sum())
     emb_incl = int(len(m) - emb_omitted)
-    assert emb_omitted == 46 and emb_incl == 15
+    assert emb_omitted == 50 and emb_incl == 15
 
     cats = [
         f"Emb. Omitted ({len(m)})",
@@ -1022,45 +1026,116 @@ def make_fig7(make_preview: bool) -> None:
     ax2.grid(axis="y", alpha=0.35, linestyle=":")
     ax2.legend(loc="upper right", fontsize=8.0, frameon=True, borderpad=0.25, labelspacing=0.2)
 
-    pol_h4 = ["B2_equal", "P3_equal", "P4_equal", "P3_overprov_plus4"]
-    p_labels = ["B2\n(6n)", "P3\n(6n)", "P4\n(6n)", "P3+4\n(10n)"]
-    xh = np.arange(len(pol_h4))
-    wh = 0.36
-    for l_idx, (lt, lt_lbl, col_op, col_emb, hatch) in enumerate(
-        [
-            ("4yr_unif", "4yr", OI["blue"], "#93C5FD", ""),
-            ("9yr_host_3yr_gpu", "9/3", OI["teal"], "#A7F3D0", "//"),
-        ]
-    ):
-        sub = h4[h4["lifetime_label"] == lt].set_index("policy").loc[pol_h4]
-        op = sub["sci_op_g_per_1k_tok_mean"].values
-        emb = sub["sci_emb_g_per_1k_tok_mean"].values
-        tot = sub["sci_tot_g_per_1k_tok_mean"].values
-        ci = sub["sci_tot_g_per_1k_tok_ci95"].values
-        off = -wh / 2 if l_idx == 0 else wh / 2
-        ax3.bar(xh + off, op, width=wh, color=col_op, edgecolor="#1F2937", hatch=hatch, label=f"{lt_lbl} op")
-        ax3.bar(xh + off, emb, bottom=op, width=wh, color=col_emb, edgecolor="#1F2937", hatch="..", label=f"{lt_lbl} emb")
-        ax3.errorbar(xh + off, tot, yerr=ci, fmt="none", ecolor=OI["black"], elinewidth=0.8, capsize=1.8)
+    sw6 = pd.read_csv(RES_DIR / "summary_sw6_breakeven.csv")
+    rps_vals = sorted(sw6["rps_scale"].unique())
+    curves = [
+        ("4yr_unif", "P4_equal", "4yr 6n", OI["blue"], "-", "o"),
+        ("4yr_unif", "P4_overprov_plus4", "4yr 10n", OI["vermilion"], "-", "s"),
+        ("9yr_host_3yr_gpu", "P4_equal", "9/3 6n", OI["teal"], "--", "^"),
+        ("9yr_host_3yr_gpu", "P4_overprov_plus4", "9/3 10n", OI["purple"], "--", "D"),
+    ]
+    for lt, pol, lbl, col, ls, mk in curves:
+        sub = sw6[(sw6["lifetime_label"] == lt) & (sw6["policy"] == pol)].set_index("rps_scale").loc[rps_vals]
+        ax3.errorbar(
+            rps_vals,
+            sub["sci_tot_g_per_1k_tok_mean"],
+            yerr=sub["sci_tot_g_per_1k_tok_ci95"],
+            color=col,
+            linestyle=ls,
+            marker=mk,
+            markersize=3.8,
+            capsize=1.8,
+            label=lbl,
+        )
 
+    ax3.axvline(1.71, color=OI["slate"], linestyle=":", linewidth=0.9)
+    ax3.text(1.74, 0.0218, "~1.7x\ncross", fontsize=7.5, color=OI["slate"], fontweight="bold")
     ax3.annotate(
-        "+32.6% SCI\nvs P4 (4yr)",
-        xy=(3 - wh / 2, 0.0235),
-        xytext=(1.60, 0.0290),
-        arrowprops=dict(arrowstyle="->", color=OI["vermilion"], lw=0.9),
-        fontsize=8.0,
+        "+32.7%\n@ 1.0x",
+        xy=(1.0, 0.0230),
+        xytext=(1.18, 0.0242),
+        fontsize=7.5,
         fontweight="bold",
         color=OI["vermilion"],
+        ha="left",
+    )
+    ax3.annotate(
+        "-30.6% (4yr)\n-36.5% (9/3)",
+        xy=(3.0, 0.00896),
+        xytext=(2.18, 0.0052),
+        arrowprops=dict(arrowstyle="->", color=OI["teal"], lw=0.8),
+        fontsize=7.4,
+        fontweight="bold",
+        color=OI["teal"],
         ha="center",
     )
-    ax3.set_xticks(xh)
-    ax3.set_xticklabels(p_labels, fontsize=8.0)
-    ax3.set_ylabel("SCI (gCO2eq/1k tok)", fontsize=8.2)
-    ax3.set_ylim(0, 0.036)
-    ax3.set_title("(c) H4 Scale-Out Paradox", fontsize=8.5, fontweight="bold", loc="left")
-    ax3.grid(axis="y", alpha=0.35, linestyle=":")
-    ax3.legend(loc="upper center", bbox_to_anchor=(0.48, -0.23), fontsize=8.0, frameon=False, ncol=2, columnspacing=0.8)
+    ax3.set_xticks([1.0, 1.5, 2.0, 2.5, 3.0])
+    ax3.set_xticklabels([f"{s:.1f}x" for s in (1.0, 1.5, 2.0, 2.5, 3.0)], fontsize=8.0)
+    ax3.set_xlabel("Load Scale (Conv 1h, UK)", fontsize=8.2)
+    ax3.set_ylabel("Total SCI (gCO2eq/1k)", fontsize=8.2)
+    ax3.set_ylim(0.003, 0.0275)
+    ax3.set_title("(c) SW6 Scale-Out Break-Even", fontsize=8.5, fontweight="bold", loc="left")
+    ax3.grid(True, alpha=0.35, linestyle=":")
+    ax3.legend(loc="upper center", bbox_to_anchor=(0.48, -0.24), fontsize=7.6, frameon=False, ncol=2, columnspacing=0.7)
 
     save_fig(fig, "fig7_sw_sensitivity_embodied", make_preview, tight=False)
+
+
+# ---------------------------------------------------------------------------
+# Figure 8: SW5 Path C Cross-Region Activation Regime (BW x RTT)
+# ---------------------------------------------------------------------------
+def make_fig8(make_preview: bool) -> None:
+    sw5 = pd.read_csv(RES_DIR / "summary_sw5_pathc.csv")
+    bws = [400.0, 100.0, 25.0, 10.0]
+    rtts = [5.0, 20.0, 50.0, 100.0, 200.0]
+
+    panels = [
+        ("bw_rtt_high_cong", "(a) High dCI (2.0x Conv)"),
+        ("bw_rtt_low_cong", "(b) Low dCI (2.0x Conv)"),
+    ]
+
+    fig, axes = plt.subplots(
+        1, 2, figsize=(3.54, 2.18), gridspec_kw={"width_ratios": [1.0, 1.0], "wspace": 0.16}
+    )
+    fig.subplots_adjust(left=0.145, right=0.84, top=0.84, bottom=0.22)
+
+    im_ref = None
+    for ax_idx, (sub_exp, title) in enumerate(panels):
+        ax = axes[ax_idx]
+        sub = sw5[sw5["sub_exp"] == sub_exp]
+        mat = np.zeros((len(bws), len(rtts)), dtype=float)
+        for i, bw in enumerate(bws):
+            for j, rtt in enumerate(rtts):
+                row = sub[(sub["wan_bw_gbps"] == bw) & (sub["wan_rtt_ms"] == rtt)].iloc[0]
+                mat[i, j] = float(row["path_cross_pd_pct_mean"])
+        im = ax.imshow(mat, cmap="YlGnBu", aspect="auto", vmin=0.0, vmax=0.32)
+        im_ref = im
+        ax.set_xticks(np.arange(len(rtts)))
+        ax.set_xticklabels([f"{int(r)}" for r in rtts], fontsize=7.4)
+        ax.set_yticks(np.arange(len(bws)))
+        if ax_idx == 0:
+            ax.set_yticklabels([f"{int(b)}G" for b in bws], fontsize=7.6)
+            ax.set_ylabel("WAN Bandwidth", fontsize=8.0)
+        else:
+            ax.set_yticklabels([])
+        ax.set_xlabel("WAN RTT (ms)", fontsize=7.8)
+        ax.set_title(title, fontsize=8.0, fontweight="bold", loc="left", pad=4)
+        ax.spines["top"].set_visible(True)
+        ax.spines["right"].set_visible(True)
+
+        for i in range(len(bws)):
+            for j in range(len(rtts)):
+                val = mat[i, j]
+                txt_col = "white" if val >= 0.18 else OI["black"]
+                lbl = "0" if val < 0.0005 else f"{val:.2f}".lstrip("0")
+                ax.text(j, i, lbl, ha="center", va="center", fontsize=6.6, fontweight="bold" if val >= 0.10 else "normal", color=txt_col)
+
+    cax = fig.add_axes([0.865, 0.22, 0.032, 0.62])
+    cbar = fig.colorbar(im_ref, cax=cax)
+    cbar.ax.tick_params(labelsize=7.4)
+    cbar.set_label("Path C (%)", fontsize=7.8)
+
+    save_fig(fig, "fig8_sw5_pathC_heatmap", make_preview, tight=False)
 
 
 def main() -> None:
@@ -1079,7 +1154,8 @@ def main() -> None:
     make_fig5(make_preview)
     make_fig6(make_preview)
     make_fig7(make_preview)
-    print("Generated 7 vector PDFs in", FIG_DIR)
+    make_fig8(make_preview)
+    print("Generated 8 vector PDFs in", FIG_DIR)
 
 
 if __name__ == "__main__":

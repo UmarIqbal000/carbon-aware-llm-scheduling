@@ -1,3 +1,62 @@
+# Final Review Fixes Changelog (`final-fixes`)
+
+**Branch:** `final-fixes` (branched from `revision-v2` at `0e068d8`; untouched `main` stays at `c12434e`)  
+**Manuscript:** *Carbon-Aware Scheduling for Phase-Disaggregated LLM Inference in Cloud and Serverless Platforms: Review and Simulation*  
+**Author:** Umar Iqbal (`umar.iqbal.cs28@iilm.edu`, ORCID `0009-0004-3968-4857`)
+
+---
+
+## Items Marked `% TODO-VERIFY`
+
+1. **`references.bib:379` (`wang2026festina`) and `main_supplement.tex:39`:**
+   - **Entry:** Wang et al., *"Energy-Aware Scheduling for Serverless LLM Serving on Shared GPUs (Extended),"* accepted at ACM SIGOPS ATC 2026 (`arXiv:2606.30391v2`).
+   - **Status:** Marked `% TODO-VERIFY: arXiv:2606.30391v2 lists DOI 10.1145/3828523.3857091, but Crossref returned HTTP 404 on 2026-11-12; retain arXiv URL until indexed`. Do not guess or assert a live publisher URL until Crossref indexes it.
+
+---
+
+## PART A. Text, Framing & Literature Fixes
+
+- **A1 — Benchmark-Validated Framing (`00_abstract.tex:1`, `01_introduction.tex:20`, `05_simulation_design.tex:4,101`, `08_conclusion.tex:3`, `cover_letter.md`, `README.md`):** Removed `"hardware-validated"` everywhere (0 hits verified across all `.tex` and `.md` files) and standardized wording to *"validated against published serving benchmarks and held-out scaling trends"* (acknowledging no physical multi-continent GPU telemetry was collected).
+- **A2 — Calibration vs. Held-Out Validation Separation (`experiments/validate_simulator.py`, `experiments/results/validation_benchmarks.csv:1-25`, `sections/05_simulation_design.tex:101-102`, `main_supplement.tex` Table S2):**
+  - Annotated every check in `validation_benchmarks.csv` with `check_type`: **19 `calibration_anchor`** checks (Splitwise Table IV conv/code anchors, Splitwise Figs. 8–9 power-cap step curve, ServerlessLLM Fig. 6a 2.0–84.0 s loader times) and **5 `held_out`** checks (Li et al. 2026 `B2` vs. `B1` energy and queueing scaling across `0.25x–2.00x` RPS: `-20.01%` to `-30.40%` J/tok, `+11.4%` to `+44.3%` P95 TTFT, `-7.8%` to `-31.6%` P95 TPOT).
+  - Rewrote Section V (`subsec:validation`) to report held-out scaling trends separately from constructed calibration anchors and explicitly state modeled TTFT calibration deviations as limitations (`13.73%–14.24%` on H100, `8.81%–9.50%` on A100 from fixed 5–8 ms KV-transfer stalls).
+- **A3 — Additional 2025–2026 Literature Audit (`research/`, `references.bib:576-692`, `sections/03_methodology.tex`, `sections/04_taxonomy_synthesis.tex`, `main_supplement.tex` Table S1):**
+  - Added 4 verified 2025–2026 systems (`he2025freesh`, `more2026cedar`, `cheng2026greenllm`, `tsiopani2026infactplanner`), expanding the PRISMA corpus from **61 -> 65 works** (`102` identified -> `3` duplicates -> `99` screened -> `14` T/A excluded -> `85` eligibility -> `20` excluded -> `65` included: `60` full-text [92.3%], `5` abstract-only [7.7%]; `50/65` [76.9%] omit embodied carbon; `18/65` [27.7%] preprints = `17` arXiv + `1` ATC 2026).
+  - Updated `ozcan2025vidurvessim` (`references.bib:576-587`) from arXiv-only to archival *Euro-Par 2025: Parallel Processing Workshops* (Springer LNCS, 2026, pp. 223–235, DOI `10.1007/978-3-032-19144-1_18`).
+  - Distinguished `FREESH` (`he2025freesh` — generalized P/D tuple notation in Eq. 1c while evaluating colocated TP2/TP4/TP8 pools), `Green-LLM` (`cheng2026greenllm` — distinct from `GreenLLM` `shi2024greenllm`), `CEDAR` (`more2026cedar`, DOI `10.1145/3802973.3804457`), and `InFactPlanner` (`tsiopani2026infactplanner`); updated all denominators (`0/11` implemented cross-region carbon schedulers evaluate separated P/D pools with WAN KV transfer gating).
+- **A4 — Exact Discrete Wilcoxon Floor (`sections/05_simulation_design.tex:78`, `sections/06_results_discussion.tex:3`, `sections/08_conclusion.tex:5`):** Explained that for $N=10$ paired seeds, $p = 2/2^{10} \approx 0.00195$ is the minimum attainable two-sided exact paired Wilcoxon $p$-value whenever all pairs share sign ($|r_{\text{rb}}| = 1.000$), reported at three decimals as `0.002`.
+- **A5 & A6 — Single-Author AI Disclosure & Compliance (`sections/03_methodology.tex:13`, `sections/07_open_challenges_limitations.tex:23`, `sections/08_conclusion.tex:11-26`):** Added explicit single-author generative AI search/coding/editing disclosure aligned with IEEE PSPB Sec. 8.2.1.B.10 (`Acknowledgments` in `main.tex` and `main_anon.tex` without identity leaks) and Elsevier *Declaration of generative AI and AI-assisted technologies in the writing process* (`main_elsevier.tex`).
+
+---
+
+## PART B. New Simulation Sweeps (`SW5` & `SW6`) — Zero Change to Existing Results
+
+All existing `E1`, `E2`, `SW1–SW4`, and `H4` numbers were preserved **unchanged** (bit-exact regression check on `E1 P4 conv seed=100`: `sci_op=0.04051167`, `slo=0.9140`, `pathC=0.0000`). Main experiment suite expanded cleanly from `226` configs (`2,260` runs) -> **`351` configs (`3,510` runs across 10 paired seeds `100–109`)**:
+
+- **B1 — `SW5` Path C Activation Regime Map (`sim_config.py`, `simulator.py`, `run_experiments.py`, `raw_sw5_pathc.csv`, `summary_sw5_pathc.csv`, `fig8_sw5_pathC_heatmap.pdf`, `sections/06_results_discussion.tex:97`, Supplement Table S4):**
+  - **690 runs** (`69` configs × `10` seeds) sweeping WAN bandwidth `{10, 25, 100, 400}` Gbps × RTT `{5, 20, 50, 100, 200}` ms across congested `2.0x` `conv` (high $\Delta$CI `South Scotland–TEPCO` and low $\Delta$CI `South Scotland–NW England`), nominal `1.0x` `conv`, and `2.0x` `code`.
+  - **Findings:** At `10–25 Gbps` and `>= 20 ms` RTT, `P4` keeps Path C at **`0.000%`**. Even on congested `400 Gbps / 5 ms` `2.0x` `conv` links, Path C reaches at most **`0.308%`** (high $\Delta$CI) and **`0.228%`** (low $\Delta$CI), vs. `<= 0.060%` at `1.0x` nominal load and `<= 0.009%` on `2.0x` `code`, while Path D handles `38.9%–63.0%` of requests.
+- **B2 — `SW6` Clean-Region Scale-Out Break-Even Curve (`run_experiments.py`, `raw_sw6_breakeven.csv`, `summary_sw6_breakeven.csv`, `fig7_sw_sensitivity_embodied.pdf` panel (c), `sections/06_results_discussion.tex:98`, Supplement Table S5):**
+  - **560 runs** (`56` configs × `10` seeds) comparing equal 6-node clusters vs. $+4$ spare clean `South Scotland` nodes (`P3+4`, `P4+4`) from `1.0x` to `3.0x` UK `conv` RPS under both `4 yr uniform` and `9 yr host / 3 yr GPU` lifetimes.
+  - **Findings (`P4+4` vs. `P4_eq`):** Lifecycle $\text{SCI}_{\text{tot}}$ delta shifts from **`+32.66%`** (`4-yr`) / **`+27.76%`** (`9/3-yr`) at `1.00x`, `+26.96%` / `+21.56%` at `1.25x`, and `+13.62%` / `+7.30%` at `1.50x`, crossing break-even near **`1.6x–1.7x` RPS** (`~1.71x` / `~1.61x`), to carbon savings of `-2.59%` / `-9.51%` at `1.75x`, `-13.61%` / `-20.55%` at `2.00x`, `-26.49%` / `-32.99%` at `2.50x`, and **`-30.63%`** / **`-36.45%`** at `3.00x` (cutting SLO violations from `1.17%` to `0.20%`).
+- **B3 — Figures Updated (`figures/generate_figures.py`, `assets/*.png`):** Regenerated all 8 vector PDFs and PNG previews via `.venv/Scripts/python.exe experiments/reproduce_all.py` (`fig2`, `fig3`, `fig4` for $n=65$; `fig7` panel (c) replaced with `SW6`; added `fig8_sw5_pathC_heatmap.pdf`).
+
+---
+
+## PART C & D. Page Budget, Supplement Extensions & Combined Package
+
+- **Strict 12-Page IEEE & Anonymous Limits Without Shrinking Fonts/Margins:** Moved non-measured calibrations table (`tab:calibrations`), 12-row trace-tiling table (`tab:tiling_ablation`), and `SW3c` WAN path-mix table (`tab:wan_pathmix`) into `main_supplement.tex` (expanding `supplement.pdf` to 4 pages, Tables **S1–S7**), and tightened repetitive prose across Sections I–VIII while keeping all equations, figures, citations, and numbers intact. Added `\usepackage{lmodern}` to `main_supplement.tex` and `main_elsevier.tex` (eliminating PK bitmap Type 3 fonts).
+- **Combined Showcase Package (`cloud-paper/combined/`):** Built `Umar_Iqbal_CarbonAware_LLM_Full_Package.pdf` (**18 pages, 1,814.1 KB**; Cover `p. 1` + verbatim `main.pdf` `pp. 2–13` + bannered `supplement.pdf` `pp. 14–17` + Elsevier Graphical Abstract & Highlights `p. 18`) via `cover.tex`, `supp_banner_overlay.tex`, `elsevier_frontmatter.tex`, and `build_package.py` (`pypdf`), intentionally excluding `main_anon.pdf` and leaving all 4 individual journal PDFs untouched.
+- **Verification Snapshot (all passed after final edit):**
+  - `make check` (`latex_prose_guard.py --check` across all 9 `sections/*.tex`): **0 AI-tell / dash flags**.
+  - `.venv/Scripts/python.exe experiments/reproduce_all.py`: exited `0` (`24` validation checks, `8` vector PDFs, `8` PNGs, `consistency_report.md` 349 lines).
+  - `pdfinfo`: `main.pdf` = **12 pp.** (1,044.6 KB); `main_anon.pdf` = **12 pp.** (1,038.1 KB); `main_elsevier.pdf` = **27 pp.** (1,282.1 KB); `supplement.pdf` = **4 pp.** (356.9 KB); `combined/Umar_Iqbal_CarbonAware_LLM_Full_Package.pdf` = **18 pp.** (1,814.1 KB).
+  - `pdffonts`: **0 unembedded fonts** across all 5 PDFs; `0` PK bitmap Type 3 fonts in `main_elsevier.pdf` and `supplement.pdf`.
+  - Anonymity scan (`pdftotext main_anon.pdf -`): **0 hits** for `Umar`, `Iqbal`, `IILM`, `Greater Noida`, `umar.iqbal`, `0009-0004-3968-4857`, `github.com/UmarIqbal000`.
+  - Combined integrity (`pdftotext` pp. 2–13 vs `main.pdf`): **Equal: True** (`73,738` chars); highlights lengths in `highlights.md` / `main_elsevier.tex` / `combined p.18`: **81, 73, 80, 81, 77 chars** (`<= 85` each; fixed `highlights.md` two `(82 chars)` notes to `(81 chars)`).
+
+---
+
 # Revision v2 Changelog
 
 **Branch:** `revision-v2` (branched from untouched `main` commit `c12434e`; release tag `v2-submission`)  

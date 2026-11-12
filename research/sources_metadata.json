@@ -1,7 +1,7 @@
 {
   "paper_title": "Carbon-Aware Scheduling for Phase-Disaggregated LLM Inference in Cloud and Serverless Platforms: Review and Simulation",
   "generated_date_utc": "2026-11-12",
-  "total_sources": 61,
+  "total_sources": 65,
   "sources": [
     {
       "id": "hewage2026carbon",
@@ -1709,10 +1709,10 @@
         "Philipp Weiss",
         "Odej Kao"
       ],
-      "year": 2025,
-      "venue": "arXiv preprint (arXiv:2507.11417v1)",
-      "doi": null,
-      "doi_or_url": "https://arxiv.org/abs/2507.11417",
+      "year": 2026,
+      "venue": "Euro-Par 2025: Parallel Processing Workshops, Lecture Notes in Computer Science, Springer Nature Switzerland, pp. 223-235",
+      "doi": "10.1007/978-3-032-19144-1_18",
+      "doi_or_url": "https://doi.org/10.1007/978-3-032-19144-1_18",
       "arxiv_id": "2507.11417",
       "type": "empirical",
       "pillar": "d_modeling_traces_standards",
@@ -1722,15 +1722,14 @@
         "mfu",
         "vidur",
         "vessim",
-        "preprint",
-        "arxiv_preprint"
+        "euro_par_2025"
       ],
       "accessed_date": "2026-11-12",
       "access_level": "full_text",
       "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\vidurvessim_2507.11417.txt",
       "pdf_pages": 12,
       "abstract": "Integrates Vidur LLM inference simulator with a sublinear MFU GPU power model and Vessim renewable/grid energy co-simulation.",
-      "verification_notes": "Part A1 verified full text (arXiv:2507.11417v1, 15 Jul 2025, 12 pp.). Formulates phi_manuf symbolically in Eq. (4) but evaluates only operational solar/WattTime carbon numerically (Table 2, p. 9)."
+      "verification_notes": "Part A1 verified full text (arXiv:2507.11417v1) and Crossref published proceedings DOI 10.1007/978-3-032-19144-1_18 (Euro-Par 2025 Workshops LNCS, 2026, pp. 223-235). Formulates phi_manuf symbolically in Eq. (4) but evaluates only operational solar/WattTime carbon numerically."
     },
     {
       "id": "nguyen2025sustainable",
@@ -1924,6 +1923,128 @@
       "pdf_pages": 15,
       "abstract": "Co-optimizes token-budget/directive level via LP under live hourly Electricity Maps grid CI plus prorated 5-year hardware embodied carbon on A100 vLLM clusters.",
       "verification_notes": "Part A2 verified full text (EMNLP 2024, 15 pp.) and Crossref DOI 10.18653/v1/2024.emnlp-main.1215. Models both grid CI and hardware embodied carbon; colocated single-DC scope without P/D split or WAN KV."
+    },
+    {
+      "id": "he2025freesh",
+      "title": "FREESH: Fair, Resource- and Energy-Efficient Scheduling for LLM Serving on Heterogeneous GPUs",
+      "authors": [
+        "Xuan He",
+        "Zequan Fang",
+        "Jinzhao Lian",
+        "Danny H. K. Tsang",
+        "Baosen Zhang",
+        "Yize Chen"
+      ],
+      "year": 2025,
+      "venue": "arXiv preprint (arXiv:2511.00807v2)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2511.00807",
+      "arxiv_id": "2511.00807",
+      "type": "empirical",
+      "pillar": "b_carbon_schedulers",
+      "topic_tags": [
+        "carbon_aware_scheduling",
+        "geo_distributed",
+        "dvfs",
+        "heterogeneous_gpus",
+        "llm_serving",
+        "preprint",
+        "arxiv_preprint"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "research/v2_downloads/2511.00807.txt",
+      "abstract": "Hierarchical 3-level geo-distributed LLM scheduler combining 30-min LME carbon pool IP, 1-s MIAD GPU DVFS, and preemptive LLF batching across A100 and H100 clusters.",
+      "verification_notes": "Part A3 verified full text (arXiv:2511.00807v2, Nov 2025). Eq. (1c) includes illustrative (Prefill-TP-Decode-TP) notation, whereas Sec. 4 & App. B.2 evaluate colocated TP2/TP4/TP8 serving without WAN KV transfer, embodied carbon, or serverless keep-alive."
+    },
+    {
+      "id": "more2026cedar",
+      "title": "CEDAR: Carbon Efficient Dynamic Allocation and Routing for Agentic LLM Inference",
+      "authors": [
+        "Amit More",
+        "Tarique Anwar",
+        "Poonam Yadav"
+      ],
+      "year": 2026,
+      "venue": "Proceedings of the 2nd International Workshop on Systems and Methods for Sustainable Large-Scale AI (GreenSys '26), ACM, pp. 25-30",
+      "doi": "10.1145/3802973.3804457",
+      "doi_or_url": "https://doi.org/10.1145/3802973.3804457",
+      "arxiv_id": null,
+      "type": "empirical",
+      "pillar": "b_carbon_schedulers",
+      "topic_tags": [
+        "carbon_aware_scheduling",
+        "geo_distributed",
+        "agentic_llm",
+        "cmdp",
+        "slo_aware"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "research/v2_downloads/cedar_2026.txt",
+      "pdf_pages": 6,
+      "abstract": "Queue-level CMDP + SAC multi-objective router jointly optimizing cloud cost, WattTime marginal carbon, and SLO slack across 3 heterogeneous AWS regions.",
+      "verification_notes": "Part A3 verified full text (White Rose OA eprint 239602) and Crossref GreenSys'26 DOI 10.1145/3802973.3804457. Colocated regional fleets; omits P/D disaggregation, WAN KV transfer, embodied carbon, and serverless cold starts."
+    },
+    {
+      "id": "cheng2026greenllm",
+      "title": "Green-LLM: Environmentally Aware Workload Allocation for Distributed Inference",
+      "authors": [
+        "Jiaming Cheng",
+        "Duong Tung Nguyen"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint (arXiv:2507.09942v3)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2507.09942",
+      "arxiv_id": "2507.09942",
+      "type": "empirical",
+      "pillar": "b_carbon_schedulers",
+      "topic_tags": [
+        "carbon_aware_scheduling",
+        "geo_distributed",
+        "water_aware",
+        "lexicographic_optimization",
+        "llm_serving",
+        "preprint",
+        "arxiv_preprint"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "research/v2_downloads/2507.09942.txt",
+      "abstract": "Lexicographic multi-objective LP over 9 geo-distributed edge datacenters jointly minimizing electricity cost, grid+wind operational carbon, and delay within water caps.",
+      "verification_notes": "Part A3 verified full text (arXiv:2507.09942v3, Apr 2026; Zenodo 10.5281/zenodo.19341218). Distinct from Shi et al. GreenLLM (arXiv:2412.20322). Monolithic edge-DC optimization; omits P/D split, WAN KV transfer, embodied carbon, and serverless keep-alive."
+    },
+    {
+      "id": "tsiopani2026infactplanner",
+      "title": "InFactPlanner: Planning Sustainable Geo-Distributed LLM Data Centers",
+      "authors": [
+        "Nicoletta Tsiopani",
+        "Moysis Symeonides",
+        "George Pallis",
+        "Marios D. Dikaiakos"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint (arXiv:2608.12915v1)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2608.12915",
+      "arxiv_id": "2608.12915",
+      "type": "empirical",
+      "pillar": "d_modeling_traces_standards",
+      "topic_tags": [
+        "sustainability_planner",
+        "geo_distributed",
+        "water_aware",
+        "renewable_energy",
+        "llm_serving",
+        "preprint",
+        "arxiv_preprint"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "research/v2_downloads/2608.12915.txt",
+      "abstract": "Trace-driven Ray-parallel what-if planner modeling H100/B200 LLM serving energy, PUE, solar RES, WUE water usage, ENTSO-E grid carbon, and illustrative geo-routing across Greece and Spain.",
+      "verification_notes": "Part A3 verified full text (arXiv:2608.12915v1, Aug 2026). Sec. II and VI-D explicitly state batching, KV cache, and P/D separation are abstracted away, and embodied carbon and serverless keep-alive are excluded."
     }
   ]
 }

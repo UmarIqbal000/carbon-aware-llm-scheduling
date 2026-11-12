@@ -321,6 +321,15 @@ class ClusterNode:
         return host_g + gpu_g
 
 
+def _effective_rtt_ms(r1: str, r2: str, cfg: ClusterConfig) -> float:
+    """Return intra-DC RTT if r1 == r2, optional override if set, or calibrated regional WAN RTT."""
+    if r1 == r2:
+        return 0.5
+    if cfg.wan_rtt_override_ms is not None:
+        return float(cfg.wan_rtt_override_ms)
+    return wan_rtt_ms(r1, r2)
+
+
 class ClusterRouter:
     """Implements B1, B2, P3, P4, P5, and P3_overprov routing policies."""
 
@@ -391,7 +400,7 @@ class ClusterRouter:
             if local_n.load_fraction < 1.35:
                 return "A_coloc", local_n, local_n
             # Spill to nearest RTT neighbor
-            best_r = min(regions, key=lambda r: (wan_rtt_ms(origin_region, r), self._best_p_node(r).load_fraction))
+            best_r = min(regions, key=lambda r: (_effective_rtt_ms(origin_region, r, self.cfg), self._best_p_node(r).load_fraction))
             n = self._best_p_node(best_r)
             return "A_coloc", n, n
 
@@ -401,7 +410,7 @@ class ClusterRouter:
             d_loc = self._best_d_node(origin_region)
             if d_loc.load_fraction < 1.35:
                 return "B_intra_pd", p_loc, d_loc
-            best_r = min(regions, key=lambda r: (wan_rtt_ms(origin_region, r), self._best_d_node(r).load_fraction))
+            best_r = min(regions, key=lambda r: (_effective_rtt_ms(origin_region, r, self.cfg), self._best_d_node(r).load_fraction))
             return "B_intra_pd", self._best_p_node(best_r), self._best_d_node(best_r)
 
         # P3 / P3_overprov: Spatiotemporal Carbon-Aware Disaggregated without KV-crossover check
@@ -409,11 +418,11 @@ class ClusterRouter:
             feasible_p = [
                 r
                 for r in regions
-                if wan_rtt_ms(origin_region, r) + self._best_p_node(r).pending_prefill_s * 1000.0 <= 0.90 * ttft_slo_ms
+                if _effective_rtt_ms(origin_region, r, self.cfg) + self._best_p_node(r).pending_prefill_s * 1000.0 <= 0.90 * ttft_slo_ms
             ]
             if not feasible_p:
                 feasible_p = [origin_region]
-            r_p = min(feasible_p, key=lambda r: (self._get_ci(r, t_now), wan_rtt_ms(origin_region, r)))
+            r_p = min(feasible_p, key=lambda r: (self._get_ci(r, t_now), _effective_rtt_ms(origin_region, r, self.cfg)))
             p_node = self._best_p_node(r_p)
 
             # Naive decode selection: if clean region decode saturates (>55%) OR prompt is
@@ -423,7 +432,7 @@ class ClusterRouter:
             feasible_d = [
                 r
                 for r in regions
-                if wan_rtt_ms(r_p, r) + wan_rtt_ms(r, origin_region) * 0.5 <= 0.90 * ttft_slo_ms
+                if _effective_rtt_ms(r_p, r, self.cfg) + _effective_rtt_ms(r, origin_region, self.cfg) * 0.5 <= 0.90 * ttft_slo_ms
             ]
             if not feasible_d:
                 feasible_d = [origin_region]
@@ -455,7 +464,7 @@ class ClusterRouter:
             # or when decode node saturates while prefill node has spare HBM.
             t_p_loc_ms = p_loc.gpu.prefill_base_ms + l_in * p_loc.gpu.prefill_ms_per_tok
             ttft_a_on_d = (
-                wan_rtt_ms(origin_region, origin_region)
+                _effective_rtt_ms(origin_region, origin_region, self.cfg)
                 + d_loc.pending_prefill_s * 1000.0
                 + t_p_loc_ms
             )
@@ -466,7 +475,7 @@ class ClusterRouter:
                 )
             elif d_loc.load_fraction > 0.90:
                 ttft_a_on_p = (
-                    wan_rtt_ms(origin_region, origin_region)
+                    _effective_rtt_ms(origin_region, origin_region, self.cfg)
                     + p_loc.pending_prefill_s * 1000.0
                     + t_p_loc_ms
                 )
@@ -482,7 +491,7 @@ class ClusterRouter:
                 d_n = self._best_d_node(r)
                 t_p_ms = p_n.gpu.prefill_base_ms + l_in * p_n.gpu.prefill_ms_per_tok
                 t_kv_local_ms = d_n.gpu.kv_stall_ms + (s_kv_mb * 8.0) / self.cfg.intra_dc_kv_bw_gbps
-                ttft_bd = wan_rtt_ms(origin_region, r) + p_n.pending_prefill_s * 1000.0 + t_p_ms + t_kv_local_ms
+                ttft_bd = _effective_rtt_ms(origin_region, r, self.cfg) + p_n.pending_prefill_s * 1000.0 + t_p_ms + t_kv_local_ms
                 t_d_wait_ms = d_n.estimate_decode_wait_s() * 1000.0
                 est_tpot = d_n.gpu.decode_step_ms + t_d_wait_ms / max(1.0, self.ewma_l_out)
 
@@ -506,7 +515,7 @@ class ClusterRouter:
                         continue
                     d_n = self._best_d_node(r_d)
                     ci_d = self._get_ci(r_d, t_now)
-                    t_kv_wan_ms = wan_rtt_ms(r_p, r_d) + (s_kv_mb * 8.0) / self.cfg.wan_bw_gbps
+                    t_kv_wan_ms = _effective_rtt_ms(r_p, r_d, self.cfg) + (s_kv_mb * 8.0) / self.cfg.wan_bw_gbps
                     # Recompute time on r_d if sent straight to r_d instead of transferring KV
                     t_recompute_ms = d_n.gpu.prefill_base_ms + l_in * p_n.gpu.prefill_ms_per_tok
                     t_qd_rp = self._best_d_node(r_p).estimate_decode_wait_s() * 1000.0
@@ -516,11 +525,11 @@ class ClusterRouter:
                     if not (t_kv_wan_ms + t_qd_rd < min(t_qd_rp + 1e-6, t_recompute_ms)):
                         continue
                     ttft_c = (
-                        0.5 * wan_rtt_ms(origin_region, r_p)
+                        0.5 * _effective_rtt_ms(origin_region, r_p, self.cfg)
                         + p_n.pending_prefill_s * 1000.0
                         + t_p_ms
                         + t_kv_wan_ms
-                        + 0.5 * wan_rtt_ms(r_d, origin_region)
+                        + 0.5 * _effective_rtt_ms(r_d, origin_region, self.cfg)
                     )
                     if ttft_c > margin_ttft:
                         continue
@@ -580,7 +589,7 @@ def run_cluster_simulation(cfg: ClusterConfig) -> Dict[str, float]:
         else:
             n_p = max(1, cfg.nodes_per_region // 2)
             n_d = max(1, cfg.nodes_per_region - n_p)
-            extra = cfg.clean_scaleout_extra_nodes if (cfg.policy == "P3_overprov" and r == cfg.regions[0]) else 0
+            extra = cfg.clean_scaleout_extra_nodes if (cfg.clean_scaleout_extra_nodes > 0 and r == cfg.regions[0]) else 0
             for k in range(n_p + extra // 2):
                 node = ClusterNode(
                     env, f"{r}-prefill-{k}", r, "prefill", p_gpu, host_prof, 1.0, cfg, ci_arr
@@ -636,7 +645,7 @@ def run_cluster_simulation(cfg: ClusterConfig) -> Dict[str, float]:
         path_lbl, p_node, d_node = router.select_route(origin_r, l_in, arr_t)
         path_counts[path_lbl] += 1
 
-        t_to_p_s = 0.5 * wan_rtt_ms(origin_r, p_node.region) / 1000.0
+        t_to_p_s = 0.5 * _effective_rtt_ms(origin_r, p_node.region, cfg) / 1000.0
         if t_to_p_s > 0.0:
             yield env.timeout(t_to_p_s)
 
@@ -662,7 +671,7 @@ def run_cluster_simulation(cfg: ClusterConfig) -> Dict[str, float]:
                 kv_local_carbon_g += c_kv
                 yield env.timeout(t_kv_s)
             else:
-                rtt_s = wan_rtt_ms(p_node.region, d_node.region) / 1000.0
+                rtt_s = _effective_rtt_ms(p_node.region, d_node.region, cfg) / 1000.0
                 tx_s = (s_kv_mb * 8.0) / (cfg.wan_bw_gbps * 1000.0)
                 yield env.timeout(rtt_s)
                 with wan_links[(p_node.region, d_node.region)].request() as wreq:
@@ -678,7 +687,7 @@ def run_cluster_simulation(cfg: ClusterConfig) -> Dict[str, float]:
                 kv_wan_energy_kwh += e_kv
                 kv_wan_carbon_g += e_kv * ci_avg
 
-        t_ret_s = 0.5 * wan_rtt_ms(d_node.region, origin_r) / 1000.0
+        t_ret_s = 0.5 * _effective_rtt_ms(d_node.region, origin_r, cfg) / 1000.0
         ttft_ms = (env.now + t_ret_s - arr_t) * 1000.0
         ttfts_ms[idx] = ttft_ms
 
