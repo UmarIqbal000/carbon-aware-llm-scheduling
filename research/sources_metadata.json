@@ -1,7 +1,7 @@
 {
   "paper_title": "Carbon-Aware Scheduling for Phase-Disaggregated LLM Inference in Cloud and Serverless Platforms: Review and Simulation",
-  "generated_date_utc": "2026-11-11",
-  "total_sources": 47,
+  "generated_date_utc": "2026-11-12",
+  "total_sources": 61,
   "sources": [
     {
       "id": "hewage2026carbon",
@@ -613,17 +613,15 @@
         "Spyros Lalis"
       ],
       "year": 2026,
-      "venue": "Proceedings of the 26th IEEE International Symposium on Cluster, Cloud, and Internet Computing (CCGrid 2026, Accepted Preprint; arXiv:2602.23935v1)",
-      "doi": null,
-      "doi_or_url": "https://arxiv.org/abs/2602.23935",
+      "venue": "2026 IEEE 26th International Symposium on Cluster, Cloud and Internet Computing (CCGrid), pp. 254-264",
+      "doi": "10.1109/ccgrid68966.2026.00034",
+      "doi_or_url": "https://doi.org/10.1109/ccgrid68966.2026.00034",
       "arxiv_id": "2602.23935",
       "type": "empirical",
       "pillar": "b_carbon_schedulers",
       "topic_tags": [
         "serverless",
         "faas",
-        "preprint",
-        "accepted_preprint",
         "cold_start",
         "idle_carbon",
         "reinforcement_learning"
@@ -633,7 +631,7 @@
       "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\pdfs\\sun2026lacere.pdf",
       "pdf_pages": 12,
       "abstract": "Serverless computing simplifies cloud deployment but introduces new challenges in managing service latency and carbon emissions. Reducing cold-start latency requires retaining warm function instances, while minimizing carbon emissions favors reclaiming idle resources. This balance is further complicated by time-varying grid carbon intensity and varying workload patterns, under which static keep-alive policies are inefficient. We present LACE-RL, a latency-aware and carbon-efficient management framework that formulates serverless pod retention as a sequential decision problem. LACE-RL uses deep reinforcement learning to dynamically tune keep-alive durations, jointly modeling cold-start probability, function-specific latency costs, and real-time carbon intensity. Using the Huawei Public Cloud Trace, we show that LACE-RL reduces cold starts by 51.69% and idle keep-alive carbon emissions by 77.08% compared to Huawei's static policy, while achieving better latency-carbon trade-offs than state-of-the-art heuristic and single-objective baselines, approaching Oracle performance.",
-      "verification_notes": "PDF p.1 explicitly notes acceptance at 26th IEEE CCGrid 2026 (Sydney, 18-21 May 2026), released under CC-BY via arXiv:2602.23935v1."
+      "verification_notes": "PDF p.1 explicitly notes acceptance at 26th IEEE CCGrid 2026 (Sydney, 18-21 May 2026), released under CC-BY via arXiv:2602.23935v1. Formal IEEE CCGrid 2026 DOI 10.1109/ccgrid68966.2026.00034 verified via Crossref."
     },
     {
       "id": "kwon2023vllm",
@@ -1092,19 +1090,18 @@
       "authors": [
         "Jiaxi Li",
         "Yue Zhu",
+        "Bo Chen",
         "Eun Kyung Lee",
         "Klara Nahrstedt"
       ],
       "year": 2026,
-      "venue": "arXiv preprint (arXiv:2601.08833v1; submitted Nov 2025)",
-      "doi": null,
-      "doi_or_url": "https://arxiv.org/abs/2601.08833",
+      "venue": "Proceedings of the Sixth European Workshop on Machine Learning and Systems (EuroMLSys 2026), pp. 397-406",
+      "doi": "10.1145/3805621.3807662",
+      "doi_or_url": "https://doi.org/10.1145/3805621.3807662",
       "arxiv_id": "2601.08833",
       "type": "empirical",
       "pillar": "c_llm_serving",
       "topic_tags": [
-        "preprint",
-        "arxiv_preprint",
         "phase_disaggregation",
         "kv_cache_transfer",
         "energy_benchmarking",
@@ -1115,7 +1112,7 @@
       "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\pdfs\\li2026revisiting.pdf",
       "pdf_pages": 10,
       "abstract": "Different from traditional Large Language Model (LLM) serving that colocates the prefill and decode stages on the same GPU, disaggregated serving dedicates distinct GPUs to prefill and decode workload. Once the prefill GPU completes its task, the KV cache must be transferred to the decode GPU. While existing works have proposed various KV cache transfer paths across different memory and storage tiers, there remains a lack of systematic benchmarking that compares their performance and energy efficiency. Meanwhile, although optimization techniques such as KV cache reuse and frequency scaling have been utilized for disaggregated serving, their performance and energy implications have not been rigorously benchmarked. In this paper, we fill this research gap by re-evaluating prefill-decode disaggregation under different KV transfer mediums and optimization strategies. Specifically, we include a new colocated serving baseline and evaluate disaggregated setups under different KV cache transfer paths. Through GPU profiling using dynamic voltage and frequency scaling (DVFS), we identify and compare the performance-energy Pareto frontiers across all setups to evaluate the potential energy savings enabled by disaggregation. Our results show that performance benefits from prefill-decode disaggregation are not guaranteed and depend on the request load and KV transfer mediums. In addition, stage-wise independent frequency scaling enabled by disaggregation does not lead to energy saving due to inherently higher energy consumption of disaggregated serving.",
-      "verification_notes": "Retrieved via bounded query AX2; cataloged arXiv:2601.08833v1 (submitted 2025-11-14)."
+      "verification_notes": "Retrieved via bounded query AX2; cataloged arXiv:2601.08833v1 (submitted 2025-11-14). Formal ACM EuroMLSys 2026 DOI 10.1145/3805621.3807662 (adding Bo Chen) verified via Crossref."
     },
     {
       "id": "wang2026festina",
@@ -1485,6 +1482,448 @@
       "pdf_pages": null,
       "abstract": "Cloud computing is a recent advancement wherein IT infrastructure and applications are provided as ‘services’ to end‐users under a usage‐based payment model. It can leverage virtualized services even on the fly based on requirements (workload patterns and QoS) varying with time. The application services hosted under Cloud computing model have complex provisioning, composition, configuration, and deployment requirements. Evaluating the performance of Cloud provisioning policies, application workload models, and resources performance models in a repeatable manner under varying system and user configurations and requirements is difficult to achieve. To overcome this challenge, we propose CloudSim: an extensible simulation toolkit that enables modeling and simulation of Cloud computing systems and application provisioning environments. The CloudSim toolkit supports both system and behavior modeling of Cloud system components such as data centers, virtual machines (VMs) and resource provisioning policies. It implements generic application provisioning techniques that can be extended with ease and limited effort. Currently, it supports modeling and simulation of Cloud computing environments consisting of both single and inter‐networked clouds (federation of clouds). Moreover, it exposes custom interfaces for implementing policies and provisioning techniques for allocation of VMs under inter‐networked Cloud computing scenarios. Several researchers from organizations, such as HP Labs in U.S.A., are using CloudSim in their investigation on Cloud resource provisioning and energy‐efficient management of data center resources. The usefulness of CloudSim is demonstrated by a case study involving dynamic provisioning of application services in the hybrid federated clouds environment. The result of this case study proves that the federated Cloud computing model significantly improves the application QoS requirements under fluctuating resource and service demand patterns. Copyright © 2010 John Wiley & Sons, Ltd.",
       "verification_notes": "Paywalled Wiley Online Library (HTTP 403); published online Aug 2010, print Vol. 41 Issue 1 Jan 2011; verified Crossref + OpenAlex metadata and abstract."
+    },
+    {
+      "id": "shi2024greenllm",
+      "title": "GreenLLM: Disaggregating Large Language Model Serving on Heterogeneous GPUs for Lower Carbon Emissions",
+      "authors": [
+        "Tianyao Shi",
+        "Yanran Wu",
+        "Sihang Liu",
+        "Yi Ding"
+      ],
+      "year": 2024,
+      "venue": "arXiv preprint (arXiv:2412.20322v1)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2412.20322",
+      "arxiv_id": "2412.20322",
+      "type": "empirical",
+      "pillar": "c_llm_serving",
+      "topic_tags": [
+        "phase_disaggregation",
+        "prefill_decode",
+        "heterogeneous_gpus",
+        "operational_embodied_carbon",
+        "carbon_aware_scheduling",
+        "preprint",
+        "arxiv_preprint"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\greenllm_2412.20322.txt",
+      "pdf_pages": 15,
+      "abstract": "Disaggregated prefill/decode and speculative-decoding vLLM serving across heterogeneous new (A100) and older (T4/V100) GPUs incorporating grid carbon intensity and amortized GPU embodied carbon over lifetime LT.",
+      "verification_notes": "Part A1 verified full text (arXiv:2412.20322v1, 29 Dec 2024, 15 pp.). Models both P/D disaggregation, grid CI (CISO 261, NCSW 17, MISO 501), and GPU embodied carbon; single-cluster GCP scope without cross-region WAN KV or serverless keep-alive."
+    },
+    {
+      "id": "topcu2026tension",
+      "title": "Dissecting the Carbon--SLO Tension in Geo-Distributed LLM Serving",
+      "authors": [
+        "Burak Topcu",
+        "Musa Cim",
+        "Zuhal Ozturk",
+        "Mahmut Taylan Kandemir"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint (arXiv:2610.14571v1)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2610.14571",
+      "arxiv_id": "2610.14571",
+      "type": "empirical",
+      "pillar": "b_carbon_schedulers",
+      "topic_tags": [
+        "carbon_aware_scheduling",
+        "geo_distributed",
+        "llm_serving",
+        "continuous_batching",
+        "slo_aware",
+        "preprint",
+        "arxiv_preprint"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\pennstate_2610.14571.txt",
+      "pdf_pages": 13,
+      "abstract": "Geo-distributed carbon-aware LLM scheduling using a continuous-batching discrete-event queueing simulator across 16 US/EU datacenters calibrated against vLLM/A100 traces.",
+      "verification_notes": "Part A1 verified full text (arXiv:2610.14571v1, 10 Oct 2026, 13 pp.). Calibrated <5% TPOT / 9.1% TTFT / <2.5% energy error; homogeneous engines only (no P/D disaggregation, no KV transfer, no embodied carbon, no serverless cold starts)."
+    },
+    {
+      "id": "sisodia2026sicp",
+      "title": "Toward Sustainable Distributed LLM Inference: A Systems Synthesis and Research Agenda for an Energy-, Carbon-, and Cache-Aware llm-d Control Plane",
+      "authors": [
+        "Twinkll Sisodia"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint (arXiv:2609.05565v1)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2609.05565",
+      "arxiv_id": "2609.05565",
+      "type": "survey",
+      "pillar": "a_surveys",
+      "topic_tags": [
+        "survey",
+        "synthesis",
+        "preprint",
+        "arxiv_preprint",
+        "llm_d",
+        "carbon_aware_scheduling",
+        "kv_cache",
+        "prefill_decode_disaggregation"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\sisodia_2609.05565.txt",
+      "pdf_pages": 13,
+      "abstract": "Systems synthesis and research agenda proposing a Sustainable Inference Control Plane (SICP) for Kubernetes llm-d with joint carbon/embodied routing objective and intra-cluster KV transfer-vs-recompute criterion.",
+      "verification_notes": "Part A1 verified full text (arXiv:2609.05565v1, 3 Sep 2026, 13 pp.). Strictly a synthesis and design proposal with zero new experiments."
+    },
+    {
+      "id": "zhang2026context",
+      "title": "Context Is Not Free: Carbon-Aware LLM Routing for Multi-Turn LLM Web Services across Geo-Distributed Data Centers",
+      "authors": [
+        "Xiaoyang Zhang",
+        "Yuejun Yan",
+        "Qingang Zhang",
+        "Yonggang Wen"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint (arXiv:2610.35230v1)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2610.35230",
+      "arxiv_id": "2610.35230",
+      "type": "empirical",
+      "pillar": "b_carbon_schedulers",
+      "topic_tags": [
+        "carbon_aware_scheduling",
+        "geo_distributed",
+        "multi_turn_llm",
+        "kv_cache",
+        "preprint",
+        "arxiv_preprint"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\contextnotfree_2610.35230.txt",
+      "pdf_pages": 11,
+      "abstract": "CarbonRouter selects model, GPU, and region for multi-turn LLM sessions by pricing full prompt history recomputation carbon when moving sessions across geo-distributed datacenters.",
+      "verification_notes": "Part A1 verified full text (arXiv:2610.35230v1, 26 Oct 2026, 11 pp.). Explicitly defers cross-region KV migration to future work; omits P/D disaggregation, embodied carbon, and serverless cold starts."
+    },
+    {
+      "id": "bernhard2026cleanest",
+      "title": "Routing LLM Inference to the Cleanest Grid in Real Time",
+      "authors": [
+        "Aleks Bernhard",
+        "Arif Baran Yardimci"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint (arXiv:2608.06188v1)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2608.06188",
+      "arxiv_id": "2608.06188",
+      "type": "empirical",
+      "pillar": "b_carbon_schedulers",
+      "topic_tags": [
+        "carbon_aware_scheduling",
+        "geo_distributed",
+        "marginal_emissions",
+        "watttime",
+        "llm_serving",
+        "preprint",
+        "arxiv_preprint"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\cleanestgrid_2608.06188.txt",
+      "pdf_pages": 18,
+      "abstract": "Live two-region vLLM routing feasibility testbed and 1-year CONUS historical WattTime MOER replay comparing per-request marginal carbon placement against pressure-based routers.",
+      "verification_notes": "Part A1 verified full text (arXiv:2608.06188v1, 6 Aug 2026, 18 pp.). Live GPU A/B + 1-yr MOER replay; homogeneous sites (no P/D disaggregation, no KV transfer, no embodied carbon, no serverless keep-alive)."
+    },
+    {
+      "id": "tian2026greencache",
+      "title": "Cache Your Prompt When It's Green — Carbon-Aware Caching for Large Language Model Serving",
+      "authors": [
+        "Yuyang Tian",
+        "Desen Sun",
+        "Yi Ding",
+        "Sihang Liu"
+      ],
+      "year": 2026,
+      "venue": "Proceedings of the ACM on Measurement and Analysis of Computing Systems (POMACS), Vol. 10, No. 1, pp. 1-28 (arXiv:2505.23970v3)",
+      "doi": "10.1145/3788087",
+      "doi_or_url": "https://doi.org/10.1145/3788087",
+      "arxiv_id": "2505.23970",
+      "type": "empirical",
+      "pillar": "c_llm_serving",
+      "topic_tags": [
+        "kv_cache",
+        "embodied_carbon",
+        "ssd_caching",
+        "carbon_aware_scheduling",
+        "llm_serving"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\embadvisor_2505.23970.txt",
+      "pdf_pages": 28,
+      "abstract": "GreenCache (formerly EmbAdvisor) co-optimizes operational GPU carbon saved by KV prefix caching against dynamic SSD embodied storage carbon via hourly ILP and utility eviction.",
+      "verification_notes": "Part A1 verified full text (arXiv:2505.23970v3, 11 Apr 2026) and Crossref POMACS DOI 10.1145/3788087 (published 26 Mar 2026). Models CI + SSD embodied carbon; single-cluster colocated vLLM+LMCache."
+    },
+    {
+      "id": "moore2025slit",
+      "title": "Sustainable Carbon-Aware and Water-Efficient LLM Scheduling in Geo-Distributed Cloud Datacenters",
+      "authors": [
+        "Hayden Moore",
+        "Sirui Qi",
+        "Ninad Hogade",
+        "Dejan Milojicic",
+        "Cullen Bash",
+        "Sudeep Pasricha"
+      ],
+      "year": 2025,
+      "venue": "Proceedings of the Great Lakes Symposium on VLSI 2025 (GLSVLSI 2025), pp. 929-934",
+      "doi": "10.1145/3716368.3735301",
+      "doi_or_url": "https://doi.org/10.1145/3716368.3735301",
+      "arxiv_id": "2505.23554",
+      "type": "empirical",
+      "pillar": "b_carbon_schedulers",
+      "topic_tags": [
+        "carbon_aware_scheduling",
+        "water_aware",
+        "geo_distributed",
+        "llm_serving",
+        "ttft_slo"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\slit_2505.23554.txt",
+      "pdf_pages": 6,
+      "abstract": "SLIT co-optimizes TTFT, grid carbon, water scarcity/TOU cost across 5 geo-distributed LLM datacenters using an analytical prefill queueing model.",
+      "verification_notes": "Part A1 verified full text (arXiv:2505.23554, 6 pp.) and Crossref GLSVLSI 2025 DOI 10.1145/3716368.3735301. No P/D disaggregation, no KV transfer, no embodied carbon, no serverless keep-alive."
+    },
+    {
+      "id": "ozcan2025vidurvessim",
+      "title": "Quantifying the Energy Consumption and Carbon Emissions of LLM Inference via Simulations",
+      "authors": [
+        "Miray Ozcan",
+        "Philipp Wiesner",
+        "Philipp Weiss",
+        "Odej Kao"
+      ],
+      "year": 2025,
+      "venue": "arXiv preprint (arXiv:2507.11417v1)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2507.11417",
+      "arxiv_id": "2507.11417",
+      "type": "empirical",
+      "pillar": "d_modeling_traces_standards",
+      "topic_tags": [
+        "simulation",
+        "gpu_power_model",
+        "mfu",
+        "vidur",
+        "vessim",
+        "preprint",
+        "arxiv_preprint"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\vidurvessim_2507.11417.txt",
+      "pdf_pages": 12,
+      "abstract": "Integrates Vidur LLM inference simulator with a sublinear MFU GPU power model and Vessim renewable/grid energy co-simulation.",
+      "verification_notes": "Part A1 verified full text (arXiv:2507.11417v1, 15 Jul 2025, 12 pp.). Formulates phi_manuf symbolically in Eq. (4) but evaluates only operational solar/WattTime carbon numerically (Table 2, p. 9)."
+    },
+    {
+      "id": "nguyen2025sustainable",
+      "title": "Towards Sustainable Large Language Model Serving",
+      "authors": [
+        "Sophia Nguyen",
+        "Beihao Zhou",
+        "Yi Ding",
+        "Sihang Liu"
+      ],
+      "year": 2024,
+      "venue": "ACM SIGEnergy Energy Informatics Review (HotCarbon'24), Vol. 4, No. 5, pp. 134-140",
+      "doi": "10.1145/3727200.3727220",
+      "doi_or_url": "https://doi.org/10.1145/3727200.3727220",
+      "arxiv_id": "2501.01990",
+      "type": "empirical",
+      "pillar": "d_modeling_traces_standards",
+      "topic_tags": [
+        "carbon_modeling",
+        "embodied_carbon",
+        "operational_embodied_carbon",
+        "gpu_benchmarking",
+        "llm_serving"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\shisurvey_2501.01990.txt",
+      "pdf_pages": 7,
+      "abstract": "Per-token energy benchmarking and analytical operational plus ACT-based embodied carbon modeling across T4 and RTX 6000 Ada GPUs serving LLaMA-1B/3B/7B under hydro, wind, and coal grids.",
+      "verification_notes": "Part A1 verified full text (arXiv:2501.01990v1, 7 pp.) and Crossref ACM SIGEnergy EIR Vol. 4 No. 5 (Dec 2024) pp. 134-140 DOI 10.1145/3727200.3727220."
+    },
+    {
+      "id": "yan2026pdprov",
+      "title": "Analytical Power-Aware Provisioning for Prefill--Decode Disaggregated AI Inference",
+      "authors": [
+        "Mingyuan Yan",
+        "Haiyu Wang",
+        "Linxuan Biao",
+        "H. Jonathan Chao",
+        "Sai Qian Zhang",
+        "Wenqi Cui"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint (arXiv:2609.24639v1)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2609.24639",
+      "arxiv_id": "2609.24639",
+      "type": "empirical",
+      "pillar": "c_llm_serving",
+      "topic_tags": [
+        "phase_disaggregation",
+        "prefill_decode",
+        "power_aware_provisioning",
+        "llm_serving",
+        "preprint",
+        "arxiv_preprint"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\pdprov_2609.24639.txt",
+      "pdf_pages": 17,
+      "abstract": "Analytical roofline + M/G/n_P + memory-balance solver for P/D disaggregated provisioning and GPU power reduction on SGLang+Mooncake H200 clusters.",
+      "verification_notes": "Part A2 screened & verified full text (arXiv:2609.24639v1, 21 Sep 2026, 17 pp.). Intra-DC Watts only; excludes startup transients, grid CI, WAN KV, and embodied carbon."
+    },
+    {
+      "id": "jegham2025hungryai",
+      "title": "How Hungry is AI? Benchmarking Energy, Water, and Carbon Footprint of LLM Inference",
+      "authors": [
+        "Nidhal Jegham",
+        "Marwan Abdelatti",
+        "Chan Young Koh",
+        "Lassad Elmoubarki",
+        "Abdeltawab Hendawi"
+      ],
+      "year": 2025,
+      "venue": "arXiv preprint (arXiv:2505.09598v6)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2505.09598",
+      "arxiv_id": "2505.09598",
+      "type": "empirical",
+      "pillar": "d_modeling_traces_standards",
+      "topic_tags": [
+        "llm_inference",
+        "energy_benchmarking",
+        "carbon_footprint",
+        "water_footprint",
+        "preprint",
+        "arxiv_preprint"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\hungryai_2505.09598.txt",
+      "pdf_pages": 20,
+      "abstract": "Monte Carlo and DEA benchmarking of query-level energy, PUE/WUE water, and static-CIF carbon across 30 commercial and open-weight LLMs.",
+      "verification_notes": "Part A2 screened & verified full text (arXiv:2505.09598v6, 24 Nov 2025, 20 pp.). Uses static regional CIF and explicitly excludes Scope 3 embodied carbon (Sec. 4.4)."
+    },
+    {
+      "id": "zhen2025taming",
+      "title": "Taming the Titans: A Survey of Efficient LLM Inference Serving",
+      "authors": [
+        "Ranran Zhen",
+        "Juntao Li",
+        "Yixin Ji",
+        "Zhenlin Yang",
+        "Tong Liu",
+        "Qingrong Xia",
+        "Xinyu Duan",
+        "Zhefeng Wang",
+        "Baoxing Huai",
+        "Min Zhang"
+      ],
+      "year": 2025,
+      "venue": "arXiv preprint (arXiv:2504.19720v1)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2504.19720",
+      "arxiv_id": "2504.19720",
+      "type": "survey",
+      "pillar": "a_surveys",
+      "topic_tags": [
+        "survey",
+        "llm_serving",
+        "prefill_decode_disaggregation",
+        "serverless_llm",
+        "preprint",
+        "arxiv_preprint"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\tamingtitans_2504.19720.txt",
+      "pdf_pages": 20,
+      "abstract": "Surveys instance- and cluster-level efficient LLM serving across P/D disaggregation, serverless cold starts, power/DVFS governors, and simulators, with a one-paragraph energy/carbon subsection.",
+      "verification_notes": "Part A2 screened & verified full text (arXiv:2504.19720v1, 28 Apr 2025, 20 pp.). Covers P/D (Sec. 3.5) and cold starts (Sec. 4.3); carbon appears only briefly in Sec. 6.5."
+    },
+    {
+      "id": "lu2026etcinfer",
+      "title": "ETCInfer: An Energy-efficient Thermal-aware Cooling-joint Scheduler for LLM Inference in AI Datacenters",
+      "authors": [
+        "Rui Lu",
+        "Rui Ge",
+        "Huanghuang Liang",
+        "Xiaobo Zhou",
+        "Dan Wang"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint (arXiv:2609.15230v1)",
+      "doi": null,
+      "doi_or_url": "https://arxiv.org/abs/2609.15230",
+      "arxiv_id": "2609.15230",
+      "type": "empirical",
+      "pillar": "c_llm_serving",
+      "topic_tags": [
+        "energy_efficiency",
+        "thermal_aware",
+        "dvfs",
+        "llm_serving",
+        "preprint",
+        "arxiv_preprint"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\etcinfer_2609.15230.txt",
+      "pdf_pages": 16,
+      "abstract": "POMDP + actor-critic joint CRAC cooling setpoint, GPU DVFS, and micro-batch scheduler for colocated vLLM datacenter clusters.",
+      "verification_notes": "Part A2 screened & verified full text (arXiv:2609.15230v1, 14 Sep 2026, 16 pp.). Optimizes local IT+CRAC energy; omits grid CI, P/D disaggregation, WAN KV, and embodied carbon."
+    },
+    {
+      "id": "li2024sprout",
+      "title": "SPROUT: Green Generative AI with Carbon-Efficient LLM Inference",
+      "authors": [
+        "Baolin Li",
+        "Yankai Jiang",
+        "Vijay Gadepally",
+        "Devesh Tiwari"
+      ],
+      "year": 2024,
+      "venue": "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing (EMNLP 2024), pp. 21799-21813",
+      "doi": "10.18653/v1/2024.emnlp-main.1215",
+      "doi_or_url": "https://doi.org/10.18653/v1/2024.emnlp-main.1215",
+      "arxiv_id": null,
+      "type": "empirical",
+      "pillar": "c_llm_serving",
+      "topic_tags": [
+        "carbon_aware_scheduling",
+        "operational_embodied_carbon",
+        "token_budget_control",
+        "llm_serving"
+      ],
+      "accessed_date": "2026-11-12",
+      "access_level": "full_text",
+      "local_file": "c:\\Users\\umari\\Cloud Computing Research Paper\\cloud-paper\\research\\v2_downloads\\sprout_2024.emnlp-main.1215.txt",
+      "pdf_pages": 15,
+      "abstract": "Co-optimizes token-budget/directive level via LP under live hourly Electricity Maps grid CI plus prorated 5-year hardware embodied carbon on A100 vLLM clusters.",
+      "verification_notes": "Part A2 verified full text (EMNLP 2024, 15 pp.) and Crossref DOI 10.18653/v1/2024.emnlp-main.1215. Models both grid CI and hardware embodied carbon; colocated single-DC scope without P/D split or WAN KV."
     }
   ]
 }

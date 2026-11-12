@@ -3,12 +3,14 @@
 __pycache__/
 *.py[cod]
 *$py.class
+figures/_preview/
 
 # Cloned third-party humanizer/helper tools
 tools/
 
 # Third-party downloaded literature PDFs/HTMLs (avoid redistributing copyrighted publisher files)
 research/pdfs/
+research/v2_downloads/
 research/docs/
 research/scout_surveys_raw.json
 
@@ -20,6 +22,7 @@ research/scout_surveys_raw.json
 *.fls
 *.log
 *.out
+*.spl
 *.synctex.gz
 *.toc
 *.lof

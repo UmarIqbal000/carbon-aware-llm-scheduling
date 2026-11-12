@@ -131,25 +131,46 @@ Included:         47 sources retained in sources.csv (42 full_text, 5 abstract_o
 
 ---
 
-## 5. Retained Corpus Breakdown (`47` Verified Sources)
+## 5. Retained Corpus Breakdown (`47` V1 + `14` V2 = `61` Verified Sources)
 
-### 5.1 By Thematic Pillar
-- **Pillar (a) — Core & Supplementary Surveys:** `9` (`hewage2026carbon`, `yang2025container`, `alam2026computing`, `agarwal2026serverless`, `besozzi2025serverless`, `miao2025serving`, `bai2026efficiency`, `jiang2026kvcache`, `pan2025inference`)
-- **Pillar (b) — Carbon-Aware Cloud, Container & Serverless/FaaS Schedulers:** `11` (`wiesner2021letswait`, `hanafy2023carbonscaler`, `souza2023ecovisor`, `chadha2023greencourier`, `sukprasert2024limitations`, `gsteiger2024caribou`, `qi2024casa`, `jiang2024ecolife`, `roy2026lowcarb`, `calavaro2026offloading`, `sun2026lacere`)
-- **Pillar (c) — Phase-Disaggregated, Energy-Aware & Serverless LLM Serving Systems:** `16` (`kwon2023vllm`, `li2023clover`, `patel2024splitwise`, `zhong2024distserve`, `agrawal2024sarathi`, `fu2024serverlessllm`, `wilkins2024offline`, `qin2025mooncake`, `stojkovic2025dynamollm`, `stojkovic2025tapas`, `kakolyris2025throttllem`, `fernandez2025acl`, `li2025ecoserve`, `basit2026dualscale`, `li2026revisiting`, `wang2026festina`)
-- **Pillar (d) — Operational vs. Embodied Carbon Modeling, Production Traces & Standards:** `9` (`shahrad2020serverless`, `gupta2021chasing`, `gupta2022act`, `acun2023carbonexplorer`, `faiz2024llmcarbon`, `azure2024trace`, `iso2024sci`, `sinha2025utilization`, `hewage2025aging`)
-- **Pillar (e) — Cloud & Serverless Foundations:** `2` (`mell2011nist`, `calheiros2011cloudsim`)
+### 5.1 Revision v2 Search & Audit Extension (`2026-11-12`, Parts A1–A2)
 
-### 5.2 By Year, Recency, Type, and Access Level
-- **By Year:** `2011`: 2 | `2020`: 1 | `2021`: 2 | `2022`: 1 | `2023`: 6 | `2024`: 12 | `2025`: 12 | `2026`: 11 (Total = **47**)
+To address reviewer concerns over recent 2024–2026 systems missed in the bounded top-3 v1 queries and fix the overly narrow `0/6` and `0/4` claims, a follow-up targeted retrieval and 2024–Nov 2026 systematic search update was executed on `2026-11-12`:
+
+| Query / Channel ID | Source / API | Exact Query String / Scope | Retrieved Records | Decision Summary |
+| :--- | :--- | :--- | ---: | :--- |
+| `V2-A1` | Targeted Literature Audit (arXiv / ACM / GLSVLSI) | Full-text audit of 9 named systems & synthesis papers (`2412.20322` GreenLLM, `2610.14571` Penn State, `2609.05565` Sisodia `llm-d` SICP, `2610.35230` CarbonRouter, `2608.06188` Cleanest Grid, `2505.23970`/`10.1145/3788087` GreenCache, `2505.23554`/`10.1145/3716368.3735301` SLIT, `2507.11417` Vidur+Vessim, `2501.01990`/`10.1145/3727200.3727220` Nguyen et al.) | 9 (Channel 3) | **9 Included** (`shi2024greenllm`, `topcu2026tension`, `sisodia2026sicp`, `zhang2026context`, `bernhard2026cleanest`, `tian2026greencache`, `moore2025slit`, `ozcan2025vidurvessim`, `nguyen2025sustainable`) |
+| `V2-AX-EMB` | arXiv Atom API (`2024–2026`) | `all:"embodied carbon" AND all:"LLM" AND all:"inference"` (`max_results=5`, sorted descending by submission date) | 5 (Channel 2) | **2 Duplicates** already in v1 corpus (`2502.05043` EcoServe, `2501.15829` Hewage Aging); **3 Excluded T/A** for edge/mobile/LEO satellite non-cloud scope (`2609.11940` Battery Edge AI, `2605.05615` LLMSpace LEO Satellites, `2511.08575` CO2-Meter Edge) |
+| `V2-AX-KA` | arXiv Atom API (`2024–2026`) | `all:"serverless" AND all:"keep-alive" AND all:"LLM" AND all:"carbon"` | 0 (Channel 2) | Confirms gap on serverless LLM keep-alive + carbon |
+| `V2-AX-SCI` | arXiv Atom API (`2024–2026`) | `all:"Software Carbon Intensity" AND all:"LLM"` | 0 (Channel 2) | Confirms gap on formal SCI + LLM inference (`CR`: ISO standard `10.3403/30470628` + non-serving grid-node agent `10.21203/rs.3.rs-9814067/v1`) |
+| `V2-CR-SL` | Crossref / arXiv / ACL 2024–2026 Candidate Screen | `"carbon-aware" + "prefill decode disaggregation"`; `"KV cache" + "cross-region" + "carbon"`; *"SPROUT"* (`10.18653/v1/2024.emnlp-main.1215`); recent 2025–2026 preprints (`2609.27085`, `2609.24639`, `2505.09598`, `2504.19720`, `2609.12602`, `2609.15230`, `2609.12449`, `2507.08954`) | 9 (Channel 2) | **4 Excluded Eligibility** (`2609.27085` Crossflow: latency-only, zero energy/carbon; `2609.12602` GreenDirector: non-LLM HTC batch grid; `2609.12449` HeatCache: single-workstation edge room; `2507.08954` MQFQ-Sticky: non-LLM FaaS + zero operational carbon); **5 Included** (`yan2026pdprov`, `jegham2025hungryai`, `zhen2025taming`, `lu2026etcinfer`, `li2024sprout`) |
+
+**Updated Cumulative PRISMA-2020 Flow Summary (`v1 + v2 = 61` Verified Sources):**
+
+| PRISMA Stage | Channel 1 | Channel 2 (`v1 + v2`) | Channel 3 (`v1 + v2`) | **Total (`v2`)** |
+| :--- | :---: | :---: | :---: | :---: |
+| **Records Identified (Retrieved & Logged)** | 16 | 30 + 14 = **44** | 29 + 9 = **38** | **98** |
+| *(Less)* Duplicate Records Removed | 0 | 1 + 2 = **3** | 0 | **3** |
+| **Unique Records Screened (Title & Abstract)** | **16** | **41** | **38** | **95** |
+| *(Less)* Excluded at Title / Abstract Screening | 1 | 10 + 3 = **13** | 0 | **14** |
+| **Full-Text / Metadata Assessed for Eligibility** | **15** | **28** | **38** | **81** |
+| *(Less)* Excluded at Eligibility Assessment | 6 | 10 + 4 = **14** | 0 | **20** |
+| **Studies Included in Final Corpus (`sources.csv`)** | **9** | **14** | **38** | **61** |
+
+*(Arithmetic verification: `98 - 3 = 95`; `95 - 14 = 81`; `81 - 20 = 61`; `9 + 14 + 38 = 61`.)*
+
+### 5.2 Retained V2 Corpus Breakdown (`61` Verified Sources)
+
+- **By Thematic Pillar (`sources.csv`):**
+  - **Pillar (a) — Surveys, Taxonomies & Synthesis (`11`):** 9 v1 surveys + `zhen2025taming`, `sisodia2026sicp`
+  - **Pillar (b) — Carbon-Aware Cloud, Container, Serverless/FaaS & Geo-Distributed Schedulers (`15`):** 11 v1 + `topcu2026tension`, `zhang2026context`, `bernhard2026cleanest`, `moore2025slit`
+  - **Pillar (c) — Phase-Disaggregated, Energy-Aware & Serving-Layer LLM Systems (`21`):** 16 v1 + `shi2024greenllm`, `yan2026pdprov`, `lu2026etcinfer`, `tian2026greencache`, `li2024sprout`
+  - **Pillar (d) — Operational vs. Embodied Carbon Modeling, Benchmarks, Traces & Standards (`12`):** 9 v1 + `nguyen2025sustainable`, `ozcan2025vidurvessim`, `jegham2025hungryai`
+  - **Pillar (e) — Cloud & Serverless Foundations (`2`):** `mell2011nist`, `calheiros2011cloudsim`
+- **By Year:** `2011`: 2 | `2020`: 1 | `2021`: 2 | `2022`: 1 | `2023`: 6 | `2024`: 15 | `2025`: 16 | `2026`: 18 (Total = **61**)
 - **Recency Compliance:**
-  - `2022–2026`: **42 / 47 (89.4%)** — exceeds $\ge 70\%$ threshold.
-  - `2025–2026`: **23 / 47 (48.9%)** — exceeds $12\text{--}18$ target.
-  - Pre-2019 foundations: **2 / 47** (`mell2011nist`, `calheiros2011cloudsim`).
-- **By Type:** `survey`: 9 | `empirical`: 35 | `industry`: 1 (`azure2024trace`) | `standard`: 2 (`iso2024sci`, `mell2011nist`).
-- **By `access_level`:**
-  - `full_text`: **42** (`40` verified PDFs in `./cloud-paper/research/pdfs/<id>.pdf` validated with `pypdf`, plus `2` full HTML/Markdown specifications in `./cloud-paper/research/docs/`).
-  - `abstract_only`: **5** paywalled articles (`roy2026lowcarb`, `calavaro2026offloading`, `gupta2022act`, `sinha2025utilization`, `calheiros2011cloudsim`), retained with verified OpenAlex + Crossref abstracts and metadata.
-- **Explicit Preprint Flagging (`8` items):**
-  - *arXiv-only preprints (`6`):* `hewage2026carbon`, `yang2025container`, `pan2025inference`, `li2025ecoserve`, `basit2026dualscale`, `li2026revisiting` (all tagged `preprint;arxiv_preprint`).
-  - *Accepted peer-reviewed conference preprints awaiting publisher DOI indexing (`2`):* `sun2026lacere` (accepted at IEEE CCGrid 2026, CC-BY arXiv v1) and `wang2026festina` (accepted at ACM SIGOPS ATC 2026, arXiv v2; tagged `preprint;accepted_preprint`).
+  - `2022–2026`: **56 / 61 (91.8%)** (exceeds $\ge 60\%$ threshold)
+  - `2025–2026`: **34 / 61 (55.7%)**
+- **By Type:** `survey`: 11 | `empirical`: 47 | `industry`: 1 (`azure2024trace`) | `standard`: 2 (`iso2024sci`, `mell2011nist`). (`50` non-survey works.)
+- **By `access_level`:** `full_text`: **56 (91.8%)** | `abstract_only`: **5 (8.2%)** (`roy2026lowcarb`, `calavaro2026offloading`, `gupta2022act`, `sinha2025utilization`, `calheiros2011cloudsim`).
+- **Preprint Status (`16` items):** `15` arXiv-only preprints (`hewage2026carbon`, `yang2025container`, `pan2025inference`, `li2025ecoserve`, `basit2026dualscale`, `shi2024greenllm`, `topcu2026tension`, `sisodia2026sicp`, `zhang2026context`, `bernhard2026cleanest`, `ozcan2025vidurvessim`, `yan2026pdprov`, `jegham2025hungryai`, `zhen2025taming`, `lu2026etcinfer`) + `1` accepted conference preprint (`wang2026festina` for ACM SIGOPS ATC 2026). Formal 2026 DOIs verified via Crossref in v2 for `sun2026lacere` (`10.1109/ccgrid68966.2026.00034`, CCGrid'26), `li2026revisiting` (`10.1145/3805621.3807662`, EuroMLSys'26), and `tian2026greencache` (`10.1145/3788087`, POMACS'26).

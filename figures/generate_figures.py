@@ -353,7 +353,7 @@ def make_fig1(make_preview: bool) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Figure 2: Exact PRISMA-2020 Flow Diagram (search_log.md)
+# Figure 2: Exact PRISMA-2020 Flow Diagram (search_log.md v2, n=61)
 # ---------------------------------------------------------------------------
 def make_fig2(make_preview: bool) -> None:
     fig = plt.figure(figsize=(3.50, 2.55))
@@ -368,7 +368,7 @@ def make_fig2(make_preview: bool) -> None:
         0.785,
         0.59,
         0.19,
-        "Records Identified (n = 75)\nQuery A (16) + Query B (30)\n+ Query C / Snowball (29)",
+        "Records Identified (n = 98)\nCh. 1 (16) + Ch. 2 API (44)\n+ Ch. 3 Audit/Bench (38)",
         "#EFF6FF",
         edgecolor=OI["blue"],
         fontsize=8.0,
@@ -380,7 +380,7 @@ def make_fig2(make_preview: bool) -> None:
         0.54,
         0.59,
         0.16,
-        "Records Screened\nTitle & Abstract (n = 74)",
+        "Records Screened\nTitle & Abstract (n = 95)",
         "#EFF6FF",
         edgecolor=OI["blue"],
         fontsize=8.0,
@@ -391,7 +391,7 @@ def make_fig2(make_preview: bool) -> None:
         0.295,
         0.59,
         0.16,
-        "Full-Text & Metadata\nEligibility Assessed (n = 63)",
+        "Full-Text & Metadata\nEligibility Assessed (n = 81)",
         "#EFF6FF",
         edgecolor=OI["blue"],
         fontsize=8.0,
@@ -402,7 +402,7 @@ def make_fig2(make_preview: bool) -> None:
         0.02,
         0.59,
         0.20,
-        "Included in Synthesis (n = 47)\n42 Full-Text (34 peer-rev.,\n6 arXiv, 2 acc. conf. preprints)\n+ 5 Abstract-Only",
+        "Included in Synthesis (n = 61)\n56 Full-Text (40 peer-rev.,\n15 arXiv, 1 acc. conf. preprint)\n+ 5 Abstract-Only",
         "#ECFDF5",
         edgecolor=OI["teal"],
         fontsize=8.0,
@@ -416,7 +416,7 @@ def make_fig2(make_preview: bool) -> None:
         0.805,
         0.32,
         0.15,
-        "Duplicate\nRemoved (n=1)",
+        "Duplicates\nRemoved (n=3)",
         "#FEF2F2",
         edgecolor=OI["vermilion"],
         fontsize=8.0,
@@ -427,7 +427,7 @@ def make_fig2(make_preview: bool) -> None:
         0.55,
         0.32,
         0.145,
-        "Excluded at\nScreen (n=11)",
+        "Excluded at\nScreen (n=14)",
         "#FEF2F2",
         edgecolor=OI["vermilion"],
         fontsize=8.0,
@@ -438,7 +438,7 @@ def make_fig2(make_preview: bool) -> None:
         0.255,
         0.32,
         0.24,
-        "Excluded at\nEligibility (n=16)\nNo carbon or\nLLM focus",
+        "Excluded at\nEligibility (n=20)\nNo carbon / no\ncloud LLM scope",
         "#FEF2F2",
         edgecolor=OI["vermilion"],
         fontsize=8.0,
@@ -456,12 +456,12 @@ def make_fig2(make_preview: bool) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Figure 3: Annotated Heatmap of Phase Awareness x Carbon/Energy Signal (n=38)
+# Figure 3: Annotated Heatmap of Phase Awareness x Carbon/Energy Signal (n=50)
 # ---------------------------------------------------------------------------
 def make_fig3(make_preview: bool) -> None:
     cm = pd.read_csv(RESEARCH_DIR / "comparison_matrix.csv")
     ns = cm[cm["doc_type"] != "survey"].copy()
-    assert len(ns) == 38
+    assert len(ns) == 50
 
     row_order = [
         "Disaggregated P/D",
@@ -470,12 +470,13 @@ def make_fig3(make_preview: bool) -> None:
         "Phase-Agnostic LLM",
         "Non-LLM / Generic Workload",
     ]
+    row_totals = {r: int((ns["phase_awareness"] == r).sum()) for r in row_order}
     row_labels = [
-        "Disagg. P/D\n(n=5)",
-        "Coloc.+P/D\nVar. (n=1)",
-        "Coloc. Phase\nAware (n=4)",
-        "Agnostic\nLLM (n=9)",
-        "Non-LLM /\nGen. (n=19)",
+        f"Disagg. P/D\n(n={row_totals['Disaggregated P/D']})",
+        f"Coloc.+P/D\nVar. (n={row_totals['Colocated + P/D Variant']})",
+        f"Coloc. Phase\nAware (n={row_totals['Colocated Phase-Aware']})",
+        f"Agnostic\nLLM (n={row_totals['Phase-Agnostic LLM']})",
+        f"Non-LLM /\nGen. (n={row_totals['Non-LLM / Generic Workload']})",
     ]
 
     def map_signal(sig: str) -> str:
@@ -497,7 +498,7 @@ def make_fig3(make_preview: bool) -> None:
     for i, r in enumerate(row_order):
         for j, c in enumerate(col_order):
             mat[i, j] = int(((ns["phase_awareness"] == r) & (ns["sig_bin"] == c)).sum())
-    assert mat.sum() == 38
+    assert mat.sum() == 50
 
     fig, ax = plt.subplots(figsize=(3.50, 2.35))
     fig.subplots_adjust(left=0.26, right=0.86, top=0.87, bottom=0.16)
@@ -510,7 +511,7 @@ def make_fig3(make_preview: bool) -> None:
     ax.spines["top"].set_visible(True)
     ax.spines["right"].set_visible(True)
 
-    gap_cells = {(0, 2), (0, 3), (1, 2), (1, 3), (2, 3), (3, 2)}
+    gap_cells = {(0, 2), (1, 2), (1, 3), (2, 3)}
     for i in range(mat.shape[0]):
         for j in range(mat.shape[1]):
             val = mat[i, j]
@@ -528,11 +529,23 @@ def make_fig3(make_preview: bool) -> None:
                 ax.add_patch(rect)
                 txt = "0 (GAP)" if i in (0, 1) else "0"
                 ax.text(j, i, txt, ha="center", va="center", fontsize=8.0, fontweight="bold", color=OI["vermilion"])
+            elif (i, j) == (0, 3) and val == 1:
+                rect = plt.Rectangle(
+                    (j - 0.46, i - 0.44),
+                    0.92,
+                    0.88,
+                    fill=False,
+                    edgecolor=OI["orange"],
+                    linewidth=1.2,
+                    linestyle="-",
+                )
+                ax.add_patch(rect)
+                ax.text(j, i, "1*", ha="center", va="center", fontsize=8.5, fontweight="bold", color=OI["black"])
             else:
                 color = "white" if val >= 8 else OI["black"]
                 ax.text(j, i, f"{val}", ha="center", va="center", fontsize=8.5, fontweight="bold" if val > 0 else "normal", color=color)
 
-    ax.set_title("Research Gap Matrix (n = 38 Non-Survey)", fontsize=8.8, fontweight="bold", pad=6)
+    ax.set_title("Research Gap Matrix (n = 50 Non-Survey)", fontsize=8.8, fontweight="bold", pad=6)
     cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
     cbar.ax.tick_params(labelsize=8.0)
     cbar.set_label("# Works", fontsize=8.0)
@@ -541,21 +554,22 @@ def make_fig3(make_preview: bool) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Figure 4: Bibliometric Trends & Empirical Modality (n=47 / n=35)
+# Figure 4: Bibliometric Trends & Empirical Modality (n=61 / n=47)
 # ---------------------------------------------------------------------------
 def make_fig4(make_preview: bool) -> None:
     s = pd.read_csv(RESEARCH_DIR / "sources.csv")
     cm = pd.read_csv(RESEARCH_DIR / "comparison_matrix.csv")
     m = s.merge(cm[["id", "pillar", "doc_type", "embodied_carbon_considered", "evaluation_platform"]], on="id")
-    assert len(m) == 47
+    assert len(m) == 61
 
     years = sorted(m["year"].unique())
+    pillar_counts = m["pillar"].value_counts().to_dict()
     pillar_order = [
-        ("c_llm_serving", "LLM Serving (16)", OI["blue"], ""),
-        ("b_carbon_schedulers", "Carbon Sched. (11)", OI["teal"], "//"),
-        ("a_surveys", "Surveys (9)", OI["orange"], ".."),
-        ("d_modeling_traces_standards", "Models / Std. (9)", OI["purple"], "xx"),
-        ("e_foundations", "Foundations (2)", OI["grey"], ""),
+        ("c_llm_serving", f"LLM Serving ({pillar_counts['c_llm_serving']})", OI["blue"], ""),
+        ("b_carbon_schedulers", f"Carbon Sched. ({pillar_counts['b_carbon_schedulers']})", OI["teal"], "//"),
+        ("a_surveys", f"Surveys ({pillar_counts['a_surveys']})", OI["orange"], ".."),
+        ("d_modeling_traces_standards", f"Models / Std. ({pillar_counts['d_modeling_traces_standards']})", OI["purple"], "xx"),
+        ("e_foundations", f"Foundations ({pillar_counts['e_foundations']})", OI["grey"], ""),
     ]
 
     fig = plt.figure(figsize=(3.50, 2.85))
@@ -580,18 +594,18 @@ def make_fig4(make_preview: bool) -> None:
         bottom += vals
 
     for idx, tot in enumerate(bottom):
-        ax1.text(idx, tot + 0.3, str(tot), ha="center", va="bottom", fontsize=8.0, fontweight="bold")
+        ax1.text(idx, tot + 0.35, str(tot), ha="center", va="bottom", fontsize=8.0, fontweight="bold")
 
     ax1.set_xticks(x)
     ax1.set_xticklabels([str(y) for y in years], fontsize=8.0)
-    ax1.set_ylabel("Works (n=47)", fontsize=8.3)
-    ax1.set_ylim(0, 17.5)
+    ax1.set_ylabel("Works (n=61)", fontsize=8.3)
+    ax1.set_ylim(0, max(bottom) + 3.5)
     ax1.set_title("(a) Publication Timeline by Thematic Pillar", fontsize=8.6, fontweight="bold", loc="left")
     ax1.grid(axis="y", alpha=0.35, linestyle=":")
-    ax1.legend(loc="upper left", frameon=True, framealpha=0.95, edgecolor="#D1D5DB", fontsize=8.0, ncol=1, borderpad=0.3, labelspacing=0.25)
+    ax1.legend(loc="upper left", frameon=True, framealpha=0.95, edgecolor="#D1D5DB", fontsize=7.8, ncol=1, borderpad=0.28, labelspacing=0.22)
 
     n_emp = int((m["type"] == "empirical").sum())
-    assert n_emp == 35
+    assert n_emp == 47
 
     def eval_bucket(row: pd.Series) -> str:
         if row["id"] in {"roy2026lowcarb", "sinha2025utilization"}:
@@ -607,6 +621,9 @@ def make_fig4(make_preview: bool) -> None:
             "stojkovic2025dynamollm",
             "stojkovic2025tapas",
             "li2025ecoserve",
+            "bernhard2026cleanest",
+            "lu2026etcinfer",
+            "yan2026pdprov",
         }:
             return "Hybrid Testbed + Sim."
         if row["id"] in {
@@ -619,6 +636,11 @@ def make_fig4(make_preview: bool) -> None:
             "faiz2024llmcarbon",
             "hewage2025aging",
             "calheiros2011cloudsim",
+            "topcu2026tension",
+            "zhang2026context",
+            "moore2025slit",
+            "ozcan2025vidurvessim",
+            "jegham2025hungryai",
         }:
             return "Trace Sim. / Analytical"
         return "Hardware / Prod. Cluster"
@@ -628,15 +650,15 @@ def make_fig4(make_preview: bool) -> None:
 
     emb_omitted = int((m["embodied_carbon_considered"] == "No").sum())
     emb_incl = int(len(m) - emb_omitted)
-    assert emb_omitted == 37 and emb_incl == 10
+    assert emb_omitted == 46 and emb_incl == 15
 
     cats = [
-        "Emb. Omitted (47)",
-        "Emb. Included (47)",
-        "HW Cluster (35)",
-        "Hybrid Sim (35)",
-        "Trace/Model (35)",
-        "Abstract-Only (35)",
+        f"Emb. Omitted ({len(m)})",
+        f"Emb. Included ({len(m)})",
+        f"HW Cluster ({n_emp})",
+        f"Hybrid Sim ({n_emp})",
+        f"Trace/Model ({n_emp})",
+        f"Abstract-Only ({n_emp})",
     ]
     counts = [
         emb_omitted,
@@ -647,12 +669,12 @@ def make_fig4(make_preview: bool) -> None:
         int((emp_df["modality"] == "Abstract-Only (Unverified)").sum()),
     ]
     pcts = [
-        100.0 * emb_omitted / 47.0,
-        100.0 * emb_incl / 47.0,
-        100.0 * counts[2] / 35.0,
-        100.0 * counts[3] / 35.0,
-        100.0 * counts[4] / 35.0,
-        100.0 * counts[5] / 35.0,
+        100.0 * emb_omitted / len(m),
+        100.0 * emb_incl / len(m),
+        100.0 * counts[2] / n_emp,
+        100.0 * counts[3] / n_emp,
+        100.0 * counts[4] / n_emp,
+        100.0 * counts[5] / n_emp,
     ]
     colors = [OI["vermilion"], OI["teal"], OI["blue"], OI["sky"], OI["orange"], OI["grey"]]
     hatches = ["xx", "", "", "//", "..", ""]
