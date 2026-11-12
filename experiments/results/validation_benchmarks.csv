@@ -1,0 +1,25 @@
+validation_suite,condition,metric,sim_value,ref_value,rel_err_pct,notes
+Splitwise_TableIV_Conv,H100_Lin=1113,TTFT_disagg_vs_TableIV_ms,95.96,84.0,14.24,raw_prefill=84.0ms + kv_stall=5.0ms
+Splitwise_TableIV_Conv,H100_Lin=1113,TPOT_55pct_cap_vs_TableIV_ms,28.0,28.0,0.0,Decode power cap 0.55 TDP preserves uncontended TBT
+Splitwise_TableIV_Conv,A100_Lin=1083,TTFT_disagg_vs_TableIV_ms,169.73,155.0,9.5,raw_prefill=155.0ms + kv_stall=8.0ms
+Splitwise_TableIV_Conv,A100_Lin=1083,TPOT_55pct_cap_vs_TableIV_ms,42.0,40.0,5.0,Decode power cap 0.55 TDP preserves uncontended TBT
+Splitwise_TableIV_Code,H100_Lin=1290,TTFT_disagg_vs_TableIV_ms,108.04,95.0,13.73,raw_prefill=95.0ms + kv_stall=5.0ms
+Splitwise_TableIV_Code,H100_Lin=1290,TPOT_55pct_cap_vs_TableIV_ms,28.0,31.0,-9.68,Decode power cap 0.55 TDP preserves uncontended TBT
+Splitwise_TableIV_Code,A100_Lin=1333,TTFT_disagg_vs_TableIV_ms,201.29,185.0,8.81,raw_prefill=185.0ms + kv_stall=8.0ms
+Splitwise_TableIV_Code,A100_Lin=1333,TPOT_55pct_cap_vs_TableIV_ms,42.0,52.0,-19.23,Decode power cap 0.55 TDP preserves uncontended TBT
+Splitwise_Fig8_9_PowerCap,H100_cap=1.00_batch16,Decode_step_ms_and_Power_W,29.25,28.0,4.47,Node power=1563.5W (flat step below 0.50 threshold vs +6% at 0.40 cap)
+Splitwise_Fig8_9_PowerCap,H100_cap=0.70_batch16,Decode_step_ms_and_Power_W,29.25,28.0,4.47,Node power=1234.4W (flat step below 0.50 threshold vs +6% at 0.40 cap)
+Splitwise_Fig8_9_PowerCap,H100_cap=0.55_batch16,Decode_step_ms_and_Power_W,29.25,28.0,4.47,Node power=1069.8W (flat step below 0.50 threshold vs +6% at 0.40 cap)
+Splitwise_Fig8_9_PowerCap,H100_cap=0.50_batch16,Decode_step_ms_and_Power_W,29.25,28.0,4.47,Node power=1015.0W (flat step below 0.50 threshold vs +6% at 0.40 cap)
+Splitwise_Fig8_9_PowerCap,H100_cap=0.40_batch16,Decode_step_ms_and_Power_W,31.01,,0.0,Node power=905.3W (flat step below 0.50 threshold vs +6% at 0.40 cap)
+ServerlessLLM_Fig6a_Loader,llama2_70b_serverlessllm,Checkpoint_load_latency_s,10.3,10.3,0.0,"cold_power_w=2183.5W, idle_power_w=724.6W"
+ServerlessLLM_Fig6a_Loader,llama2_70b_safetensors,Checkpoint_load_latency_s,48.0,48.0,0.0,"cold_power_w=2183.5W, idle_power_w=724.6W"
+ServerlessLLM_Fig6a_Loader,llama2_70b_pytorch,Checkpoint_load_latency_s,84.0,84.0,0.0,"cold_power_w=2183.5W, idle_power_w=724.6W"
+ServerlessLLM_Fig6a_Loader,opt_13b_serverlessllm,Checkpoint_load_latency_s,2.0,2.0,0.0,"cold_power_w=545.9W, idle_power_w=181.2W"
+ServerlessLLM_Fig6a_Loader,opt_13b_safetensors,Checkpoint_load_latency_s,8.2,8.2,0.0,"cold_power_w=545.9W, idle_power_w=181.2W"
+ServerlessLLM_Fig6a_Loader,opt_13b_pytorch,Checkpoint_load_latency_s,14.0,14.0,0.0,"cold_power_w=545.9W, idle_power_w=181.2W"
+Li2026_SmallBatch_vs_Saturation,conv_1h_rps=0.25x,B2_vs_B1_J_per_tok_and_P95_TTFT_pct,2.195,2.745,-20.01,TTFT_p95 B2=299.3 vs B1=268.7 (+11.4%); TPOT_p95 B2=28.7 vs B1=31.2 (-7.8%)
+Li2026_SmallBatch_vs_Saturation,conv_1h_rps=0.50x,B2_vs_B1_J_per_tok_and_P95_TTFT_pct,1.138,1.509,-24.57,TTFT_p95 B2=299.8 vs B1=268.9 (+11.5%); TPOT_p95 B2=29.1 vs B1=34.1 (-14.9%)
+Li2026_SmallBatch_vs_Saturation,conv_1h_rps=1.00x,B2_vs_B1_J_per_tok_and_P95_TTFT_pct,0.813,1.163,-30.1,TTFT_p95 B2=300.1 vs B1=268.6 (+11.7%); TPOT_p95 B2=29.8 vs B1=37.0 (-19.4%)
+Li2026_SmallBatch_vs_Saturation,conv_1h_rps=1.50x,B2_vs_B1_J_per_tok_and_P95_TTFT_pct,0.628,0.903,-30.4,TTFT_p95 B2=337.8 vs B1=268.8 (+25.7%); TPOT_p95 B2=30.6 vs B1=41.4 (-26.2%)
+Li2026_SmallBatch_vs_Saturation,conv_1h_rps=2.00x,B2_vs_B1_J_per_tok_and_P95_TTFT_pct,0.567,0.81,-30.04,TTFT_p95 B2=387.9 vs B1=268.8 (+44.3%); TPOT_p95 B2=31.3 vs B1=45.8 (-31.6%)

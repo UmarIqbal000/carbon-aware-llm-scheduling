@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this simulator, PRISMA corpus, or manuscript artifact, please cite it as below."
+title: "Carbon-Aware Scheduling for Phase-Disaggregated LLM Inference in Cloud and Serverless Platforms: Review and Simulation"
+type: software
+authors:
+  - family-names: Iqbal
+    given-names: Umar
+    orcid: "https://orcid.org/0009-0004-3968-4857"
+    email: umar.iqbal.cs28@iilm.edu
+    affiliation: "IILM University, Greater Noida, India"
+repository-code: "https://github.com/UmarIqbal000/carbon-aware-llm-scheduling"
+license: MIT
+version: "2.0.0"
+date-released: "2026-11-12"
+keywords:
+  - carbon-aware scheduling
+  - embodied carbon
+  - large language model inference
+  - phase disaggregation
+  - serverless GPUs
+  - Software Carbon Intensity
+  - SimPy

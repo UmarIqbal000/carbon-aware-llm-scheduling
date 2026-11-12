@@ -1,0 +1,30 @@
+{
+  "title": "Carbon-Aware Scheduling for Phase-Disaggregated LLM Inference in Cloud and Serverless Platforms: Simulator and PRISMA Corpus",
+  "description": "Reproducible SimPy 4.1.2 discrete-event simulator, validator, 24h trace-tiling ablation, 61-work PRISMA-2020-guided corpus metadata, and LaTeX manuscript sources.",
+  "upload_type": "software",
+  "license": "MIT",
+  "version": "v2.0.0",
+  "creators": [
+    {
+      "name": "Iqbal, Umar",
+      "affiliation": "IILM University, Greater Noida, India",
+      "orcid": "0009-0004-3968-4857"
+    }
+  ],
+  "keywords": [
+    "carbon-aware scheduling",
+    "embodied carbon",
+    "LLM inference",
+    "prefill decode disaggregation",
+    "serverless GPU",
+    "Software Carbon Intensity",
+    "SimPy"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/UmarIqbal000/carbon-aware-llm-scheduling",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}
