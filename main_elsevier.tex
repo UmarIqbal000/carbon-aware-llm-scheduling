@@ -1,0 +1,82 @@
+\IfFileExists{natbib.sty}{%
+  \documentclass[preprint,3p,11pt]{elsarticle}%
+}{%
+  \documentclass[preprint,3p,11pt,nonatbib]{elsarticle}%
+  \usepackage{cite}%
+}
+
+\def\BUILDELSEVIER{1}
+\providecommand{\IEEEPARstart}[2]{#1#2}
+\newcommand{\repourl}{\url{https://github.com/UmarIqbal000/carbon-aware-llm-scheduling}}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage[expansion=false]{microtype}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage[hidelinks,pdfauthor={Umar Iqbal},pdftitle={Carbon-Aware Scheduling for Phase-Disaggregated LLM Inference in Cloud and Serverless Platforms}]{hyperref}
+
+\hyphenation{dis-ag-gre-gat-ed server-less keep-alive giga-bit op-er-a-tional}
+\journal{Future Generation Computer Systems / Sustainable Computing: Informatics and Systems}
+\sloppy
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Carbon-Aware Scheduling for Phase-Disaggregated LLM Inference in Cloud and Serverless Platforms: Review and Simulation}
+
+\author[1]{Umar Iqbal\corref{cor1}\fnref{fn1}}
+\ead{umar.iqbal.cs28@iilm.edu}
+\cortext[cor1]{Corresponding author.}
+\fntext[fn1]{ORCID: https://orcid.org/0009-0004-3968-4857.}
+
+\affiliation[1]{organization={IILM University}, city={Greater Noida}, country={India}}
+
+\begin{abstract}
+\input{sections/00_abstract}
+\end{abstract}
+
+\begin{graphicalabstract}
+\centering
+\includegraphics[width=\textwidth]{figures/fig1_architecture.pdf}
+\par\vspace{6pt}
+\small\raggedright\textbf{Graphical Abstract Summary:} Dual-track ISO/IEC 21031:2024 control architecture combining four-path phase-disaggregated cluster routing (Paths A--D with WAN KV latency and carbon gating), hazard-driven serverless GPU keep-alive control, and lifecycle host plus GPU embodied carbon amortization across heterogeneous grids.
+\end{graphicalabstract}
+
+\begin{highlights}
+\item PRISMA-2020-guided review of 61 works isolates exact joint-design system gaps.
+\item Hybrid routing cuts operational SCI up to 60.8\% within 1\% SLO violations.
+\item WAN KV gating cuts code tail SLO violations by 85.2\%--86.0\% via Path D fallback.
+\item Hazard keep-alive trades 8.0\% dirty-grid carbon savings against clean SLO relief.
+\item Embodied hardware reaches 97.6\% of clean SCI; spare nodes raise net carbon 32.6\%.
+\end{highlights}
+
+\begin{keyword}
+Carbon-aware scheduling \sep embodied carbon \sep large language model inference \sep phase disaggregation \sep serverless GPUs \sep Software Carbon Intensity
+\end{keyword}
+
+\end{frontmatter}
+
+\input{sections/01_introduction}
+\input{sections/02_background}
+\input{sections/03_methodology}
+\input{sections/04_taxonomy_synthesis}
+\input{sections/05_simulation_design}
+\input{sections/06_results_discussion}
+\input{sections/07_open_challenges_limitations}
+\input{sections/08_conclusion}
+
+\IfFileExists{elsarticle-num.bst}{%
+  \IfFileExists{natbib.sty}{\bibliographystyle{elsarticle-num}}{\bibliographystyle{IEEEtran}}%
+}{\bibliographystyle{IEEEtran}}
+\bibliography{references}
+
+\end{document}

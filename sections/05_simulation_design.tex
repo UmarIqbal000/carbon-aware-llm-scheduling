@@ -116,3 +116,28 @@ Cold Power Frac. & $0.65\,P_{\text{TDP}}$ ([0.45, 0.85]) & Deserialization + PCI
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Simulator Validation Against Published Baselines}\label{subsec:validation}
+Prior to multi-region sweeps, 24 validation checks (\texttt{validate\_simulator.py}; Supplement Table~S2) anchor the simulator: (1)~\textbf{Splitwise Table~IV}: H100 disaggregated TTFT matches within 13.73\%--14.24\% (modeled 5--8~ms stall), A100 within 8.81\%--9.50\%, and H100 TPOT at 0.00\% (conv, 28.0~ms) and -9.68\% (code); (2)~\textbf{Splitwise Figs.~8--9}: batch-16 decode step holds flat at 29.25~ms from 100\% to 50\% TDP (1,563.5 to 1,015.0~W) before +6.0\% slowdown at 40\% TDP (31.01~ms); (3)~\textbf{ServerlessLLM Fig.~6a}: 0.00\% error across all six 70B (10.3, 48.0, 84.0~s) and 13B (2.0, 8.2, 14.0~s) loaders; and (4)~\textbf{Li et al.}~\cite{li2026revisiting}: \texttt{B2} vs.\ \texttt{B1} energy scales from -20.01\% (0.25x RPS) to -30.40\% (1.50x) as P95 TTFT rises +11.4\% to +44.3\% at 2.00x RPS.
+
+\subsection{24-Hour Trace-Tiling Sensitivity Ablation}\label{subsec:tiling_ablation}
+Because raw Azure traces span 58.36~min (\texttt{conv}) and 57.27~min (\texttt{code}), I tested 24h block-tiling sensitivity across four modes ($N=10$ \texttt{conv} seeds; \texttt{run\_tiling\_ablation.py}, Table~\ref{tab:tiling_ablation}, Supplement Table~S3). Relative \texttt{P4} $\text{SCI}_{\text{op}}$ savings stay invariant within 0.12~pp (60.70\%--60.82\% vs.\ \texttt{B1}; 44.07\%--44.33\% vs.\ \texttt{B2}) and SLO violations hold within 0.817\%--0.835\%.
+
+\begin{table}[t]
+\centering
+\caption{24h Trace-Tiling Sensitivity on \texttt{conv} ($N=10$ Seeds, Mean)}
+\label{tab:tiling_ablation}
+\scriptsize
+\renewcommand{\arraystretch}{0.86}
+\setlength{\tabcolsep}{2.4pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Tiling Regime} & $\textbf{P4 SCI}_{\text{op}}$ & \textbf{vs.\ \texttt{B1}} & \textbf{vs.\ \texttt{B2}} & \textbf{P4 SLO (\%)} \\
+\midrule
+\texttt{orig\_280s\_repl} (12 blks) & 0.03203 & -60.70\% & -44.07\% & 0.824\% \\
+\texttt{perm\_280s\_norepl} (12 blks) & 0.03163 & -60.76\% & -44.21\% & 0.817\% \\
+\texttt{fine\_90s\_perm} (38 blks) & 0.03166 & -60.76\% & -44.18\% & 0.820\% \\
+\texttt{coarse\_900s\_perm} (4 blks) & 0.03138 & -60.82\% & -44.33\% & 0.835\% \\
+\bottomrule
+\end{tabular}
+\end{table}

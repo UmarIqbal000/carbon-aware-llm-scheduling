@@ -15,19 +15,24 @@
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
 
+\newcommand{\repourl}{\url{https://github.com/UmarIqbal000/carbon-aware-llm-scheduling}}
+
 \hyphenation{dis-ag-gre-gat-ed server-less keep-alive giga-bit op-er-a-tional}
 
-\linespread{1.03}
-\setlength{\parskip}{3pt plus 1pt minus 0.5pt}
-\setlength{\columnsep}{18pt}
-\setlist{itemsep=2.5pt, topsep=3.5pt, parsep=0.5pt, leftmargin=1.4em}
-\setlength{\textfloatsep}{14pt plus 3pt minus 2pt}
-\setlength{\dbltextfloatsep}{15pt plus 3pt minus 2pt}
-\setlength{\floatsep}{11pt plus 2pt minus 2pt}
-\setlength{\dblfloatsep}{11pt plus 2pt minus 2pt}
-\setlength{\abovecaptionskip}{6.5pt plus 1.5pt minus 1pt}
-\setlength{\belowcaptionskip}{5.5pt plus 1.5pt minus 1pt}
-\renewcommand{\arraystretch}{1.18}
+\linespread{1.0}
+\setlength{\parskip}{0pt plus 0.5pt}
+\setlength{\columnsep}{12pt}
+\setlist{itemsep=1pt, topsep=1.5pt, parsep=0pt, leftmargin=1.25em}
+\setlength{\textfloatsep}{5pt plus 1pt minus 2pt}
+\setlength{\dbltextfloatsep}{6pt plus 1pt minus 2pt}
+\setlength{\floatsep}{4pt plus 1pt minus 1pt}
+\setlength{\dblfloatsep}{5pt plus 1pt minus 1pt}
+\setlength{\abovecaptionskip}{3pt plus 1pt minus 1pt}
+\setlength{\belowcaptionskip}{1pt plus 1pt minus 1pt}
+\setlength{\abovedisplayskip}{4pt plus 1pt minus 1pt}
+\setlength{\belowdisplayskip}{4pt plus 1pt minus 1pt}
+\def\IEEEbibitemsep{0pt plus 0.5pt}
+\renewcommand{\arraystretch}{0.95}
 
 \begin{document}
 
@@ -45,7 +50,7 @@
 \thispagestyle{plain}
 
 \begin{abstract}
-Interactive large language model (LLM) serving separates into compute-intensive prefill and memory-bound decode stages across geo-distributed cloud clusters and bursty serverless GPU pools. A systematic PRISMA-2020 synthesis of 47 studies shows that zero prior phase-disaggregated LLM engines (0/6) incorporate electricity grid carbon intensity or amortized embodied hardware emissions. Conversely, zero multi-region cloud carbon schedulers (0/4) model key-value (KV) cache wide-area transfer economics, and 78.7\% of reviewed works omit manufacturing carbon. To address these gaps, I formalize a dual-track control architecture combining ISO/IEC 21031:2024 Software Carbon Intensity (SCI) accounting, hybrid carbon-and-queue-aware phase routing across colocated, intra-region, cross-region KV-gated, and remote execution paths, and hazard-driven dynamic serverless keep-alive control. Simulations in SimPy 4.1.2 over 10 seeds using Azure conversational and coding LLM traces alongside UK NESO and Japan TSO grid telemetry show that hybrid routing lowers operational SCI by up to 60.8\% and total SCI by up to 54.9\% on conversational traffic at 0.81\%--0.82\% SLO violations, while cutting bursty-code tail SLO violations by up to 86.0\% below unconditional geographic disaggregation. On wind-clean grids, embodied emissions reach 93.0\%--97.6\% of total SCI, causing clean-region over-provisioning to raise total lifecycle carbon by 27.7\%--32.6\%.
+\input{sections/00_abstract}
 \end{abstract}
 
 \begin{IEEEkeywords}

@@ -1,0 +1,69 @@
+\documentclass[journal]{IEEEtran}
+
+\def\BUILDANON{1}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\repourl}{\textit{[anonymized for double-blind review]}}
+
+\hyphenation{dis-ag-gre-gat-ed server-less keep-alive giga-bit op-er-a-tional}
+
+\linespread{1.0}
+\setlength{\parskip}{0pt plus 0.5pt}
+\setlength{\columnsep}{12pt}
+\setlist{itemsep=1pt, topsep=1.5pt, parsep=0pt, leftmargin=1.25em}
+\setlength{\textfloatsep}{5pt plus 1pt minus 2pt}
+\setlength{\dbltextfloatsep}{6pt plus 1pt minus 2pt}
+\setlength{\floatsep}{4pt plus 1pt minus 1pt}
+\setlength{\dblfloatsep}{5pt plus 1pt minus 1pt}
+\setlength{\abovecaptionskip}{3pt plus 1pt minus 1pt}
+\setlength{\belowcaptionskip}{1pt plus 1pt minus 1pt}
+\setlength{\abovedisplayskip}{4pt plus 1pt minus 1pt}
+\setlength{\belowdisplayskip}{4pt plus 1pt minus 1pt}
+\def\IEEEbibitemsep{0pt plus 0.5pt}
+\renewcommand{\arraystretch}{0.95}
+
+\begin{document}
+
+\title{Carbon-Aware Scheduling for Phase-Disaggregated LLM Inference in Cloud and Serverless Platforms: Review and Simulation}
+
+\author{Anonymous Author(s)\thanks{Author identities, affiliations, contact details, ORCID identifiers, and public artifact URLs are omitted for double-blind review.}}
+
+\pagestyle{plain}
+\maketitle
+\thispagestyle{plain}
+
+\begin{abstract}
+\input{sections/00_abstract}
+\end{abstract}
+
+\begin{IEEEkeywords}
+Carbon-aware scheduling, embodied carbon, large language model inference, phase disaggregation, serverless GPUs, Software Carbon Intensity.
+\end{IEEEkeywords}
+
+\input{sections/01_introduction}
+\input{sections/02_background}
+\input{sections/03_methodology}
+\input{sections/04_taxonomy_synthesis}
+\input{sections/05_simulation_design}
+\input{sections/06_results_discussion}
+\input{sections/07_open_challenges_limitations}
+\input{sections/08_conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
