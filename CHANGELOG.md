@@ -1,3 +1,12 @@
+# Repository Organization & Cleanup (`2026-11-12`)
+
+- Removed stale v1 `cloud-paper.zip` and cleared all 21 LaTeX auxiliary/log files (`*.aux`, `*.bbl`, `*.blg`, `*.log`, `*.out`, `*.spl`) from root via `make clean` plus local `__pycache__` / `figures/_preview` / `tools/test_tex` caches.
+- Moved journal submission assets into `submission/` (`cover_letter.md`, `highlights.md`) and process/setup logs into `docs/` (`BLOCKERS.md`, `SETUP_LOG.md`, `SUBMISSION_NOTES.md`).
+- Moved v1 intermediate drafting/audit files (`topic_decision.md`, `survey_staging.json`, `synthesis_draft.md`, `fact_check_report.md`, `reference_audit.csv`) into `research/archive/` while keeping active `research/` PRISMA tables and `notes/` in place.
+- Updated `README.md`, `combined/NOTES.md`, `.zenodo.json` (`v2.1.0`, 65 works), and `CITATION.cff` (`2.1.0`).
+
+---
+
 # Final Review Fixes Changelog (`final-fixes`)
 
 **Branch:** `final-fixes` (branched from `revision-v2` at `0e068d8`; untouched `main` stays at `c12434e`)  

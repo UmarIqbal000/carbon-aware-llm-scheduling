@@ -10,7 +10,7 @@ authors:
     affiliation: "IILM University, Greater Noida, India"
 repository-code: "https://github.com/UmarIqbal000/carbon-aware-llm-scheduling"
 license: MIT
-version: "2.0.0"
+version: "2.1.0"
 date-released: "2026-11-12"
 keywords:
   - carbon-aware scheduling

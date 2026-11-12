@@ -1,9 +1,9 @@
 {
   "title": "Carbon-Aware Scheduling for Phase-Disaggregated LLM Inference in Cloud and Serverless Platforms: Simulator and PRISMA Corpus",
-  "description": "Reproducible SimPy 4.1.2 discrete-event simulator, validator, 24h trace-tiling ablation, 61-work PRISMA-2020-guided corpus metadata, and LaTeX manuscript sources.",
+  "description": "Reproducible SimPy 4.1.2 discrete-event simulator, validator, 24h trace-tiling ablation, 65-work PRISMA-2020-guided corpus metadata, combined package, and LaTeX manuscript sources.",
   "upload_type": "software",
   "license": "MIT",
-  "version": "v2.0.0",
+  "version": "v2.1.0",
   "creators": [
     {
       "name": "Iqbal, Umar",

@@ -8,5 +8,5 @@
   - `p. 1`: Cover and Package Contents summary (single-column, November 2026)
   - `pp. 2--13`: Complete IEEEtran two-column manuscript (`../main.pdf`, all 12 pages preserved without modification)
   - `pp. 14--17`: Online Supplementary Material (`../supplement.pdf`, Tables S1 to S7, with a non-overlapping header banner merged into the top margin of p. 14)
-  - `p. 18`: Elsevier submission front-matter page embedding vector `../figures/fig1_architecture.pdf`, Graphical Abstract summary, and the 5 `<= 85`-character Research Highlights verbatim from `../highlights.md`.
-- **Verification note:** `highlights.md` originally noted `(82 chars)` on two bullets whose actual character counts are 81 chars each; corrected in `highlights.md` before final packaging without altering any bullet text.
+  - `p. 18`: Elsevier submission front-matter page embedding vector `../figures/fig1_architecture.pdf`, Graphical Abstract summary, and the 5 `<= 85`-character Research Highlights verbatim from `../submission/highlights.md`.
+- **Verification note:** `submission/highlights.md` originally noted `(82 chars)` on two bullets whose actual character counts are 81 chars each; corrected in `submission/highlights.md` before final packaging without altering any bullet text.

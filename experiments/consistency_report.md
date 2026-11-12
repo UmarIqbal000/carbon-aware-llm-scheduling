@@ -343,7 +343,7 @@ Note: Verify distinction between S3 operational carbon reduction vs S3 SLO viola
 - `sections\02_background.tex`: {'stale_n61': 1}
 - `sections\03_methodology.tex`: {'claim_0_of_6': 2}
 - `sections\04_taxonomy_synthesis.tex`: {'claim_0_of_6': 1, 'plural_we_our': 4}
-- `sections\05_simulation_design.tex`: no flags
+- `sections\05_simulation_design.tex`: {'stale_n47': 1}
 - `sections\06_results_discussion.tex`: {'claim_0_of_6': 1, 'stale_n47': 2, 'stale_n61': 2, 'stale_32_6': 7, 'stale_p_002': 18}
 - `sections\07_open_challenges_limitations.tex`: {'stale_32_6': 1}
 - `sections\08_conclusion.tex`: {'stale_32_6': 2, 'stale_p_002': 1}

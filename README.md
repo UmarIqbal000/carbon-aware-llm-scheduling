@@ -16,7 +16,7 @@
 
 Interactive Large Language Model (LLM) serving splits into two asymmetric phases: compute-bound **prefill** (governed by Time-To-First-Token, TTFT) and memory-bandwidth-bound **decode** (governed by Time-Per-Output-Token, TPOT) linked by a large Key-Value (**KV**) cache. Meanwhile, cloud carbon-aware schedulers optimize across clean/dirty regional electricity grids without modeling multi-megabyte KV WAN transfer costs, LLM phase separation, multi-gigabyte GPU checkpoint cold starts (`10.3–84.0 s`), or hardware manufacturing (**embodied**) carbon.
 
-This repository archives the final-review multi-target paper builds ([`main.pdf`](./main.pdf) IEEE T-SUSC 12 pp., [`main_elsevier.pdf`](./main_elsevier.pdf) `elsarticle`, [`main_anon.pdf`](./main_anon.pdf) anonymized, [`supplement.pdf`](./supplement.pdf)), the PRISMA-2020-guided literature review (`65` retained works), and the deterministic `SimPy 4.1.2` simulation suite (`3,510` main runs across `351` configurations × `10` paired seeds `100..109`, plus `120` 24h trace-tiling ablation runs and `24` anchor/held-out validation checks) driven by open **CC-BY-4.0** Azure LLM traces, UK NESO carbon telemetry, Japan FY2024 TSO grid factors, and Azure GreenSKU hardware carbon tables.
+This repository archives the final-review multi-target paper builds ([`main.pdf`](./main.pdf) IEEE T-SUSC 12 pp., [`main_elsevier.pdf`](./main_elsevier.pdf) `elsarticle`, [`main_anon.pdf`](./main_anon.pdf) anonymized, [`supplement.pdf`](./supplement.pdf), and the single 18-page combined package [`Umar_Iqbal_CarbonAware_LLM_Full_Package.pdf`](./combined/Umar_Iqbal_CarbonAware_LLM_Full_Package.pdf)), the PRISMA-2020-guided literature review (`65` retained works), and the deterministic `SimPy 4.1.2` simulation suite (`3,510` main runs across `351` configurations × `10` paired seeds `100..109`, plus `120` 24h trace-tiling ablation runs and `24` anchor/held-out validation checks) driven by open **CC-BY-4.0** Azure LLM traces, UK NESO carbon telemetry, Japan FY2024 TSO grid factors, and Azure GreenSKU hardware carbon tables.
 
 ---
 
@@ -112,16 +112,25 @@ flowchart TD
 ├── LICENSE                   # MIT License (code); README notes CC-BY-4.0 for text/notes/data
 ├── CITATION.cff              # Machine-readable citation metadata
 ├── .zenodo.json              # Zenodo archive metadata
-├── CHANGELOG.md              # Section/line log of all Revision v2 edits & % TODO-VERIFY list
+├── CHANGELOG.md              # Section/line log of all Revision v2 & final-review edits
 ├── Makefile                  # Multi-target LaTeX build (ieee, elsevier, anon, supplement, check)
 ├── requirements.txt          # Pinned Python dependencies (simpy==4.1.2, numpy==2.5.4, ...)
-├── main.pdf                  # Compiled 12-page IEEE T-SUSC manuscript
-├── main_elsevier.pdf         # Compiled elsarticle manuscript (FGCS / SUSCOM)
-├── main_anon.pdf             # Compiled 12-page double-blind anonymized PDF
-├── supplement.pdf            # Online supplement (V2 screening, 24 validation checks, S3-S5 tables)
-├── cover_letter.md           # Non-open-access traditional journal submission cover letter
-├── highlights.md             # Elsevier Research Highlights (<= 85 chars each)
+├── main.tex / main.pdf       # 12-page IEEE T-SUSC manuscript (source + compiled PDF)
+├── main_elsevier.tex / .pdf  # Elsevier elsarticle manuscript (FGCS / SUSCOM)
+├── main_anon.tex / .pdf      # 12-page double-blind anonymized PDF (JSys)
+├── main_supplement.tex       # Online supplement source -> supplement.pdf (Tables S1-S7)
 ├── references.bib            # 65 verified BibTeX references
+├── combined/                 # Single 18-page combined showcase/review PDF + assembly scripts
+│   ├── Umar_Iqbal_CarbonAware_LLM_Full_Package.pdf
+│   ├── build_package.py, cover.tex, elsevier_frontmatter.tex, supp_banner_overlay.tex
+│   └── NOTES.md, README.md
+├── submission/               # Active journal submission materials
+│   ├── cover_letter.md       # Non-open-access traditional journal submission cover letter
+│   └── highlights.md         # Elsevier Research Highlights (<= 85 chars each)
+├── docs/                     # Provenance & setup logs
+│   ├── BLOCKERS.md           # Transparent log of paywalled/blocked resources (never bypassed)
+│   ├── SETUP_LOG.md          # Local toolchain and verification log
+│   └── SUBMISSION_NOTES.md   # Archived v1 submission checklist
 ├── assets/                   # Rendered PNG previews (fig1–fig8) for GitHub README display
 ├── sections/                 # Section LaTeX sources (00_abstract.tex – 08_conclusion.tex)
 ├── figures/                  # Vector PDF figures (fig1–fig8), icons, and generate_figures.py
@@ -139,10 +148,14 @@ flowchart TD
 │   ├── DESIGN.md             # Simulation design & hypothesis specification
 │   ├── data/                 # Open CC-BY-4.0 traces & DATA_MANIFEST.md
 │   └── results/              # Raw, summary, validation_benchmarks.csv, & tiling_ablation_*.csv
-├── research/                 # PRISMA search_log.md, sources.csv, comparison matrix, notes/
-├── tools/                    # latex_prose_guard.py automated style/dash/AI-tell linter
-├── BLOCKERS.md               # Transparent log of paywalled/blocked resources (never bypassed)
-└── SETUP_LOG.md              # Local toolchain and verification log
+├── research/
+│   ├── search_log.md         # PRISMA-2020 search & screening reconciliation log (n = 65)
+│   ├── sources.csv           # Canonical 65-work source table
+│   ├── sources_metadata.json # Structured bibliographic + DOI/arXiv provenance
+│   ├── comparison_matrix.csv # Full feature & carbon accounting audit matrix
+│   ├── notes/                # Structured full-text reading notes
+│   └── archive/              # v1 staging & audit snapshots (topic_decision, survey_staging, etc.)
+└── tools/                    # latex_prose_guard.py automated style/dash/AI-tell linter
 ```
 
 ---
