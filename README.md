@@ -16,7 +16,7 @@
 
 Interactive Large Language Model (LLM) serving splits into two asymmetric phases: compute-bound **prefill** (governed by Time-To-First-Token, TTFT) and memory-bandwidth-bound **decode** (governed by Time-Per-Output-Token, TPOT) linked by a large Key-Value (**KV**) cache. Meanwhile, cloud carbon-aware schedulers optimize across clean/dirty regional electricity grids without modeling multi-megabyte KV WAN transfer costs, LLM phase separation, multi-gigabyte GPU checkpoint cold starts (`10.3–84.0 s`), or hardware manufacturing (**embodied**) carbon.
 
-This repository archives the complete single-author paper ([`main.pdf`](./main.pdf)), Overleaf source bundle ([`cloud-paper.zip`](./cloud-paper.zip)), PRISMA-2020 systematic literature review (`47` retained works), and deterministic `SimPy 4.1.2` simulation suite (`226` configurations × `10` paired seeds = `2,260` runs) driven by open **CC-BY-4.0** Azure LLM traces, UK NESO carbon telemetry, Japan FY2024 TSO grid factors, and Azure GreenSKU hardware carbon tables.
+This repository archives the Revision v2 multi-target paper builds ([`main.pdf`](./main.pdf) IEEE T-SUSC 12 pp., [`main_elsevier.pdf`](./main_elsevier.pdf) `elsarticle`, [`main_anon.pdf`](./main_anon.pdf) anonymized, [`supplement.pdf`](./supplement.pdf)), the PRISMA-2020-guided literature review (`61` retained works), and the deterministic `SimPy 4.1.2` simulation suite (`2,260` main runs across `226` configurations × `10` paired seeds `100..109`, plus `120` 24h trace-tiling ablation runs and `24` anchor validation checks) driven by open **CC-BY-4.0** Azure LLM traces, UK NESO carbon telemetry, Japan FY2024 TSO grid factors, and Azure GreenSKU hardware carbon tables.
 
 ---
 
@@ -53,16 +53,16 @@ flowchart LR
 
 ---
 
-## PRISMA-2020 Systematic Review & Gap Audit
+## PRISMA-2020-Guided Literature Review & Honest Gap Audit (`n = 61`)
 
 ```mermaid
 flowchart TD
-    Q["Identification (n = 75)\nQuery A: Carbon Cloud/Serverless (16)\nQuery B: P/D & Energy-Aware LLM (30)\nQuery C: Surveys, Traces & Embodied (29)"] --> D["Duplicate Removed (n = 1)"]
-    Q --> S["Title & Abstract Screened (n = 74)"]
-    S --> EX1["Excluded: Out of Scope (n = 11)"]
-    S --> EL["Full-Text & Metadata Eligibility (n = 63)"]
-    EL --> EX2["Excluded: Offline Training / No Carbon or LLM Evidence (n = 16)"]
-    EL --> INC["Included in Synthesis (n = 47)\n42 Full-Text Audited (89.4%) + 5 Abstract-Only (10.6%)\n42 Works in 2022-2026 (89.4%) | 23 in 2025-2026 (48.9%)"]
+    Q["Identification (n = 98)\nStage-1 Surveys + Bounded API Queries + V2 Follow-ups"] --> D["Duplicates Removed (n = 3)"]
+    D --> S["Unique Records Screened (n = 95)"]
+    S --> EX1["Excluded: Out of Scope (n = 14)"]
+    S --> EL["Full-Text & Metadata Assessed (n = 81)"]
+    EL --> EX2["Excluded on Eligibility (n = 20)"]
+    EL --> INC["Included in Synthesis (n = 61)\n56 Full-Text (91.8%) + 5 Abstract-Only (8.2%)\n56 Works in 2022-2026 (91.8%) | 34 in 2025-2026 (55.7%)"]
 ```
 
 <p align="center">
@@ -70,12 +70,12 @@ flowchart TD
   <img src="./assets/fig3_taxonomy_heatmap.png" width="49%" alt="Research Gap Matrix"/>
 </p>
 
-| Structural Gap Identified | Observed Count | Key Implication |
+| Structural Coverage vs. Closest Prior Works | Observed Result | Architectural Implication |
 |---|---:|---|
-| Phase-disaggregated LLM engines integrating Grid CI or Embodied Carbon | **`0 / 6`** | Engine governors optimize local Watts/Joules on single grids only |
-| Multi-region cloud carbon schedulers modeling LLM P/D or KV WAN cost | **`0 / 4`** | Unconditional geo-routing collapses under `625 MB`-scale WAN KV transfers |
-| Reviewed studies omitting hardware manufacturing (embodied) carbon | **`37 / 47` (`78.7%`)** | Misses factory carbon dominance (`93.0%–97.6%`) on wind-clean grids |
-| Empirical evaluations testing live multi-continent disaggregated LLMs | **`0`** | `40.0%` single-site clusters, `28.6%` hybrid, `25.7%` sim-only, `5.7%` abstract-only |
+| Phase-disaggregated engine modeling Grid CI & GPU reuse (`GreenLLM`, single GCP cluster) | **`1 / 8`** P/D systems | Does not model cross-region WAN KV gating, host/chassis Share on `>=90%` wind grids, or serverless KA |
+| Geo-distributed LLM routers (`Topcu et al.`, `SLIT`, `CarbonRouter`, `Cleanest Grid`) | **`0 / 8`** use P/D or WAN KV transfer | Route whole requests only; omit P/D power-cap disaggregation, embodied lifecycles, and keep-alive |
+| Reviewed studies omitting hardware manufacturing (embodied) carbon | **`46 / 61` (`75.4%`)** | Misses factory carbon dominance (`93.0%–97.6%`) on wind-clean grids |
+| Implemented systems jointly unifying P/D, WAN KV gates, Host+GPU embodied, & keep-alive | **`0`** prior systems | Motivates joint control-plane simulation (`P4` + `S3`; only `Sisodia 2026` sketches a related agenda with 0 expts.) |
 
 ![Corpus Publication Trends](./assets/fig4_publication_trends.png)
 
@@ -108,59 +108,69 @@ flowchart TD
 ```text
 .
 ├── LICENSE                   # MIT License (code); README notes CC-BY-4.0 for text/notes/data
-├── README.md                 # Project overview, Mermaid diagrams, result figures, and repro guide
-├── main.pdf                  # Compiled 13-page paper PDF
-├── main.tex                  # Master IEEEtran LaTeX manuscript
-├── references.bib            # 47 verified BibTeX references
-├── cloud-paper.zip           # Self-contained Overleaf upload bundle
+├── CITATION.cff              # Machine-readable citation metadata
+├── .zenodo.json              # Zenodo archive metadata
+├── CHANGELOG.md              # Section/line log of all Revision v2 edits & % TODO-VERIFY list
+├── Makefile                  # Multi-target LaTeX build (ieee, elsevier, anon, supplement, check)
+├── requirements.txt          # Pinned Python dependencies (simpy==4.1.2, numpy==2.5.4, ...)
+├── main.pdf                  # Compiled 12-page IEEE T-SUSC manuscript
+├── main_elsevier.pdf         # Compiled elsarticle manuscript (FGCS / SUSCOM)
+├── main_anon.pdf             # Compiled 12-page double-blind anonymized PDF
+├── supplement.pdf            # Online supplement (V2 screening, 24 validation checks, tiling table)
+├── cover_letter.md           # Non-open-access traditional journal submission cover letter
+├── highlights.md             # Elsevier Research Highlights (<= 85 chars each)
+├── references.bib            # 61 verified BibTeX references
 ├── assets/                   # Rendered PNG previews (fig1–fig7) for GitHub README display
-├── sections/                 # Section LaTeX sources (01_introduction.tex – 08_conclusion.tex)
+├── sections/                 # Section LaTeX sources (00_abstract.tex – 08_conclusion.tex)
 ├── figures/                  # Vector PDF figures (fig1–fig7), icons, and generate_figures.py
 ├── experiments/
-│   ├── sim_config.py         # Hardware, grid, SLO, and sweep configurations
-│   ├── trace_loader.py       # CC-BY-4.0 Azure, UK NESO, and Japan TSO loaders
+│   ├── sim_config.py         # Hardware, grid, SLO, and sweep configurations (seeds 100..109)
+│   ├── trace_loader.py       # CC-BY-4.0 Azure, UK NESO, Japan TSO loaders + tiling regimes
 │   ├── simulator.py          # SimPy 4.1.2 discrete-event cluster & serverless engine
 │   ├── run_experiments.py    # Executes all 226 configs × 10 paired seeds (2,260 runs)
-│   ├── analyze_results.py    # Student-t 95% CIs, paired Wilcoxon tests, H1–H4 verdicts
+│   ├── run_tiling_ablation.py# 24h Azure block-tiling sensitivity ablation (4 modes × 3 pol. × 10 seeds)
+│   ├── validate_simulator.py # 24 quantitative literature-anchor checks (Splitwise, SLLM, Li 2026)
+│   ├── analyze_results.py    # Student-t 95% CIs, paired Wilcoxon, rank-biserial r_rb, Cohen d_z
+│   ├── audit_consistency.py  # Automated consistency check across CSVs & LaTeX claims
+│   ├── reproduce_all.py      # One-command reproduction entry point (default fast or --rerun-sims)
 │   ├── parameter_sources.json# Documented hardware & latency provenance
 │   ├── DESIGN.md             # Simulation design & hypothesis specification
 │   ├── data/                 # Open CC-BY-4.0 traces & DATA_MANIFEST.md
-│   └── results/              # All 21 raw, summary, and statistical CSV files
-├── research/                 # PRISMA logs, sources.csv, comparison matrix, notes/, audit reports
+│   └── results/              # Raw, summary, validation_benchmarks.csv, & tiling_ablation_*.csv
+├── research/                 # PRISMA search_log.md, sources.csv, comparison matrix, notes/
+├── tools/                    # latex_prose_guard.py automated style/dash/AI-tell linter
 ├── BLOCKERS.md               # Transparent log of paywalled/blocked resources (never bypassed)
-├── SETUP_LOG.md              # Local toolchain and verification log
-└── SUBMISSION_NOTES.md       # Target venues, cover letter draft, and pre-submission checklist
+└── SETUP_LOG.md              # Local toolchain and verification log
 ```
 
 ---
 
 ## Reproducing Everything Locally
 
-### 1. Create Environment & Install Packages
-Requires **Python 3.10+**:
+### 1. Create Environment & Install Pinned Packages
+Requires **Python 3.10+** (verified on `simpy==4.1.2`):
 ```bash
 python -m venv .venv
 # Windows: .venv\Scripts\activate
 # Linux/macOS: source .venv/bin/activate
-pip install simpy numpy pandas scipy matplotlib seaborn requests bibtexparser pybtex pillow
+pip install -r requirements.txt
 ```
 
-### 2. Run the Full Simulation & Statistical Verification
+### 2. One-Command Verification, Validation, and Figure Generation
+To verify all statistics, run all 24 simulator validation checks, regenerate all 7 figures, sync `./assets/`, and audit LaTeX consistency from archived raw CSVs (~10 s):
 ```bash
-python experiments/run_experiments.py
-python experiments/analyze_results.py
+python experiments/reproduce_all.py
+```
+To re-run the entire 2,260-run `SimPy 4.1.2` suite and 120-run 24h trace-tiling ablation from scratch (paired random seeds `100..109`, longest step):
+```bash
+python experiments/reproduce_all.py --rerun-sims
 ```
 
-### 3. Regenerate Vector Figures
+### 3. Compile All LaTeX Targets & Run Prose Checks
 ```bash
-python figures/generate_figures.py
+make all       # Builds main.pdf, main_elsevier.pdf, main_anon.pdf, supplement.pdf
+make check     # Runs automated LaTeX prose guard across sections/*.tex
 ```
-
-### 4. Compile the LaTeX Paper
-```bash
-latexmk -pdf -interaction=nonstopmode main.tex
-```
-Alternatively, upload [`cloud-paper.zip`](./cloud-paper.zip) directly to **Overleaf** using **`pdfLaTeX`**.
 
 ---
 
